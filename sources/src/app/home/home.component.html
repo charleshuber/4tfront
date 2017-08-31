@@ -1,0 +1,29 @@
+<div>
+  <h1>Projet SMB215 (2017) Charles Huber</h1>
+
+  <div>
+    <h4>Réalisation d’une application répartie sous Docker</h4>
+    <br> 
+    <p>Pour le moment, seulement une gestion basique des utilisateurs a été implémentée...</p>
+    
+    <br> 
+    <p>L'authentification, la gestion des droits et le protocole https seront mis en place ultérieurement !</p>
+    
+    <br> 
+    <div>	
+    	Le fonctionnement de l'architecture docker est validée par l'implémentation du CRUD (Create Read Update Delete) 
+    	sur la ressource "utilisateur". Ceci sur l'ensemble de la chaine applicative respectant le "design-pattern" MVC:
+    	<ul>
+    	<li><em style="font-weight:bold">M</em>odèle : Conteneur Mysql</li>
+    	<li><em style="font-weight:bold">V</em>ue : Conteneur "4tfront" hébergeant le serveur Apache et le code Angular2 du client</li>
+    	<li><em style="font-weight:bold">C</em>ontroleur : Conteneur "4trest" hébergeant le tomcat qui expose les services REST</li>
+    	</ul>	
+   	</div>
+   	
+   	<p>
+   		Ce projet a vocation a mettre en place les briques de base de mon projet de mémoire. Il s'agit d'une application de gestion des congés et du temps de travail nommée "tatoutontan".
+   		(tttt => 4t)
+   	</p>
+  </div>
+
+</div>

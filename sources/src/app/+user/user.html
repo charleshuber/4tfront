@@ -1,0 +1,54 @@
+<h1>gestion des utilisateurs</h1>
+
+<div id="user-table" class="container-fluid">
+  	<div id="user-table-header" class="row">
+	    <div class="col-md-1">id</div>
+	  	<div class="col-md-2">email</div>
+	  	<div class="col-md-2">prenom</div>
+	  	<div class="col-md-2">nom</div>
+	  	<div class="col-md-2">mot de passe</div>
+	  	<div class="col-md-2">mot de passe (confirmation)</div>
+	  	<div class="col-md-1"></div>
+  	</div>
+  	
+  	<div id="user-table-footer" class="row">
+	    <div class="col-md-1">
+	    </div>
+	  	<div class="col-md-2" id="email_cell">
+			<input class="form-control" id="email" 
+				[(ngModel)]="email"/>
+		</div>
+		<div class="col-md-2" id="firstName_cell">
+			<input class="form-control" id="firstName" 
+				[(ngModel)]="firstName">
+		</div>
+		<div class="col-md-2" id="lastName_cell">
+			<input class="form-control" id="lastName" 
+				[(ngModel)]="lastName"/>
+		</div>
+		<div class="col-md-2" id="newPassword_cell">
+			<input class="form-control"  id="newPassword" type="password" 
+				[(ngModel)]="newPassword"/>
+		</div>
+		<div class="col-md-2" id="newPasswordCheck_cell">
+			<input class="form-control" id="newPasswordCheck" type="password" 
+				[(ngModel)]="newPasswordCheck"/>
+		</div>
+		<div class="col-md-1">
+			<button type="button" class="btn btn-success" aria-label="Ajouter" (click)="addUser();">
+				<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+			</button>
+		</div>
+  	</div>
+
+</div>
+
+<div id="errors">
+	<p class="errorMsg" *ngIf="errorMessage">{{errorMessage}}</p>
+</div>
+
+
+<!-- <span> <a [routerLink]=" ['./child-user'] "> Child User </a>
+</span> -->
+
+<router-outlet></router-outlet>
