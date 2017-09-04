@@ -44,7 +44,7 @@ export abstract class ResourceService<R extends Resource> {
         return this.authenticate('delete', this.getResourceUrl() + '/' + id, null, null);
     }
 
-    private authenticate(method, url, resource, options) {
+    protected authenticate(method, url, resource, options) {
         let service = this;
         let authentication = this.authService.authenticate(this.servicesUrl);
         return Observable.create(obs => {

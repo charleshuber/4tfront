@@ -10,7 +10,7 @@ import { User } from './user';
 @Injectable()
 export class UserService extends ResourceService<User> {
 
-  public getAllOfGroup(groupId: number): Observable<R[] | any> {
+  public getAllOfGroup(groupId: number): Observable<User[] | any> {
     return this.authenticate('get', this.getResourceUrl() + '/allOfGroup/' + groupId, null, null);
   }
     

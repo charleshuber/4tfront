@@ -10,31 +10,31 @@ import { Group } from './group';
 @Injectable()
 export class GroupService extends ResourceService<Group> {
 
-  public getAllOfUser(userId: number): Observable<R[] | any> {
+  public getAllOfUser(userId: number): Observable<Group[] | any> {
     return this.authenticate('get', this.getResourceUrl() + '/allOfGroup/' + userId, null, null);
   }
     
-  public children(groupId: number): Observable<R[] | any> {
+  public children(groupId: number): Observable<Group[] | any> {
     return this.authenticate('get', this.getResourceUrl() + '/' + groupId + '/children', null, null);
   }
     
-  public parents(groupId: number): Observable<R[] | any> {
+  public parents(groupId: number): Observable<Group[] | any> {
     return this.authenticate('get', this.getResourceUrl() + '/' + groupId + '/parents', null, null);
   }
     
-  public addChild(groupId: number, childId: number): Observable<R[] | any> {
+  public addChild(groupId: number, childId: number): Observable<any> {
     return this.authenticate('get', this.getResourceUrl() + '/' + groupId + '/addChild/' + childId, null, null);
   }
     
-  public removeChild(groupId: number, childId: number): Observable<R[] | any> {
+  public removeChild(groupId: number, childId: number): Observable<any> {
     return this.authenticate('get', this.getResourceUrl() + '/' + groupId + '/removeChild/' + childId, null, null);
   }
     
-  public addUser(groupId: number, userId: number): Observable<R[] | any> {
+  public addUser(groupId: number, userId: number): Observable<any> {
     return this.authenticate('get', this.getResourceUrl() + '/' + groupId + '/addUser/' + userId, null, null);
   }
     
-  public removeUser(groupId: number, userId: number): Observable<R[] | any> {
+  public removeUser(groupId: number, userId: number): Observable<any> {
     return this.authenticate('get', this.getResourceUrl() + '/' + groupId + '/removeUser/' + userId, null, null);
   }
     

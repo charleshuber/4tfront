@@ -10,7 +10,7 @@ import { Period } from './period';
 @Injectable()
 export class PeriodService extends ResourceService<Period> {
 
-  public getAllOfTimeline(tlid: number): Observable<R[] | any> {
+  public getAllOfTimeline(tlid: number): Observable<Period[] | any> {
     return this.authenticate('get', this.getResourceUrl() + '/timeline/' + tlid, null, null);
   }
     
