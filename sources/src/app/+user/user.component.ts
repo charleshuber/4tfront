@@ -2,8 +2,9 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { UserService } from './user.service';
-import { User } from './user';
+
+import { UserService } from '../rest/resources/user/user.service';
+import { User } from '../rest/resources/user/user';
 
 /*
  * declaration de jQuery qui est importé dans index.html

@@ -3,8 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import { Resource } from './resource';
-import { LabelService } from './label.service';
+import { LabelService } from '../labels/label.service';
 
 @Injectable()
 export abstract class AuthenticationService {
@@ -96,6 +95,7 @@ export abstract class AuthenticationService {
             }
                 
         }
+        
         return Observable.create(obs => {
                button.onclick = (evt) => {
                if(mail.value.length > 0 && password.value.length > 0){

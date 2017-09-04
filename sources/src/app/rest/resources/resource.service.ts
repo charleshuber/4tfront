@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/concat';
 import { Resource } from './resource';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from '../auth/authentication.service';
 
 @Injectable()
 export abstract class ResourceService<R extends Resource> {

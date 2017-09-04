@@ -27,8 +27,8 @@ import { AppState, InternalStateType } from './app.service';
 import { HomeComponent } from './home';
 import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
-import { LabelService } from './label.service';
-import { AuthenticationService } from './authentication.service';
+import { LabelService } from 'app/rest/labels/label.service';
+import { AuthenticationService } from 'app/rest/auth/authentication.service';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';

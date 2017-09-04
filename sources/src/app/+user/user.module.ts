@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './user.routes';
 import { UserComponent } from './user.component';
-import { UserService } from './user.service';
+import { UserService } from 'app/rest/resources/user/user.service';
 
 @NgModule({
   declarations: [
