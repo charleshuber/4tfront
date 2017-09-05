@@ -15,7 +15,7 @@ export class CompiledPeriodService extends ResourceService<CompiledPeriod> {
   }
 
   protected getResourceUrl() {
-    return this.getRootResourceUrl() + '/cronperiod';
+    return this.getRootResourceUrl() + '/compiledPeriod';
   }
 
 }
