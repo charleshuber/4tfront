@@ -16,33 +16,9 @@ import { AppState } from './app.service';
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
-    './app.component.css'
+    './app.component.scss'
   ],
-  template: `
-    <nav>
-      <a [routerLink]=" ['./'] "
-        routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
-        Accueil
-      </a>
-      <a [routerLink]=" ['./user'] "
-             routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
-      Utilisateurs
-      </a>
-    </nav>
-
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-
-    <footer style="margin-top:50px">
-      <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
-      <div>
-        <a [href]="url">
-          <img [src]="angularclassLogo" width="25%">
-        </a>
-      </div>
-    </footer>
-  `
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
@@ -55,6 +31,25 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     console.log('Initial App State', this.appState.state);
+    this.initHeader();
+  }
+
+  public initHeader(){
+    var nav = <HTMLElement>document.querySelector('#app_header nav');
+    nav.classList.add('collapse');
+    nav.onmouseover = function(){
+      nav.classList.remove('collapse');
+    }
+    nav.onmouseout = function(){
+      nav.classList.add('collapse');
+    }
+    nav.onclick = function(){
+      if(nav.classList.contains('collapse')){
+          nav.classList.remove('collapse');
+      } else {
+        nav.classList.add('collapse');
+      }
+    }
   }
 
 }

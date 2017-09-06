@@ -1,0 +1,53 @@
+@import 'src/styles/variables';
+
+#app_header{
+  flex-basis: 40px;
+  background-color: $primary-background-color;
+}
+
+#app_main{
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+#app_footer{
+  flex-basis: 20px;
+  background-color: $primary-background-color;
+}
+
+#app_header nav {
+  position:absolute;
+  display: flex;
+  flex-direction:column;
+  min-height: 40px;
+  width: 100%;
+}
+
+#app_header nav a {
+  height: 40px;
+  padding: 5px;
+  color: white;
+}
+
+#app_header nav a.burger {
+  display:none;
+  text-decoration: none;
+}
+
+#app_header nav a:not(.burger) {
+  display:block;
+  text-decoration: none;
+  background-color: $primary-background-color;
+}
+
+#app_header nav a:not(.burger):hover {
+  background-color: $secondary-background-color;
+}
+
+#app_header nav.collapse a:not(.burger) {
+  display:none;
+}
+
+#app_header nav.collapse a.burger {
+  display:block;
+}

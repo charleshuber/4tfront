@@ -1,0 +1,34 @@
+
+<div id="app_header">
+  <nav>
+    <a href="#" class="burger">burger</a>
+    <a [routerLink]=" ['./'] "
+      routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+      Accueil
+    </a>
+    <a [routerLink]=" ['./user'] "
+           routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+    Utilisateurs
+    </a>
+    <a href="#">
+
+      Utilisateurs
+      </a>
+  </nav>
+</div>
+
+<div id="app_main">
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<div id="app_footer">
+  <footer>
+    <div>
+      <a [href]="url">
+        <img [src]="angularclassLogo" width="20px">
+      </a>
+    </div>
+  </footer>
+</div>
