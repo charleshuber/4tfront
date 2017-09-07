@@ -7,12 +7,26 @@
 
 #app_main{
   flex-grow: 1;
+  height: 100%;
   overflow-y: auto;
 }
 
 #app_footer{
-  flex-basis: 20px;
+  flex-basis: 30px;
+  margin: 0px;
+  padding: 0px;
   background-color: $primary-background-color;
+}
+
+#app_footer a {
+  margin: 0px;
+  padding: 0px 10px;
+  text-decoration: none;
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  font-style: italic;
+  font-size: 12px;
 }
 
 #app_header nav {
@@ -25,19 +39,27 @@
 
 #app_header nav a {
   height: 40px;
-  padding: 5px;
+  line-height: 40px;
+  padding: 0px 10px;
+  margin: 0px;
   color: white;
 }
 
 #app_header nav a.burger {
   display:none;
   text-decoration: none;
+  background: url('../assets/img/arrow-head.svg') 10px 10px no-repeat;
+  background-size:20px;
 }
 
 #app_header nav a:not(.burger) {
   display:block;
   text-decoration: none;
   background-color: $primary-background-color;
+}
+
+#app_header nav a.active:not(.burger) {
+  font-weight: bold;
 }
 
 #app_header nav a:not(.burger):hover {

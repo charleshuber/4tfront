@@ -1,19 +1,19 @@
 
 <div id="app_header">
   <nav>
-    <a href="#" class="burger">burger</a>
+    <a href="#" class="burger"></a>
     <a [routerLink]=" ['./'] "
       routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
       Accueil
+    </a>
+    <a [routerLink]=" ['./periods'] "
+           routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+    Periodes
     </a>
     <a [routerLink]=" ['./user'] "
            routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
     Utilisateurs
     </a>
-    <a href="#">
-
-      Utilisateurs
-      </a>
   </nav>
 </div>
 
@@ -26,9 +26,7 @@
 <div id="app_footer">
   <footer>
     <div>
-      <a [href]="url">
-        <img [src]="angularclassLogo" width="20px">
-      </a>
+      <a [href]="url">mentions légales</a>
     </div>
   </footer>
 </div>
