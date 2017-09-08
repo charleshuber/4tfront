@@ -22,6 +22,7 @@ export class PeriodsComponent implements OnInit {
   }
 
   public getPeriods(successCallback) {
+    /*
     return this.cpprService.getAll()
       .subscribe(
       (periods) => {
@@ -31,5 +32,6 @@ export class PeriodsComponent implements OnInit {
         }
       },
       (error) => {});
+      */
   }
 }

@@ -2,7 +2,8 @@
 
 #app_header{
   flex-basis: 40px;
-  background-color: $primary-background-color;
+  background-color: white;
+  margin-bottom:10px;
 }
 
 #app_main{
@@ -35,6 +36,7 @@
   flex-direction:column;
   min-height: 40px;
   width: 100%;
+  box-shadow: 0px -0px 5px 1px black;
 }
 
 #app_header nav a {
@@ -48,14 +50,14 @@
 #app_header nav a.burger {
   display:none;
   text-decoration: none;
-  background: url('../assets/img/arrow-head.svg') 10px 10px no-repeat;
-  background-size:20px;
+  background: url('../assets/img/arrow-burger-shadow.svg') center 0px no-repeat;
 }
 
 #app_header nav a:not(.burger) {
   display:block;
   text-decoration: none;
-  background-color: $primary-background-color;
+  background-color: white;
+  color:black;
 }
 
 #app_header nav a.active:not(.burger) {
@@ -63,7 +65,8 @@
 }
 
 #app_header nav a:not(.burger):hover {
-  background-color: $secondary-background-color;
+  background-color: black;
+  color: white;
 }
 
 #app_header nav.collapse a:not(.burger) {
