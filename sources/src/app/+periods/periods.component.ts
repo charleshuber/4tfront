@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { CompiledPeriodService } from '../rest/resources/cppr/compiledperiod.service';
 import { CompiledPeriod } from '../rest/resources/cppr/compiledperiod';
@@ -15,7 +16,9 @@ export class PeriodsComponent implements OnInit {
 
   public periods: CompiledPeriod[];
 
-  constructor(private cpprService: CompiledPeriodService) { }
+  constructor(
+    private cpprService: CompiledPeriodService,
+    private router: Router) { }
 
   public ngOnInit() {
     this.getPeriods(null);
@@ -33,5 +36,9 @@ export class PeriodsComponent implements OnInit {
       },
       (error) => {});
       */
+  }
+
+  goToPeriod(id) {
+    this.router.navigate(['/periods/details'], { queryParams: { id: id } });
   }
 }

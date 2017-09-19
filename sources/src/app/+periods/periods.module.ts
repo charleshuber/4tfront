@@ -6,12 +6,14 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './periods.routes';
 import { PeriodsComponent } from './periods.component';
+import { PeriodComponent } from './period.component';
 import { CompiledPeriodService } from 'app/rest/resources/cppr/compiledperiod.service';
 
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
     PeriodsComponent,
+    PeriodComponent,
   ],
   imports: [
     CommonModule,
