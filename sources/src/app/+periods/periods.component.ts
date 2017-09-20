@@ -25,17 +25,15 @@ export class PeriodsComponent implements OnInit {
   }
 
   public getPeriods(successCallback) {
-    /*
+    let thiz = this;
     return this.cpprService.getAll()
-      .subscribe(
-      (periods) => {
-        this.periods = periods;
+      .subscribe((periods) => {
+        thiz.periods = periods;
         if (successCallback) {
           successCallback();
         }
       },
       (error) => {});
-      */
   }
 
   goToPeriod(id) {

@@ -35,17 +35,38 @@ export class PeriodComponent implements OnInit {
     if(this.id){
       this.loadPeriod();
     } else {
-      this.createPeriod();
+      this.createPeriod("period-" + new Date().getTime());
+    }
+  }
+
+  private savePeriod(){
+    if(this.id){
+      let thiz = this;
+      this.cpprService.update(this.period).subscribe(newOne => {
+        thiz.id = newOne.id;
+        thiz.period = newOne;
+      });
+    } else {
+      if(this.period.name && this.period.name.length > 0){
+          this.createPeriod(this.period.name);
+      }
     }
   }
 
   private loadPeriod(){
-
+    let thiz = this;
+    this.cpprService.read(this.period.id).subscribe(period => {
+      thiz.period = period;
+    });
   }
 
-  private createPeriod(){
+  private createPeriod(name: string){
+    let thiz = this;
     let newCppr = new CompiledPeriod();
-    newCppr.name = "period-" + new Date().getTime();
-    this.cpprService.create(newCppr).subscribe(newOne => this.period = newOne);
+    newCppr.name = name;
+    this.cpprService.create(newCppr).subscribe(newOne => {
+      thiz.id = newOne.id;
+      thiz.period = newOne;
+    });
   }
 }
