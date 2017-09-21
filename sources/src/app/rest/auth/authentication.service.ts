@@ -7,12 +7,17 @@ import { LabelService } from '../labels/label.service';
 
 @Injectable()
 export abstract class AuthenticationService {
-    
+
     private authenticated = false;
     private username = null;
     private password = null;
 
-    constructor(protected labels: LabelService) { }
+    constructor(protected labels: LabelService) {
+      //THE 3 LINES ABOVES ARE ONLY FOR DEVS
+      this.authenticated = true;
+      this.username = "yoman";
+      this.password = "yomanapp";
+    }
 
     public authenticate(url: string) {
         let service = this;
@@ -30,11 +35,11 @@ export abstract class AuthenticationService {
             }
         });
     }
-    
+
     public buildBasicAuthorization(){
         return 'Basic ' + btoa(this.username + ':' + this.password);
     }
-    
+
     private clearPopup(){
         while(document.querySelector('#authentication-container')){
             let container = document.querySelector('#authentication-container');
@@ -43,59 +48,59 @@ export abstract class AuthenticationService {
     }
 
     public popup(url: string) {
-        
+
         this.clearPopup();
-        
+
         let service = this;
-        
+
         let container = document.createElement('div');
         container.setAttribute('id', 'authentication-container');
         document.querySelector('body').appendChild(container);
-        
+
         let form = document.createElement('form');
         container.appendChild(form);
-        
+
         let fieldset1 = document.createElement('fieldset');
         form.appendChild(fieldset1);
-        
+
         let mailLabel = document.createElement('label');
         fieldset1.appendChild(mailLabel);
         mailLabel.setAttribute('for','email');
         mailLabel.innerHTML = this.labels.gb('authentication.popup.label.email');
-        
+
         let mail = document.createElement('input');
         mail.setAttribute('type','email');
         mail.setAttribute('id','email');
         fieldset1.appendChild(mail);
         mail.focus();
-  
+
         let fieldset2 = document.createElement('fieldset');
         form.appendChild(fieldset2);
-        
+
         let passwordLabel = document.createElement('label');
         fieldset2.appendChild(passwordLabel);
         passwordLabel.setAttribute('for','password');
         passwordLabel.innerHTML = this.labels.gb('authentication.popup.label.password');
-        
+
         let password = document.createElement('input');
         password.setAttribute('type','password');
         password.setAttribute('id','password');
         fieldset2.appendChild(password);
-        
+
         let fieldset3 = document.createElement('fieldset');
         form.appendChild(fieldset3);
         let button = document.createElement('input');
         button.setAttribute('type','button');
         button.value = this.labels.gb('authentication.popup.label.connection');
         fieldset3.appendChild(button);
-        
+
         mail.onkeydown = password.onkeydown = (e) => {
             if (e.keyCode == 13) {
                 button.click();
             }
-                
+
         }
-        
+
         return Observable.create(obs => {
                button.onclick = (evt) => {
                if(mail.value.length > 0 && password.value.length > 0){
@@ -126,8 +131,8 @@ export abstract class AuthenticationService {
                     req.setRequestHeader("Authorization", service.buildBasicAuthorization());
                     req.withCredentials = true;
                     req.send(null);
-               } 
-            };     
+               }
+            };
         });
     }
 }

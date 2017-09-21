@@ -1,12 +1,59 @@
+@import 'src/styles/variables';
+
 #periods{
+  height: 100%;
+  overflow-y: auto;
   display:flex;
   flex-direction: column;
 }
 
-#list-row{
-
+#list{
+    flex-grow: 1;
+    display:flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-width: 0px 0px 2px 0px;
+    border-radius: 4px;
+    border-color: #eee;
 }
 
-#add-button-row{
+#actions{
+    flex-basis: 40px;
+    display:flex;
+    flex-direction: column;
+}
 
+.list-row{
+    display:flex;
+    flex-direction: row;
+}
+
+.list-cell{
+  line-height: 40px;
+  padding:1px;
+}
+
+.list-cell button{
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  border-width: 1px;
+  border-radius: 4px;
+  border-color: #eee;
+}
+
+.list-cell button:hover{
+  background-color: #eee;
+}
+
+.add-button {
+  background: url('../../assets/img/add.svg') center 0px no-repeat;
+}
+
+.edit-button {
+  background: url('../../assets/img/pen.svg') center 0px no-repeat;
+}
+
+.delete-button {
+  background: url('../../assets/img/delete.svg') center 0px no-repeat;
 }

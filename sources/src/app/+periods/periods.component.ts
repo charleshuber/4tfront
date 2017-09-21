@@ -36,6 +36,15 @@ export class PeriodsComponent implements OnInit {
       (error) => {});
   }
 
+  public deletePeriod(id: number){
+    let thiz = this;
+    return this.cpprService.delete(id)
+      .subscribe((period) => {
+        thiz.getPeriods(null);
+      },
+      (error) => {});
+  }
+
   goToPeriod(id) {
     this.router.navigate(['/periods/details'], { queryParams: { id: id } });
   }

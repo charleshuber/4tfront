@@ -55,7 +55,7 @@ export class PeriodComponent implements OnInit {
 
   private loadPeriod(){
     let thiz = this;
-    this.cpprService.read(this.period.id).subscribe(period => {
+    this.cpprService.read(this.id).subscribe(period => {
       thiz.period = period;
     });
   }

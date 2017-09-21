@@ -1,14 +1,20 @@
 <div id="periods">
-    <div class="list-row" *ngFor="let period of periods">
-      <div class="list-cell">{{period.name}}</div>
-      <div class="list-cell">
-        <button type="button" class="edit-button" [routerLink]="['details']" [queryParams]="{ id: period.id }"></button>
-      </div>
-      <div class="list-cell">
-        <button type="button" class="delete-button" (click)="deletePeriod(period.id)"></button>
+    <div id="list">
+      <div class="list-row periods" *ngFor="let period of periods">
+        <div class="list-cell">
+          <button type="button" class="edit-button" [routerLink]="['details']" [queryParams]="{ id: period.id }"></button>
+        </div>
+        <div class="list-cell">
+          <button type="button" class="delete-button" (click)="deletePeriod(period.id)"></button>
+        </div>
+        <div class="list-cell">{{period.name}}</div>
       </div>
     </div>
-    <div class="list-row">
-      <button type="button" class="add-button" [routerLink]="['details']" [queryParams]="{ id: null }">Add new period</button>
+    <div id="actions">
+      <div class="list-row">
+        <div class="list-cell">
+          <button type="button" class="add-button" [routerLink]="['details']" [queryParams]="{ id: null }"></button>
+        </div>
+      </div>
     </div>
 </div>

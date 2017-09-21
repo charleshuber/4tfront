@@ -12,6 +12,11 @@
   overflow-y: auto;
 }
 
+#app_main main{
+  height: 100%;
+  overflow-y: auto;
+}
+
 #app_footer{
   flex-basis: 30px;
   margin: 0px;
