@@ -1,0 +1,26 @@
+<div id="timeline">
+    <div id="detail">
+      <div class="list-row">
+        <div class="list-cell">
+          {{id}}
+        </div>
+        <div class="list-cell">
+          <input type="text" class="form-control"
+            id="name" required
+            [(ngModel)]="timeline.name"
+            name="name"
+            (change)="saveTimeline()"/>
+        </div>
+      </div>
+    </div>
+    <div id="actions">
+      <div class="list-row">
+        <div class="list-cell">
+          <button type="button" class="back-button" (click)="back()"></button>
+        </div>
+        <div class="list-cell">
+          <button type="button" class="delete-button" (click)="deleteTimeline()"></button>
+        </div>
+      </div>
+    </div>
+</div>

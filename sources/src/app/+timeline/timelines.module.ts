@@ -5,18 +5,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { routes } from './periods.routes';
-import { PeriodsComponent } from './periods.component';
-import { PeriodComponent } from './period.component';
-import { TimelineComponent } from '../timeline/timeline.component';
-import { CompiledPeriodService } from 'app/rest/resources/cppr/compiledperiod.service';
+import { TimelineComponent } from './timeline.component';
 import { TimelineService } from 'app/rest/resources/timeline/timeline.service';
 
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
-    PeriodsComponent,
-    PeriodComponent,
-    TimelineComponent,
+    TimelineComponent
   ],
   imports: [
     CommonModule,
@@ -25,8 +20,8 @@ import { TimelineService } from 'app/rest/resources/timeline/timeline.service';
     JsonpModule,
     RouterModule.forChild(routes),
   ],
-  providers: [CompiledPeriodService, TimelineService]
+  providers: [TimelineService]
 })
-export class PeriodsModule {
+export class TimelinesModule {
   public static routes = routes;
 }
