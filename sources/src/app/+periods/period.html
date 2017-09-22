@@ -1,8 +1,26 @@
 <div id="period">
-    {{id}}
-    <input type="text" class="form-control"
-      id="name" required
-      [(ngModel)]="period.name"
-      name="name"
-      (change)="savePeriod()"/>
+    <div id="detail">
+      <div class="list-row">
+        <div class="list-cell">
+          {{id}}
+        </div>
+        <div class="list-cell">
+          <input type="text" class="form-control"
+            id="name" required
+            [(ngModel)]="period.name"
+            name="name"
+            (change)="savePeriod()"/>
+        </div>
+      </div>
+    </div>
+    <div id="actions">
+      <div class="list-row">
+        <div class="list-cell">
+          <button type="button" class="delete-button" (click)="deletePeriod()"></button>
+        </div>
+        <div class="list-cell">
+          <button type="button" class="back-button" (click)="back()"></button>
+        </div>
+      </div>
+    </div>
 </div>

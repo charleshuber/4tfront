@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { ActivatedRoute, Router } from '@angular/router';
 import { CompiledPeriodService } from '../rest/resources/cppr/compiledperiod.service';
 import { CompiledPeriod } from '../rest/resources/cppr/compiledperiod';
 
@@ -20,6 +22,7 @@ export class PeriodComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private cpprService: CompiledPeriodService) { }
 
   public ngOnInit() {
@@ -68,5 +71,18 @@ export class PeriodComponent implements OnInit {
       thiz.id = newOne.id;
       thiz.period = newOne;
     });
+  }
+
+  public deletePeriod(){
+    let thiz = this;
+    return this.cpprService.delete(this.id)
+      .subscribe((period) => {
+        thiz.back();
+      },
+      (error) => {});
+  }
+
+  back(){
+    this.location.back();
   }
 }

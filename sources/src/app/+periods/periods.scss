@@ -46,14 +46,18 @@
   background-color: #eee;
 }
 
-.add-button {
-  background: url('../../assets/img/add.svg') center 0px no-repeat;
-}
-
 .edit-button {
   background: url('../../assets/img/pen.svg') center 0px no-repeat;
 }
 
 .delete-button {
   background: url('../../assets/img/delete.svg') center 0px no-repeat;
+}
+
+.add-button {
+  background: url('../../assets/img/add.svg') center 0px no-repeat;
+}
+
+.back-button {
+  background: url('../../assets/img/back.svg') center 0px no-repeat;
 }
