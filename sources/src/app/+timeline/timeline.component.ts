@@ -15,9 +15,8 @@ import { Timeline } from '../rest/resources/timeline/timeline';
 })
 export class TimelineComponent implements OnInit {
 
-  private sub: Subscription;
   private id: number;
-  private Timeline: Timeline = new Timeline();
+  private timeline: Timeline = new Timeline();
 
   constructor(
     private route: ActivatedRoute,
@@ -26,32 +25,29 @@ export class TimelineComponent implements OnInit {
     private tlService: TimelineService) { }
 
   public ngOnInit() {
-    this.sub = this.route
-      .queryParams
-      .subscribe(params => {
-        this.id = +params['id'] || null;
-        this.getTimeline(null);
-      });
+    let thiz = this;
+    this.route.params.subscribe(params => {
+      thiz.id = +params['id'] || null;
+      thiz.getTimeline(null);
+    });
   }
 
   public getTimeline(successCallback) {
     if(this.id){
       this.loadTimeline();
-    } else {
-      this.createTimeline("Timeline-" + new Date().getTime());
     }
   }
 
   private saveTimeline(){
     if(this.id){
       let thiz = this;
-      this.tlService.update(this.Timeline).subscribe(newOne => {
+      this.tlService.update(this.timeline).subscribe(newOne => {
         thiz.id = newOne.id;
-        thiz.Timeline = newOne;
+        thiz.timeline = newOne;
       });
     } else {
-      if(this.Timeline.name && this.Timeline.name.length > 0){
-          this.createTimeline(this.Timeline.name);
+      if(this.timeline.name && this.timeline.name.length > 0){
+          this.createTimeline(this.timeline.name);
       }
     }
   }
@@ -59,24 +55,24 @@ export class TimelineComponent implements OnInit {
   private loadTimeline(){
     let thiz = this;
     this.tlService.read(this.id).subscribe(Timeline => {
-      thiz.Timeline = Timeline;
+      thiz.timeline = Timeline;
     });
   }
 
   private createTimeline(name: string){
     let thiz = this;
-    let newCppr = new Timeline();
-    newCppr.name = name;
-    this.tlService.create(newCppr).subscribe(newOne => {
+    let newTl = new Timeline();
+    newTl.name = name;
+    this.tlService.create(newTl).subscribe(newOne => {
       thiz.id = newOne.id;
-      thiz.Timeline = newOne;
+      thiz.timeline = newOne;
     });
   }
 
   public deleteTimeline(){
     let thiz = this;
     return this.tlService.delete(this.id)
-      .subscribe((Timeline) => {
+      .subscribe((timeline) => {
         thiz.back();
       },
       (error) => {});

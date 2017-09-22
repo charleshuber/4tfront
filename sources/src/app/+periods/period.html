@@ -22,7 +22,7 @@
           <button type="button" class="delete-button" (click)="deletePeriod()"></button>
         </div>
         <div class="list-cell">
-          <button type="button" class="add-button" [routerLink]="['timeline']" [queryParams]="{ id: null }"></button>
+          <button type="button" class="add-button" (click)="createTimeline()"></button>
         </div>
       </div>
     </div>

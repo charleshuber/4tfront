@@ -7,6 +7,9 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { CompiledPeriodService } from '../rest/resources/cppr/compiledperiod.service';
 import { CompiledPeriod } from '../rest/resources/cppr/compiledperiod';
+import { TimelineService } from '../rest/resources/timeline/timeline.service';
+import { Timeline } from '../rest/resources/timeline/timeline';
+
 
 @Component({
   selector: 'period',
@@ -23,7 +26,8 @@ export class PeriodComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private cpprService: CompiledPeriodService) { }
+    private cpprService: CompiledPeriodService,
+    private tlService: TimelineService) { }
 
   public ngOnInit() {
     this.sub = this.route
@@ -73,6 +77,15 @@ export class PeriodComponent implements OnInit {
     });
   }
 
+  private createTimeline(){
+    let thiz = this;
+    let newTimeline = new Timeline();
+    newTimeline.name = "Timeline-" + new Date().getTime();
+    this.tlService.create(newTimeline).subscribe(newOne => {
+      thiz.goToTimeline(newOne.id);
+    });
+  }
+
   public deletePeriod(){
     let thiz = this;
     return this.cpprService.delete(this.id)
@@ -80,6 +93,10 @@ export class PeriodComponent implements OnInit {
         thiz.back();
       },
       (error) => {});
+  }
+
+  goToTimeline(timelineId: number){
+      this.router.navigate(['/periods/timeline-detail', timelineId]);
   }
 
   back(){

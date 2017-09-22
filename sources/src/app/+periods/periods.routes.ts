@@ -1,6 +1,6 @@
 import { PeriodsComponent } from './periods.component';
 import { PeriodComponent } from './period.component';
-import { TimelineComponent } from '../timeline/timeline.component';
+import { TimelineComponent } from '../+timeline/timeline.component';
 
 export const routes = [
   { path: '', children: [
