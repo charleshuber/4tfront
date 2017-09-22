@@ -16,10 +16,13 @@
     <div id="actions">
       <div class="list-row">
         <div class="list-cell">
+          <button type="button" class="back-button" (click)="back()"></button>
+        </div>
+        <div class="list-cell">
           <button type="button" class="delete-button" (click)="deletePeriod()"></button>
         </div>
         <div class="list-cell">
-          <button type="button" class="back-button" (click)="back()"></button>
+          <button type="button" class="add-button" [routerLink]="['timeline']" [queryParams]="{ id: null }"></button>
         </div>
       </div>
     </div>
