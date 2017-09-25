@@ -6,12 +6,13 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './periods.routes';
 import { TimelineComponent } from './timeline.component';
+import { TimegridComponent } from '../timegrid/timegrid.component';
 import { TimelineService } from 'app/rest/resources/timeline/timeline.service';
 
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
-    TimelineComponent
+    TimelineComponent, TimegridComponent
   ],
   imports: [
     CommonModule,

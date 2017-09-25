@@ -8,6 +8,7 @@ import { routes } from './periods.routes';
 import { PeriodsComponent } from './periods.component';
 import { PeriodComponent } from './period.component';
 import { TimelineComponent } from '../+timeline/timeline.component';
+import { TimegridComponent } from '../timegrid/timegrid.component';
 import { CompiledPeriodService } from 'app/rest/resources/cppr/compiledperiod.service';
 import { TimelineService } from 'app/rest/resources/timeline/timeline.service';
 
@@ -17,6 +18,7 @@ import { TimelineService } from 'app/rest/resources/timeline/timeline.service';
     PeriodsComponent,
     PeriodComponent,
     TimelineComponent,
+    TimegridComponent
   ],
   imports: [
     CommonModule,
