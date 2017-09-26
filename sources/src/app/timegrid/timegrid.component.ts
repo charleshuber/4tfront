@@ -10,8 +10,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class TimegridComponent implements OnInit {
 
-  private _unit: TimeUnit = TimeUnit.DAY;
-  private _size: number = 10;
+  private _unit: TimeUnit = TimeUnit.WEEK;
+  private _size: number = 100;
   private _target: Date = new Date();
   private _timerange: Timerange;
 
@@ -32,15 +32,14 @@ export class TimegridComponent implements OnInit {
     let startDate = this.startDate();
     let endDate = this.endDate();
     let rangeAsMillis: number = endDate.getTime() - startDate.getTime();
-    let rangeAsMonth: number = (endDate.getFullYear() * 12) - (startDate.getFullYear() * 12);
+    let rangeAsMonth: number = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
     let rangeAsYear: number = endDate.getFullYear() - startDate.getFullYear() + 1;
 
-    timerange.asMinutes = (rangeAsMillis / (60 * 1000)) + (rangeAsMillis % (60 * 1000) > 0 ? 1 : 0);
-    timerange.asHours = (rangeAsMillis / (60 * 60 * 1000)) + (rangeAsMillis % (60 * 60 * 1000) > 0 ? 1 : 0);
-    timerange.asDays = (rangeAsMillis / (24 * 60 * 60 * 1000)) + (rangeAsMillis % (24 * 60 * 60 * 1000) > 0 ? 1 : 0);
-    // Warn: first month index is 0, so we have to add 1 to month duration
-    timerange.asMonths = (rangeDuration.getFullYear() * 12) + (rangeDuration.getMonth() + 1);
-    timerange.asYears = rangeDuration.getFullYear();
+    timerange.asMinutes = Math.trunc((rangeAsMillis / (60 * 1000))) + (rangeAsMillis % (60 * 1000) > 0 ? 1 : 0);
+    timerange.asHours = Math.trunc((rangeAsMillis / (60 * 60 * 1000))) + (rangeAsMillis % (60 * 60 * 1000) > 0 ? 1 : 0);
+    timerange.asDays = Math.trunc((rangeAsMillis / (24 * 60 * 60 * 1000))) + (rangeAsMillis % (24 * 60 * 60 * 1000) > 0 ? 1 : 0);
+    timerange.asMonths = rangeAsMonth;
+    timerange.asYears = rangeAsYear;
     return timerange;
   }
 
@@ -53,7 +52,7 @@ export class TimegridComponent implements OnInit {
   }
 
   private dateRange(before: boolean): Date {
-    let rangeDateBorder = this._target;
+    let rangeDateBorder = new Date(this._target.getTime());
     let rangeBorder = this.afterRange();
     if(before){
       rangeBorder = this.beforeRange() * -1;
