@@ -1,5 +1,15 @@
-<div id="timegrid">
-  target: {{_target}}
+<div class="timegrid" id="{{gridId}}">
+  <input type="text" class="form-control"
+    id="size" required
+    [(ngModel)]="size"
+    name="name"/>
+    <select [(ngModel)]="unit">
+      <option *ngFor="let key of keys" [value]="key">{{timeunits[key]}}</option>
+    </select>`
+  <br>
+  start: {{startDate}} ///// date: {{date}}
+  <br>
+  end: {{endDate}}
   <br>
   minutes: {{timerange.asMinutes}}
   <br>

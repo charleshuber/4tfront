@@ -10,16 +10,68 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class TimegridComponent implements OnInit {
 
-  private _unit: TimeUnit = TimeUnit.WEEK;
-  private _size: number = 100;
+  public timeunits = TimeUnit;
+  public keys;
+  private _unit: TimeUnit = TimeUnit.DAY;
+  private _size: number = 1;
   private _target: Date = new Date();
   private _timerange: Timerange;
+  private _resolution = 5;
+  private _gridId: string;
 
   public ngOnInit() {
+      this._timerange = this.computeTimerange();
+      this.keys = Object.keys(this.timeunits).filter(f => !isNaN(Number(f)));
+      this._gridId = "timegrid-" + Math.random();
+  }
+
+  set unit(unit: any){
+    switch(unit){
+      case '1': this._unit = TimeUnit.MINUTE; break;
+      case '2': this._unit = TimeUnit.HOUR; break;
+      case '3': this._unit = TimeUnit.DAY; break;
+      case '4': this._unit = TimeUnit.WEEK; break;
+      case '5': this._unit = TimeUnit.MONTH; break;
+      case '6': this._unit = TimeUnit.YEAR; break;
+    }
+    this._timerange = this.computeTimerange();
+  }
+
+  get gridId(){
+    return this._gridId;
+  }
+
+  get unit(){
+    return this._unit;
+  }
+
+  set size(size: number){
+    this._size = size;
+    this._timerange = this.computeTimerange();
+  }
+
+  get size(){
+    return this._size;
+  }
+
+  set date(date: Date){
+    this._target = date;
+    this._timerange = this.computeTimerange();
+  }
+
+  get date(){
+    return this._target;
+  }
+
+  get startDate(): Date {
+    return this.dateRange(true);
+  }
+
+  get endDate(): Date {
+    return this.dateRange(false);
   }
 
   get timerange(): Timerange {
-    this._timerange = this.computeTimerange();
     return this._timerange;
   }
 
@@ -27,12 +79,12 @@ export class TimegridComponent implements OnInit {
     return null;
   }
 
-  public computeTimerange(): Timerange {
+  private computeTimerange(): Timerange {
     let timerange = new Timerange();
-    let startDate = this.startDate();
-    let endDate = this.endDate();
+    let startDate = this.startDate;
+    let endDate = this.endDate;
     let rangeAsMillis: number = endDate.getTime() - startDate.getTime();
-    let rangeAsMonth: number = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+    let rangeAsMonth: number = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth()) + 1;
     let rangeAsYear: number = endDate.getFullYear() - startDate.getFullYear() + 1;
 
     timerange.asMinutes = Math.trunc((rangeAsMillis / (60 * 1000))) + (rangeAsMillis % (60 * 1000) > 0 ? 1 : 0);
@@ -41,14 +93,6 @@ export class TimegridComponent implements OnInit {
     timerange.asMonths = rangeAsMonth;
     timerange.asYears = rangeAsYear;
     return timerange;
-  }
-
-  public startDate(): Date {
-    return this.dateRange(true);
-  }
-
-  public endDate(): Date {
-    return this.dateRange(false);
   }
 
   private dateRange(before: boolean): Date {
@@ -80,13 +124,17 @@ export class TimegridComponent implements OnInit {
     return rangeDateBorder;
   }
 
+  private getGridElement(){
+    return document.querySelector(this._gridId);
+  }
+
   private beforeRange(): number{
-    return this._size / 2;
+    return Math.trunc(this._size / 2);
   }
 
   private afterRange(): number{
     let overlay = this._size % 2;
-    return (this._size / 2) + overlay;
+    return Math.trunc(this._size / 2) + overlay;
   }
 
 }
@@ -99,7 +147,13 @@ class Timerange {
   public asYears: number;
 }
 
-const enum TimeUnit {
+export enum ALIGN {
+  LEFT,
+  RIGHT,
+  CENTER
+}
+
+export enum TimeUnit {
   MINUTE = 1,
   HOUR = 2,
   DAY = 3 ,
