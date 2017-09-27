@@ -16,7 +16,7 @@ export class TimegridComponent implements OnInit {
   private _size: number = 1;
   private _target: Date = new Date();
   private _timerange: Timerange;
-  private _resolution = 5;
+  private _maxresolution = 5;
   private _gridId: string;
 
   public ngOnInit() {
@@ -75,7 +75,19 @@ export class TimegridComponent implements OnInit {
     return this._timerange;
   }
 
-  public resolution(): TimeUnit {
+  public onResize(event){
+    //Just to be aware of resize event in order to bind offsetWidth with dom
+  }
+
+  get offsetwidth(): number {
+    return document.getElementById(this._gridId).offsetWidth;
+  }
+
+  get maxrowsize(){
+    return Math.trunc(this.offsetwidth / this._maxresolution);
+  }
+
+  get lowerTimeUnit(): TimeUnit{
     return null;
   }
 

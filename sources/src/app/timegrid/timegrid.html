@@ -1,4 +1,4 @@
-<div class="timegrid" id="{{gridId}}">
+<div class="timegrid" id="{{gridId}}" (window:resize)="onResize($event)">
   <input type="text" class="form-control"
     id="size" required
     [(ngModel)]="size"
@@ -11,13 +11,7 @@
   <br>
   end: {{endDate}}
   <br>
-  minutes: {{timerange.asMinutes}}
+  minutes: {{timerange.asMinutes}} == hours: {{timerange.asHours}} == days: {{timerange.asDays}} == months: {{timerange.asMonths}} == years: {{timerange.asYears}}
   <br>
-  hours: {{timerange.asHours}}
-  <br>
-  days: {{timerange.asDays}}
-  <br>
-  months: {{timerange.asMonths}}
-  <br>
-  years: {{timerange.asYears}}
+  offsetwidth: {{offsetwidth}} // maxrowsize: {{maxrowsize}}
 </div>
