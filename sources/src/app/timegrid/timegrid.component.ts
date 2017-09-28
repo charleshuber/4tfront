@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'timegrid',
   template: require('./timegrid.html'),
-  styleUrls: ['./timegrid.scss']
+  styleUrls: ['./timegrid.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class TimegridComponent implements OnInit {
+export class TimegridComponent implements OnInit, AfterViewInit {
 
   public timeunits = TimeUnit;
   public keys;
@@ -16,13 +17,17 @@ export class TimegridComponent implements OnInit {
   private _size: number = 1;
   private _target: Date = new Date();
   private _timerange: Timerange;
-  private _maxresolution = 5;
+  private _maxresolution = 10;
   private _gridId: string;
 
   public ngOnInit() {
       this.keys = Object.keys(this.timeunits).filter(f => !isNaN(Number(f)));
       this._gridId = "timegrid-" + Math.random();
-      this.computeAndRender();
+      this.compute();
+  }
+
+  public ngAfterViewInit() {
+      this.render();
   }
 
   get gridId(){
@@ -44,7 +49,7 @@ export class TimegridComponent implements OnInit {
       let oldSelectedOption = <HTMLOptionElement> unitSelection.querySelector('option[value="' + this._unit + '"]');
       unitSelection.selectedIndex = oldSelectedOption.index;
     }
-    this.renderRowGrid();
+    this.render();
   }
 
   set size(size: number){
@@ -57,7 +62,7 @@ export class TimegridComponent implements OnInit {
       let sizeInput = <HTMLInputElement> document.getElementById(this._gridId + '-size');
       sizeInput.value = '' + this._size;
     }
-    this.renderRowGrid();
+    this.render();
   }
 
   set date(date: Date){
@@ -68,7 +73,7 @@ export class TimegridComponent implements OnInit {
       this._target = previousDate;
       this.compute();
     }
-    this.renderRowGrid();
+    this.render();
   }
 
   get size(){
@@ -92,6 +97,12 @@ export class TimegridComponent implements OnInit {
   }
 
   public onResize(event){
+    this.compute();
+    while(!this.isViewValid()){
+      this._size--;
+      this.compute();
+    }
+    this.render();
     //Just to be aware of window resize event in order to bind offsetWidth with dom
   }
 
@@ -140,58 +151,93 @@ export class TimegridComponent implements OnInit {
   }
   private computeAndRender(){
     this.compute();
-    this.renderRowGrid();
+    this.render();
   }
 
   private compute(){
     this._timerange = this.computeTimerange();
   }
 
-  private renderRowGrid(){
+  private emptyGrid(): HTMLElement{
     let grid = document.getElementById(this._gridId);
+    while (grid.firstChild) {
+        grid.removeChild(grid.firstChild);
+    }
+    return grid;
+  }
+
+  private render(){
+    this.renderRowGrid();
+  }
+
+  private renderRowGrid(){
+    let grid = this.emptyGrid();
     let row: HTMLElement = null;
     switch(this._unit){
-      case TimeUnit.MINUTE:
-      row = this.renderMinutesCells();
-      case TimeUnit.HOUR:
-      row = this.renderHoursCells();
-      case TimeUnit.DAY:
-      row = this.renderDaysCells();
-      case TimeUnit.WEEK:
-      row = this.renderWeeksCells();
-      case TimeUnit.MONTH:
-      row = this.renderMonthsCells();
-      case TimeUnit.YEAR:
-      row = this.renderYearsCells();
+      case TimeUnit.MINUTE: row = this.renderMinutesCells(); break;
+      case TimeUnit.HOUR: row = this.renderHoursCells(); break;
+      case TimeUnit.DAY: row = this.renderDaysCells(); break;
+      case TimeUnit.WEEK: row = this.renderWeeksCells(); break;
+      case TimeUnit.MONTH: row = this.renderMonthsCells(); break;
+      case TimeUnit.YEAR: row = this.renderYearsCells(); break;
     }
     if(row != null){
+        row.classList.add('timegrid-row');
         grid.appendChild(row);
     }
   }
 
   private renderMinutesCells():HTMLElement {
-    return null;
+    let row = document.createElement('div');
+
+    row.classList.add('timegrid-row-minutes');
+    return row;
   }
 
   private renderHoursCells():HTMLElement {
-    return null;
+    let row = document.createElement('div');
+
+    row.classList.add('timegrid-row-hours');
+    return row;
   }
 
   private renderDaysCells():HTMLElement {
     let row = document.createElement('div');
-    return null;
+    let currentDate: Date = new Date(this.startDate.getTime());
+
+    for(let i=0; i < this._timerange.asDays; i++){
+      let cell = document.createElement('div');
+      cell.classList.add('timegrid-cell');
+      cell.classList.add('timegrid-cell-day');
+      (<any>cell).date = currentDate;
+      row.appendChild(cell);
+      currentDate = new Date(currentDate.getTime());
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    row.classList.add('timegrid-row-days');
+    return row;
   }
 
   private renderWeeksCells():HTMLElement {
-    return null;
+    let row = document.createElement('div');
+
+    row.classList.add('timegrid-row-weeks');
+    return row;
   }
 
   private renderMonthsCells():HTMLElement {
-    return null;
+    let row = document.createElement('div');
+
+    row.classList.add('timegrid-row-months');
+    return row;
   }
 
   private renderYearsCells():HTMLElement {
-    return null;
+    let row = document.createElement('div');
+
+    row.classList.add('timegrid-row-years');
+    return row;
   }
 
   private computeTimerange(): Timerange {

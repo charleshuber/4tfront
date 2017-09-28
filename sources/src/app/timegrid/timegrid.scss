@@ -1,0 +1,18 @@
+.timegrid-component{
+  background-color: #ddd;
+  padding:2px;
+}
+
+.timegrid-row {
+  display: flex;
+}
+
+.timegrid-cell {
+  flex-grow: 1;
+}
+
+.timegrid-cell-day {
+  background-color: #347621;
+  margin-left: 1px;
+  height: 50px;
+}
