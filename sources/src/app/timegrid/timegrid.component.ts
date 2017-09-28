@@ -22,7 +22,7 @@ export class TimegridComponent implements OnInit {
   public ngOnInit() {
       this.keys = Object.keys(this.timeunits).filter(f => !isNaN(Number(f)));
       this._gridId = "timegrid-" + Math.random();
-      this.compute();
+      this.computeAndRender();
   }
 
   get gridId(){
@@ -40,17 +40,24 @@ export class TimegridComponent implements OnInit {
     if(!this.isViewValid()){
       this._unit = previousTimeUnit;
       this.compute();
+      let unitSelection = <HTMLSelectElement> document.getElementById(this._gridId + '-unit');
+      let oldSelectedOption = <HTMLOptionElement> unitSelection.querySelector('option[value="' + this._unit + '"]');
+      unitSelection.selectedIndex = oldSelectedOption.index;
     }
+    this.renderRowGrid();
   }
 
   set size(size: number){
-    let previousSize = this.size;
+    let previousSize = this._size;
     this._size = size;
     this.compute();
     if(!this.isViewValid()){
       this._size = previousSize;
       this.compute();
+      let sizeInput = <HTMLInputElement> document.getElementById(this._gridId + '-size');
+      sizeInput.value = '' + this._size;
     }
+    this.renderRowGrid();
   }
 
   set date(date: Date){
@@ -61,10 +68,7 @@ export class TimegridComponent implements OnInit {
       this._target = previousDate;
       this.compute();
     }
-  }
-
-  private compute(){
-    this._timerange = this.computeTimerange();
+    this.renderRowGrid();
   }
 
   get size(){
@@ -113,8 +117,81 @@ export class TimegridComponent implements OnInit {
     return TimeUnit.YEAR;
   }
 
+  get timeUnitNumber(){
+    switch(this._unit){
+      case TimeUnit.MINUTE:
+      return this._timerange.asMinutes;
+      case TimeUnit.HOUR:
+      return this._timerange.asHours;
+      case TimeUnit.DAY:
+      return this._timerange.asDays;
+      case TimeUnit.WEEK:
+      return this._timerange.asWeeks;
+      case TimeUnit.MONTH:
+      return this._timerange.asMonths;
+      case TimeUnit.YEAR:
+      return this._timerange.asYears;
+    }
+    return 0
+  }
+
   private isViewValid(): boolean{
-    return this.lowerTimeUnit <= this._unit && this.maxrowsize >= this.rowsize;
+    return this.timeUnitNumber <= this.maxrowsize;
+  }
+  private computeAndRender(){
+    this.compute();
+    this.renderRowGrid();
+  }
+
+  private compute(){
+    this._timerange = this.computeTimerange();
+  }
+
+  private renderRowGrid(){
+    let grid = document.getElementById(this._gridId);
+    let row: HTMLElement = null;
+    switch(this._unit){
+      case TimeUnit.MINUTE:
+      row = this.renderMinutesCells();
+      case TimeUnit.HOUR:
+      row = this.renderHoursCells();
+      case TimeUnit.DAY:
+      row = this.renderDaysCells();
+      case TimeUnit.WEEK:
+      row = this.renderWeeksCells();
+      case TimeUnit.MONTH:
+      row = this.renderMonthsCells();
+      case TimeUnit.YEAR:
+      row = this.renderYearsCells();
+    }
+    if(row != null){
+        grid.appendChild(row);
+    }
+  }
+
+  private renderMinutesCells():HTMLElement {
+    return null;
+  }
+
+  private renderHoursCells():HTMLElement {
+    return null;
+  }
+
+  private renderDaysCells():HTMLElement {
+    let row = document.createElement('div');
+    return null;
+  }
+
+  private renderWeeksCells():HTMLElement {
+    return null;
+  }
+
+  private renderMonthsCells():HTMLElement {
+    return null;
+  }
+
+  private renderYearsCells():HTMLElement {
+    return null;
   }
 
   private computeTimerange(): Timerange {
