@@ -20,21 +20,9 @@ export class TimegridComponent implements OnInit {
   private _gridId: string;
 
   public ngOnInit() {
-      this._timerange = this.computeTimerange();
       this.keys = Object.keys(this.timeunits).filter(f => !isNaN(Number(f)));
       this._gridId = "timegrid-" + Math.random();
-  }
-
-  set unit(unit: any){
-    switch(unit){
-      case '1': this._unit = TimeUnit.MINUTE; break;
-      case '2': this._unit = TimeUnit.HOUR; break;
-      case '3': this._unit = TimeUnit.DAY; break;
-      case '4': this._unit = TimeUnit.WEEK; break;
-      case '5': this._unit = TimeUnit.MONTH; break;
-      case '6': this._unit = TimeUnit.YEAR; break;
-    }
-    this._timerange = this.computeTimerange();
+      this.compute();
   }
 
   get gridId(){
@@ -45,18 +33,42 @@ export class TimegridComponent implements OnInit {
     return this._unit;
   }
 
+  set unit(unit: any){
+    let previousTimeUnit = this._unit;
+    this._unit = this.toTimeUnit(parseInt(unit));
+    this.compute();
+    if(!this.isViewValid()){
+      this._unit = previousTimeUnit;
+      this.compute();
+    }
+  }
+
   set size(size: number){
+    let previousSize = this.size;
     this._size = size;
+    this.compute();
+    if(!this.isViewValid()){
+      this._size = previousSize;
+      this.compute();
+    }
+  }
+
+  set date(date: Date){
+    let previousDate = this._target;
+    this._target = date;
+    this.compute();
+    if(!this.isViewValid()){
+      this._target = previousDate;
+      this.compute();
+    }
+  }
+
+  private compute(){
     this._timerange = this.computeTimerange();
   }
 
   get size(){
     return this._size;
-  }
-
-  set date(date: Date){
-    this._target = date;
-    this._timerange = this.computeTimerange();
   }
 
   get date(){
@@ -76,7 +88,7 @@ export class TimegridComponent implements OnInit {
   }
 
   public onResize(event){
-    //Just to be aware of resize event in order to bind offsetWidth with dom
+    //Just to be aware of window resize event in order to bind offsetWidth with dom
   }
 
   get offsetwidth(): number {
@@ -87,8 +99,22 @@ export class TimegridComponent implements OnInit {
     return Math.trunc(this.offsetwidth / this._maxresolution);
   }
 
+  get rowsize(){
+    return Math.trunc(this.offsetwidth / this._maxresolution);
+  }
+
   get lowerTimeUnit(): TimeUnit{
-    return null;
+    let maxrowsize = this.maxrowsize;
+    if(maxrowsize >= this._timerange.asMinutes) return TimeUnit.MINUTE;
+    if(maxrowsize >= this._timerange.asHours) return TimeUnit.HOUR;
+    if(maxrowsize >= this._timerange.asDays) return TimeUnit.DAY;
+    if(maxrowsize >= this._timerange.asWeeks) return TimeUnit.WEEK;
+    if(maxrowsize >= this._timerange.asMonths) return TimeUnit.MONTH;
+    return TimeUnit.YEAR;
+  }
+
+  private isViewValid(): boolean{
+    return this.lowerTimeUnit <= this._unit && this.maxrowsize >= this.rowsize;
   }
 
   private computeTimerange(): Timerange {
@@ -102,6 +128,7 @@ export class TimegridComponent implements OnInit {
     timerange.asMinutes = Math.trunc((rangeAsMillis / (60 * 1000))) + (rangeAsMillis % (60 * 1000) > 0 ? 1 : 0);
     timerange.asHours = Math.trunc((rangeAsMillis / (60 * 60 * 1000))) + (rangeAsMillis % (60 * 60 * 1000) > 0 ? 1 : 0);
     timerange.asDays = Math.trunc((rangeAsMillis / (24 * 60 * 60 * 1000))) + (rangeAsMillis % (24 * 60 * 60 * 1000) > 0 ? 1 : 0);
+    timerange.asWeeks = Math.trunc((timerange.asDays / 7)) + (timerange.asDays % 7 > 0 ? 1 : 0);
     timerange.asMonths = rangeAsMonth;
     timerange.asYears = rangeAsYear;
     return timerange;
@@ -149,12 +176,24 @@ export class TimegridComponent implements OnInit {
     return Math.trunc(this._size / 2) + overlay;
   }
 
+  public toTimeUnit(unit: number): TimeUnit{
+    switch(unit){
+      case 1: return TimeUnit.MINUTE;
+      case 2: return TimeUnit.HOUR;
+      case 3: return TimeUnit.DAY;
+      case 4: return TimeUnit.WEEK;
+      case 5: return TimeUnit.MONTH;
+      case 6: return TimeUnit.YEAR;
+    }
+    return null;
+  }
 }
 
 class Timerange {
   public asMinutes: number;
   public asHours: number;
   public asDays: number;
+  public asWeeks: number;
   public asMonths: number;
   public asYears: number;
 }
