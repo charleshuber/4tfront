@@ -28,6 +28,14 @@
     flex-direction: row;
 }
 
+.timeline-timegrid-row{
+  flex-grow: 1;
+}
+
+.timeline-timegrid-row > div{
+  height: 100%;
+}
+
 .list-cell{
   line-height: 40px;
   padding:1px;

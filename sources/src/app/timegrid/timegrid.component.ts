@@ -167,48 +167,49 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   }
 
   private render(){
-    this.renderRowGrid();
-  }
-
-  private renderRowGrid(){
     let grid = this.emptyGrid();
-    let row: HTMLElement = null;
-    switch(this._unit){
-      case TimeUnit.MINUTE: row = this.renderMinutesCells(); break;
-      case TimeUnit.HOUR: row = this.renderHoursCells(); break;
-      case TimeUnit.DAY: row = this.renderDaysCells(); break;
-      case TimeUnit.WEEK: row = this.renderWeeksCells(); break;
-      case TimeUnit.MONTH: row = this.renderMonthsCells(); break;
-      case TimeUnit.YEAR: row = this.renderYearsCells(); break;
-    }
+    let row = this.renderRowGrid();
     if(row != null){
         row.classList.add('timegrid-row');
         grid.appendChild(row);
     }
   }
 
-  private renderMinutesCells():HTMLElement {
+  private renderRowGrid():HTMLElement{
+    let row: HTMLElement = null;
+    switch(this._unit){
+      case TimeUnit.MINUTE: row = this.renderMinutesColumns(); break;
+      case TimeUnit.HOUR: row = this.renderHoursColumns(); break;
+      case TimeUnit.DAY: row = this.renderDaysColumns(); break;
+      case TimeUnit.WEEK: row = this.renderWeeksColumns(); break;
+      case TimeUnit.MONTH: row = this.renderMonthsColumns(); break;
+      case TimeUnit.YEAR: row = this.renderYearsColumns(); break;
+    }
+    return row;
+  }
+
+  private renderMinutesColumns():HTMLElement {
     let row = document.createElement('div');
 
     row.classList.add('timegrid-row-minutes');
     return row;
   }
 
-  private renderHoursCells():HTMLElement {
+  private renderHoursColumns():HTMLElement {
     let row = document.createElement('div');
 
     row.classList.add('timegrid-row-hours');
     return row;
   }
 
-  private renderDaysCells():HTMLElement {
+  private renderDaysColumns():HTMLElement {
     let row = document.createElement('div');
     let currentDate: Date = new Date(this.startDate.getTime());
 
     for(let i=0; i < this._timerange.asDays; i++){
       let cell = document.createElement('div');
-      cell.classList.add('timegrid-cell');
-      cell.classList.add('timegrid-cell-day');
+      cell.classList.add('timegrid-col');
+      cell.classList.add('timegrid-col-day');
       (<any>cell).date = currentDate;
       row.appendChild(cell);
       currentDate = new Date(currentDate.getTime());
@@ -219,21 +220,21 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     return row;
   }
 
-  private renderWeeksCells():HTMLElement {
+  private renderWeeksColumns():HTMLElement {
     let row = document.createElement('div');
 
     row.classList.add('timegrid-row-weeks');
     return row;
   }
 
-  private renderMonthsCells():HTMLElement {
+  private renderMonthsColumns():HTMLElement {
     let row = document.createElement('div');
 
     row.classList.add('timegrid-row-months');
     return row;
   }
 
-  private renderYearsCells():HTMLElement {
+  private renderYearsColumns():HTMLElement {
     let row = document.createElement('div');
 
     row.classList.add('timegrid-row-years');

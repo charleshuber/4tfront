@@ -2,13 +2,16 @@
   <div id="{{gridId}}" class="timegrid">
 
   </div>
-  <input id="{{gridId}}-size" type="text" class="form-control"
-    id="size" required
-    [(ngModel)]="size"
-    name="name"/>
-    <select id="{{gridId}}-unit" [(ngModel)]="unit">
-      <option *ngFor="let key of keys" [value]="key">{{timeunits[key]}}</option>
-    </select>`
+  <div class="timegrid-tools">
+    <input id="{{gridId}}-size" type="text" class="form-control"
+      id="size" required
+      [(ngModel)]="size"
+      name="name"/>
+      <select id="{{gridId}}-unit" [(ngModel)]="unit">
+        <option *ngFor="let key of keys" [value]="key">{{timeunits[key]}}</option>
+      </select>`
+  </div>
+  <!--
   <br>
   start: {{startDate}} ///// date: {{date}}
   <br>
@@ -17,5 +20,5 @@
   minutes: {{timerange.asMinutes}} == hours: {{timerange.asHours}} == days: {{timerange.asDays}}== weeks: {{timerange.asWeeks}} == months: {{timerange.asMonths}} == years: {{timerange.asYears}}
   <br>
   offsetwidth: {{offsetwidth}} // maxrowsize: {{maxrowsize}} // lowerTimeUnit: {{timeunits[lowerTimeUnit]}}
-
+  -->
 </div>
