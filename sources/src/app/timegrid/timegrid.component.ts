@@ -172,7 +172,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   private render(){
     let grid = this.emptyGrid();
     let builder = new GridBuilder(this._unit, this._timerange, this.startDate, this.endDate, this._target);
-    let row = builder.renderRowGrid();
+    let row = builder.buildRowGrid();
     if(row != null){
         grid.appendChild(row);
     }

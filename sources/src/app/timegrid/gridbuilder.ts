@@ -1,5 +1,6 @@
 import {TimeUnit} from './timeunit';
 import {Timerange} from './timerange';
+import {DateUtils} from './dateutils';
 
 
 export class GridBuilder {
@@ -18,50 +19,108 @@ export class GridBuilder {
     this._date = date;
   }
 
-  public renderRowGrid():HTMLElement{
+  public buildRowGrid():HTMLElement{
     let row: HTMLElement = null;
     switch(this._unit){
-      case TimeUnit.MINUTE: row = this.renderMinutesColumns(); break;
-      case TimeUnit.HOUR: row = this.renderHoursColumns(); break;
-      case TimeUnit.DAY: row = this.renderDaysColumns(); break;
-      case TimeUnit.WEEK: row = this.renderWeeksColumns(); break;
-      case TimeUnit.MONTH: row = this.renderMonthsColumns(); break;
-      case TimeUnit.YEAR: row = this.renderYearsColumns(); break;
+      case TimeUnit.MINUTE: row = this.buildMinutesColumns(); break;
+      case TimeUnit.HOUR: row = this.buildHoursColumns(); break;
+      case TimeUnit.DAY: row = this.buildDaysColumns(); break;
+      case TimeUnit.WEEK: row = this.buildWeeksColumns(); break;
+      case TimeUnit.MONTH: row = this.buildMonthsColumns(); break;
+      case TimeUnit.YEAR: row = this.buildYearsColumns(); break;
     }
     row.classList.add('timegrid-row');
     return row;
   }
 
-  private renderMinutesColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-minutes');
-    return row;
+  private buildMinutesColumns():HTMLElement {
+    return this.buildColumns(
+      this._range.asMinutes,
+      {increment: (date:Date) => {
+        let result = new Date(date.getTime());
+        result.setMinutes(date.getMinutes() + 1);
+        return result;
+      }},
+      'timegrid-row-minutes',
+      'timegrid-col-minute',
+      {format: (date:Date) => { return date.getMinutes()}});
   }
 
-  private renderHoursColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-hours');
-    return row;
+  private buildHoursColumns():HTMLElement {
+    return this.buildColumns(
+      this._range.asHours,
+      {increment: (date:Date) => {
+        let result = new Date(date.getTime());
+        result.setHours(date.getHours() + 1);
+        return result;
+      }},
+      'timegrid-row-hours',
+      'timegrid-col-hour',
+      {format: (date:Date) => { return date.getHours()}});
   }
 
-  private renderDaysColumns():HTMLElement {
-    let row = document.createElement('div');
-    let currentDate: Date = new Date(this._start.getTime());
-    currentDate.setMilliseconds(0);
-    currentDate.setMinutes(0);
-    currentDate.setHours(0);
+  private buildDaysColumns():HTMLElement{
+    return this.buildColumns(
+      this._range.asDays,
+      {increment: (date:Date) => {
+        let result = new Date(date.getTime());
+        result.setDate(date.getDate() + 1);
+        return result;
+      }},
+      'timegrid-row-days',
+      'timegrid-col-day',
+      {format: (date:Date) => { return date.getDate()}});
+  }
 
-    for(let i=0; i < this._range.asDays; i++){
-      let column = this.buildTimeGridColumn(currentDate, {format: (date:Date) => { return date.getDate()}});
-      column.classList.add('timegrid-col-day');
+  private buildWeeksColumns():HTMLElement {
+    return this.buildColumns(
+      this._range.asWeeks,
+      {increment: (date:Date) => {
+        let result = new Date(date.getTime());
+        result.setDate(date.getDate() + 8);
+        return result;
+      }},
+      'timegrid-row-weeks',
+      'timegrid-col-week',
+      {format: (date:Date) => { return date.getDate()}});
+  }
+
+  private buildMonthsColumns():HTMLElement {
+    return this.buildColumns(
+      this._range.asMonths,
+      {increment: (date:Date) => {
+        let result = new Date(date.getTime());
+        result.setMonth(date.getMonth() + 1);
+        return result;
+      }},
+      'timegrid-row-months',
+      'timegrid-col-month',
+      {format: (date:Date) => { return date.getMonth()}});
+  }
+
+  private buildYearsColumns():HTMLElement {
+    return this.buildColumns(
+      this._range.asYears,
+      {increment: (date:Date) => {
+        let result = new Date(date.getTime());
+        result.setFullYear(date.getFullYear() + 1);
+        return result;
+      }},
+      'timegrid-row-years',
+      'timegrid-col-year',
+      {format: (date:Date) => { return date.getFullYear()}});
+  }
+
+  private buildColumns(rowsize: number, incrementor, rowclass: string, cellsclass: string, labelformatter):HTMLElement {
+    let row = document.createElement('div');
+    let currentDate: Date = DateUtils.trunc(this._start, this._unit);
+    for(let i=0; i < rowsize; i++){
+      let column = this.buildTimeGridColumn(currentDate, labelformatter);
+      column.classList.add(cellsclass);
       row.appendChild(column);
-      currentDate = new Date(currentDate.getTime());
-      currentDate.setDate(currentDate.getDate() + 1);
+      currentDate = incrementor.increment(currentDate);
     }
-
-    row.classList.add('timegrid-row-days');
+    row.classList.add(rowclass);
     return row;
   }
 
@@ -80,26 +139,5 @@ export class GridBuilder {
 
     (<any>column).date = date;
     return column;
-  }
-
-  private renderWeeksColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-weeks');
-    return row;
-  }
-
-  private renderMonthsColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-months');
-    return row;
-  }
-
-  private renderYearsColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-years');
-    return row;
   }
 }
