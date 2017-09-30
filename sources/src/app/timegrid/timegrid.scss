@@ -32,6 +32,10 @@
   border-right-style: solid;
 }
 
+.timegrid-col-reference{
+  box-shadow: 0 0 1em 1px #9af inset;
+}
+
 .timegrid-col:first-child {
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;

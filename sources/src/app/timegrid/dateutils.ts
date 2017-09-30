@@ -10,7 +10,9 @@ export module DateUtils {
       case TimeUnit.WEEK:
       case TimeUnit.DAY: newDate.setHours(0);
       case TimeUnit.HOUR: newDate.setMinutes(0);
-      case TimeUnit.MINUTE: newDate.setMilliseconds(0);
+      case TimeUnit.MINUTE:
+      newDate.setSeconds(0);
+      newDate.setMilliseconds(0);
     }
     return newDate;
   }

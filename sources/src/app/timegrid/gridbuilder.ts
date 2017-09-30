@@ -115,8 +115,8 @@ export class GridBuilder {
     let row = document.createElement('div');
     let currentDate: Date = DateUtils.trunc(this._start, this._unit);
     for(let i=0; i < rowsize; i++){
-      let isSelected = DateUtils.trunc(this._date, this._unit) == DateUtils.trunc(currentDate, this._unit);
-      let column = this.buildTimeGridColumn(currentDate, labelformatter.format(currentDate), isSelected);
+      let isReference = DateUtils.trunc(this._date, this._unit).getTime() === DateUtils.trunc(currentDate, this._unit).getTime();
+      let column = this.buildTimeGridColumn(currentDate, labelformatter.format(currentDate), isReference);
       column.classList.add(cellsclass);
       row.appendChild(column);
       currentDate = incrementor.increment(currentDate);
@@ -125,10 +125,12 @@ export class GridBuilder {
     return row;
   }
 
-  private buildTimeGridColumn(date: Date, label:string, isSelected: boolean){
+  private buildTimeGridColumn(date: Date, label:string, isReference: boolean){
     let column = document.createElement('div');
     column.classList.add('timegrid-col');
-
+    if(isReference){
+      column.classList.add('timegrid-col-reference');
+    }
     let content = document.createElement('div');
     content.classList.add('timegrid-col-content');
     let labelCell = document.createElement('div');
