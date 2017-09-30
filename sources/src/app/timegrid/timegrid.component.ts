@@ -2,6 +2,9 @@ import { Component, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/co
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import {Timerange} from './timerange';
+import {TimeUnit, TimeUnitUtils} from './timeunit';
+import {GridBuilder} from './gridbuilder';
 
 @Component({
   selector: 'timegrid',
@@ -17,7 +20,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   private _size: number = 1;
   private _target: Date = new Date();
   private _timerange: Timerange;
-  private _maxresolution = 10;
+  private _maxresolution = 50;
   private _gridId: string;
 
   public ngOnInit() {
@@ -34,13 +37,13 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     return this._gridId;
   }
 
-  get unit(){
+  get unit() {
     return this._unit;
   }
 
   set unit(unit: any){
     let previousTimeUnit = this._unit;
-    this._unit = this.toTimeUnit(parseInt(unit));
+    this._unit = parseInt(unit);
     this.compute();
     if(!this.isViewValid()){
       this._unit = previousTimeUnit;
@@ -168,77 +171,11 @@ export class TimegridComponent implements OnInit, AfterViewInit {
 
   private render(){
     let grid = this.emptyGrid();
-    let row = this.renderRowGrid();
+    let builder = new GridBuilder(this._unit, this._timerange, this.startDate, this.endDate, this._target);
+    let row = builder.renderRowGrid();
     if(row != null){
-        row.classList.add('timegrid-row');
         grid.appendChild(row);
     }
-  }
-
-  private renderRowGrid():HTMLElement{
-    let row: HTMLElement = null;
-    switch(this._unit){
-      case TimeUnit.MINUTE: row = this.renderMinutesColumns(); break;
-      case TimeUnit.HOUR: row = this.renderHoursColumns(); break;
-      case TimeUnit.DAY: row = this.renderDaysColumns(); break;
-      case TimeUnit.WEEK: row = this.renderWeeksColumns(); break;
-      case TimeUnit.MONTH: row = this.renderMonthsColumns(); break;
-      case TimeUnit.YEAR: row = this.renderYearsColumns(); break;
-    }
-    return row;
-  }
-
-  private renderMinutesColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-minutes');
-    return row;
-  }
-
-  private renderHoursColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-hours');
-    return row;
-  }
-
-  private renderDaysColumns():HTMLElement {
-    let row = document.createElement('div');
-    let currentDate: Date = new Date(this.startDate.getTime());
-
-    for(let i=0; i < this._timerange.asDays; i++){
-      let cell = document.createElement('div');
-      cell.classList.add('timegrid-col');
-      cell.classList.add('timegrid-col-day');
-      (<any>cell).date = currentDate;
-      row.appendChild(cell);
-      currentDate = new Date(currentDate.getTime());
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-
-    row.classList.add('timegrid-row-days');
-    return row;
-  }
-
-  private renderWeeksColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-weeks');
-    return row;
-  }
-
-  private renderMonthsColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-months');
-    return row;
-  }
-
-  private renderYearsColumns():HTMLElement {
-    let row = document.createElement('div');
-
-    row.classList.add('timegrid-row-years');
-    return row;
   }
 
   private computeTimerange(): Timerange {
@@ -299,40 +236,10 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     let overlay = this._size % 2;
     return Math.trunc(this._size / 2) + overlay;
   }
-
-  public toTimeUnit(unit: number): TimeUnit{
-    switch(unit){
-      case 1: return TimeUnit.MINUTE;
-      case 2: return TimeUnit.HOUR;
-      case 3: return TimeUnit.DAY;
-      case 4: return TimeUnit.WEEK;
-      case 5: return TimeUnit.MONTH;
-      case 6: return TimeUnit.YEAR;
-    }
-    return null;
-  }
-}
-
-class Timerange {
-  public asMinutes: number;
-  public asHours: number;
-  public asDays: number;
-  public asWeeks: number;
-  public asMonths: number;
-  public asYears: number;
 }
 
 export enum ALIGN {
   LEFT,
   RIGHT,
   CENTER
-}
-
-export enum TimeUnit {
-  MINUTE = 1,
-  HOUR = 2,
-  DAY = 3 ,
-  WEEK = 4,
-  MONTH = 5,
-  YEAR = 6
 }

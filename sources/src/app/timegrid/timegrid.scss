@@ -25,20 +25,34 @@
 
 .timegrid-col {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-right-width: 1px;
+  border-right-color: #ccc;
+  border-right-style: solid;
 }
 
 .timegrid-col:first-child {
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
-  margin-right: 2px;
 }
 
 .timegrid-col:last-child {
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
-  margin-right: 0px;
+  border-right-width: 0px;
+}
+
+.timegrid-col-content {
+  flex-grow: 1;
+}
+
+.timegrid-col-label {
+  text-align: center;
+  line-height: normal;
+  color: #455;
+  font-size: 0.8em;
 }
 
 .timegrid-col-day {
-  background-color: red;
 }
