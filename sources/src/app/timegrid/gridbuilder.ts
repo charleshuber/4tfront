@@ -95,7 +95,7 @@ export class GridBuilder {
       }},
       'timegrid-row-months',
       'timegrid-col-month',
-      {format: (date:Date) => { return date.getMonth()}});
+      {format: (date:Date) => { return date.getMonth() + 1}});
   }
 
   private buildYearsColumns():HTMLElement {
@@ -115,7 +115,8 @@ export class GridBuilder {
     let row = document.createElement('div');
     let currentDate: Date = DateUtils.trunc(this._start, this._unit);
     for(let i=0; i < rowsize; i++){
-      let column = this.buildTimeGridColumn(currentDate, labelformatter);
+      let isSelected = DateUtils.trunc(this._date, this._unit) == DateUtils.trunc(currentDate, this._unit);
+      let column = this.buildTimeGridColumn(currentDate, labelformatter.format(currentDate), isSelected);
       column.classList.add(cellsclass);
       row.appendChild(column);
       currentDate = incrementor.increment(currentDate);
@@ -124,18 +125,18 @@ export class GridBuilder {
     return row;
   }
 
-  private buildTimeGridColumn(date: Date, labelformatter){
+  private buildTimeGridColumn(date: Date, label:string, isSelected: boolean){
     let column = document.createElement('div');
     column.classList.add('timegrid-col');
 
     let content = document.createElement('div');
     content.classList.add('timegrid-col-content');
-    let label = document.createElement('div');
-    label.classList.add('timegrid-col-label');
+    let labelCell = document.createElement('div');
+    labelCell.classList.add('timegrid-col-label');
 
     column.appendChild(content);
-    column.appendChild(label);
-    label.innerHTML = labelformatter.format(date);
+    column.appendChild(labelCell);
+    labelCell.innerHTML = label;
 
     (<any>column).date = date;
     return column;
