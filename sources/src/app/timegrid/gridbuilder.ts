@@ -10,30 +10,51 @@ export class GridBuilder {
   private _start: Date;
   private _end: Date;
   private _date: Date;
+  private _maxresolution: number;
+  private _row: HTMLElement;
 
-  constructor(unit: TimeUnit, range: Timerange, start: Date, end: Date, date: Date){
+  constructor(unit: TimeUnit, range: Timerange, start: Date, end: Date, date: Date, maxresolution: number){
     this._unit = unit;
     this._range = range;
     this._start = start;
     this._end = end;
     this._date = date;
+    this._maxresolution = maxresolution;
   }
 
   public buildRowGrid():HTMLElement{
-    let row: HTMLElement = null;
     switch(this._unit){
-      case TimeUnit.MINUTE: row = this.buildMinutesColumns(); break;
-      case TimeUnit.HOUR: row = this.buildHoursColumns(); break;
-      case TimeUnit.DAY: row = this.buildDaysColumns(); break;
-      case TimeUnit.WEEK: row = this.buildWeeksColumns(); break;
-      case TimeUnit.MONTH: row = this.buildMonthsColumns(); break;
-      case TimeUnit.YEAR: row = this.buildYearsColumns(); break;
+      case TimeUnit.MINUTE: this._row = this.buildMinutesColumns(); break;
+      case TimeUnit.HOUR: this._row = this.buildHoursColumns(); break;
+      case TimeUnit.DAY: this._row = this.buildDaysColumns(); break;
+      case TimeUnit.WEEK: this._row = this.buildWeeksColumns(); break;
+      case TimeUnit.MONTH: this._row = this.buildMonthsColumns(); break;
+      case TimeUnit.YEAR: this._row = this.buildYearsColumns(); break;
     }
-    row.classList.add('timegrid-row');
-    return row;
+    this._row.classList.add('timegrid-row');
+    return this._row;
+  }
+
+
+  public compute(){
+    let contentCells = this._row.querySelectorAll('.timegrid-col-content');
+    for(let i=0; i< contentCells.length; i++){
+      let contentCell: HTMLElement = <HTMLElement> contentCells.item(i);
+      let width = Math.trunc(contentCell.offsetWidth / this._maxresolution);
+      let childNumber = this.childElementsNumber(this._unit, (<any>contentCell).date);
+      if(childNumber < width){
+        for(let y=0; y < childNumber; y++){
+          let childColumn = document.createElement('div');
+          childColumn.classList.add('timegrid-col');
+          childColumn.classList.add('timegrid-col-0');
+          contentCell.appendChild(childColumn);
+        }
+      }
+    }
   }
 
   private buildMinutesColumns():HTMLElement {
+    let component = this;
     return this.buildColumns(
       this._range.asMinutes,
       {increment: (date:Date) => {
@@ -60,6 +81,7 @@ export class GridBuilder {
   }
 
   private buildDaysColumns():HTMLElement{
+    let component = this;
     return this.buildColumns(
       this._range.asDays,
       {increment: (date:Date) => {
@@ -133,6 +155,8 @@ export class GridBuilder {
     }
     let content = document.createElement('div');
     content.classList.add('timegrid-col-content');
+    (<any> content).date = date;
+
     let labelCell = document.createElement('div');
     labelCell.classList.add('timegrid-col-label');
 
@@ -140,7 +164,20 @@ export class GridBuilder {
     column.appendChild(labelCell);
     labelCell.innerHTML = label;
 
-    (<any>column).date = date;
+    (<any> column).date = date;
+
     return column;
   }
+
+  private childElementsNumber(unit: TimeUnit, date: Date){
+    switch(unit){
+      case TimeUnit.MINUTE: return 0;
+      case TimeUnit.HOUR: return 60;
+      case TimeUnit.DAY: return 24;
+      case TimeUnit.WEEK: return 7;
+      case TimeUnit.MONTH: new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+      case TimeUnit.YEAR: return 12;
+    }
+  }
+
 }
