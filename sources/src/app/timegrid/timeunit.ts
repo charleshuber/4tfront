@@ -7,7 +7,7 @@ export enum TimeUnit {
   YEAR = 6
 }
 
-export module TimeUnitUtils {
+export namespace TimeUnitUtils {
     export function toString(unit: TimeUnit) {
         return TimeUnit[unit];
     }

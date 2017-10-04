@@ -27,14 +27,30 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+}
+
+
+.timegrid-col-0 {
+  border-right-width: 1px;
+  border-right-color: #aaa;
+  border-right-style: solid;
+}
+
+.timegrid-col-1 {
+  border-right-width: 1px;
+  border-right-color: #bbb;
+  border-right-style: dotted;
+}
+
+.timegrid-col-2 {
   border-right-width: 1px;
   border-right-color: #ccc;
-  border-right-style: solid;
+  border-right-style: dashed;
 }
 
 .timegrid-col-reference{
   //box-shadow: 0 0 1em 1px #bbb inset;
-  background-color: #ccd;
+  background-color: #eee;
 }
 
 .timegrid-col:first-child {
@@ -51,6 +67,7 @@
 .timegrid-col-content {
   flex-grow: 1;
   display: flex;
+  flex-direction: row;
 }
 
 .timegrid-col-label {

@@ -20,7 +20,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   private _size: number = 1;
   private _target: Date = new Date();
   private _timerange: Timerange;
-  private _maxresolution = 20;
+  private _maxresolution = 1;
   private _gridId: string;
 
   public ngOnInit() {
@@ -161,22 +161,9 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     this._timerange = this.computeTimerange();
   }
 
-  private emptyGrid(): HTMLElement{
-    let grid = document.getElementById(this._gridId);
-    while (grid.firstChild) {
-        grid.removeChild(grid.firstChild);
-    }
-    return grid;
-  }
-
   private render(){
-    let grid = this.emptyGrid();
-    let builder = new GridBuilder(this._unit, this._timerange, this.startDate, this.endDate, this._target, this._maxresolution);
-    let row = builder.buildRowGrid();
-    if(row != null){
-        grid.appendChild(row);
-        builder.compute();
-    }
+    let builder = new GridBuilder(this._gridId, this._unit, this._timerange, this.startDate, this.endDate, this._target, this._maxresolution);
+    builder.render();
   }
 
   private computeTimerange(): Timerange {
@@ -223,10 +210,6 @@ export class TimegridComponent implements OnInit, AfterViewInit {
       break;
     }
     return rangeDateBorder;
-  }
-
-  private getGridElement(){
-    return document.querySelector(this._gridId);
   }
 
   private beforeRange(): number{
