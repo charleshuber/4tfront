@@ -32,12 +32,12 @@ export namespace DateUtils {
 
   export function formatDate(date: Date, pattern: string): string{
     let minPattern = pattern.replace(/mm/g, '' + on2Digits(date.getMinutes()));
-    let hrPattern = pattern.replace(/hh/g, '' + on2Digits(date.getHours()));
-    let dyPattern = pattern.replace(/dd/g, '' + on2Digits(date.getDate()));
-    let wkPattern = pattern.replace(/ww/g, '' + on2Digits(date.getDate()));
-    let mtPattern = pattern.replace(/MM/g, '' + on2Digits(date.getMonth() + 1));
-    let fullYearPattern = pattern.replace(/yyyy/g, '' + date.getFullYear());
-    let yearPattern = pattern.replace(/yy/g, '' + truncFullYear(date));
+    let hrPattern = minPattern.replace(/hh/g, '' + on2Digits(date.getHours()));
+    let dyPattern = hrPattern.replace(/dd/g, '' + on2Digits(date.getDate()));
+    let wkPattern = dyPattern.replace(/ww/g, '' + on2Digits(date.getDate()));
+    let mtPattern = wkPattern.replace(/MM/g, '' + on2Digits(date.getMonth() + 1));
+    let fullYearPattern = mtPattern.replace(/yyyy/g, '' + date.getFullYear());
+    let yearPattern = fullYearPattern.replace(/yy/g, '' + truncFullYear(date));
     return yearPattern;
   }
 

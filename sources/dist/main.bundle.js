@@ -1,5 +1,5 @@
 var ac_main =
-webpackJsonpac__name_([1],{
+webpackJsonpac__name_([2],{
 
 /***/ 10:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -139,7 +139,7 @@ module.exports = vendor_lib;
 
 /***/ }),
 
-/***/ 212:
+/***/ 214:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = (__webpack_require__(2))(451)
@@ -182,18 +182,11 @@ module.exports = (__webpack_require__(2))(213)
 /***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(2))(467)
+module.exports = (__webpack_require__(2))(214)
 
 /***/ }),
 
 /***/ 48:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = (__webpack_require__(2))(500)
-
-/***/ }),
-
-/***/ 49:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -201,11 +194,11 @@ module.exports = (__webpack_require__(2))(500)
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_throw__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_throw__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_throw___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_throw__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__labels_label_service__ = __webpack_require__(16);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationService; });
@@ -222,6 +215,10 @@ var AuthenticationService = (function () {
         this.authenticated = false;
         this.username = null;
         this.password = null;
+        //THE 3 LINES ABOVES ARE ONLY FOR DEVS
+        this.authenticated = true;
+        this.username = "yoman";
+        this.password = "yomanapp";
     }
     AuthenticationService.prototype.authenticate = function (url) {
         var service = this;
@@ -332,24 +329,31 @@ AuthenticationService = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */
 
 /***/ }),
 
-/***/ 50:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = (__webpack_require__(2))(211)
 
 /***/ }),
 
+/***/ 50:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__(2))(456)
+
+/***/ }),
+
 /***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(2))(214)
+module.exports = (__webpack_require__(2))(467)
 
 /***/ }),
 
 /***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(2))(456)
+module.exports = (__webpack_require__(2))(500)
 
 /***/ }),
 
@@ -380,6 +384,25 @@ var AppComponent = (function () {
     }
     AppComponent.prototype.ngOnInit = function () {
         console.log('Initial App State', this.appState.state);
+        this.initHeader();
+    };
+    AppComponent.prototype.initHeader = function () {
+        var nav = document.querySelector('#app_header nav');
+        nav.classList.add('collapse');
+        nav.onmouseover = function () {
+            nav.classList.remove('collapse');
+        };
+        nav.onmouseout = function () {
+            nav.classList.add('collapse');
+        };
+        nav.onclick = function () {
+            if (nav.classList.contains('collapse')) {
+                nav.classList.remove('collapse');
+            }
+            else {
+                nav.classList.add('collapse');
+            }
+        };
     };
     return AppComponent;
 }());
@@ -388,9 +411,9 @@ AppComponent = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */]([
         selector: 'app',
         encapsulation: __WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewEncapsulation"].None,
         styles: [
-            __webpack_require__(73)
+            __webpack_require__(75)
         ],
-        template: "\n    <nav>\n      <a [routerLink]=\" ['./'] \"\n        routerLinkActive=\"active\" [routerLinkActiveOptions]= \"{exact: true}\">\n        Accueil\n      </a>\n      <a [routerLink]=\" ['./user'] \"\n             routerLinkActive=\"active\" [routerLinkActiveOptions]= \"{exact: true}\">\n      Utilisateurs\n      </a>\n    </nav>\n\n    <main>\n      <router-outlet></router-outlet>\n    </main>\n\n    <footer style=\"margin-top:50px\">\n      <span>WebPack Angular 2 Starter by <a [href]=\"url\">@AngularClass</a></span>\n      <div>\n        <a [href]=\"url\">\n          <img [src]=\"angularclassLogo\" width=\"25%\">\n        </a>\n      </div>\n    </footer>\n  "
+        template: __webpack_require__(70)
     }),
     __WEBPACK_IMPORTED_MODULE_0_tslib__["b" /* __metadata */]("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__app_service__["a" /* AppState */]])
 ], AppComponent);
@@ -412,12 +435,12 @@ AppComponent = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */]([
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tslib__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angularclass_hmr__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angularclass_hmr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__angularclass_hmr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__environment__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_routes__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_component__ = __webpack_require__(53);
@@ -427,10 +450,10 @@ AppComponent = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */]([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__no_content__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__home_x_large__ = __webpack_require__(60);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_rest_labels_label_service__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_rest_auth_authentication_service__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__styles_styles_scss__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_rest_auth_authentication_service__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__styles_styles_scss__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__styles_styles_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__styles_styles_scss__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__styles_headings_css__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__styles_headings_css__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__styles_headings_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__styles_headings_css__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 
@@ -541,7 +564,7 @@ AppModule = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */]([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_of__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_of__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_of__);
 /* unused harmony export DataResolver */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return APP_RESOLVER_PROVIDERS; });
@@ -580,7 +603,8 @@ var APP_RESOLVER_PROVIDERS = [
 
 var ROUTES = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_0__home__["a" /* HomeComponent */] },
-    { path: 'user', loadChildren: function() { return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 213))  .then( function(module) { return module['UserModule']; } ); } },
+    { path: 'user', loadChildren: function() { return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, 216))  .then( function(module) { return module['UserModule']; } ); } },
+    { path: 'periods', loadChildren: function() { return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 215))  .then( function(module) { return module['PeriodsModule']; } ); } },
     { path: '**', component: __WEBPACK_IMPORTED_MODULE_1__no_content__["a" /* NoContentComponent */] },
 ];
 
@@ -630,9 +654,9 @@ HomeComponent = __WEBPACK_IMPORTED_MODULE_0_tslib__["a" /* __decorate */]([
             __WEBPACK_IMPORTED_MODULE_3__title__["a" /* Title */]
         ],
         // Our list of styles in our component. We may add more to compose many styles together
-        styles: [__webpack_require__(74)],
+        styles: [__webpack_require__(76)],
         // Every Angular template is first compiled by the browser before Angular runs it's compiler
-        template: __webpack_require__(69)
+        template: __webpack_require__(71)
     }),
     __WEBPACK_IMPORTED_MODULE_0_tslib__["b" /* __metadata */]("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__app_service__["a" /* AppState */],
         __WEBPACK_IMPORTED_MODULE_3__title__["a" /* Title */]])
@@ -836,7 +860,7 @@ exports = module.exports = __webpack_require__(6)(undefined);
 
 
 // module
-exports.push([module.i, "/* this file will be extracted to main dist folder and is imported in index.html */\n/* This file is for setting global styles  */\nnav {\n  margin-top: 16px; }\n\nnav a {\n  background-color: #00838F;\n  color: white;\n  padding: 8px 16px;\n  margin: 8px;\n  vertical-align: middle;\n  line-height: 1.25;\n  text-align: center;\n  text-decoration: none;\n  border-radius: 4px; }\n\n#authentication-container {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  z-index: 1000;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5); }\n\n#authentication-container form {\n  display: block;\n  position: relative;\n  top: 40%;\n  left: 40%;\n  width: 20%;\n  background-color: white;\n  padding: 10px; }\n\n#authentication-container form fieldset {\n  margin: 10px 0px; }\n\n#authentication-container form label {\n  display: block; }\n\n#authentication-container form input:not([type=button]) {\n  width: 100%;\n  border: 1px solid black; }\n", ""]);
+exports.push([module.i, "#app_header {\n  flex-basis: 40px;\n  background-color: white;\n  margin-bottom: 10px; }\n\n#app_main {\n  flex-grow: 1;\n  height: 100%;\n  overflow-y: auto; }\n\n#app_main main {\n  height: 100%;\n  overflow-y: auto; }\n\n#app_footer {\n  flex-basis: 30px;\n  margin: 0px;\n  padding: 0px;\n  background-color: #667788; }\n\n#app_footer a {\n  margin: 0px;\n  padding: 0px 10px;\n  text-decoration: none;\n  height: 30px;\n  line-height: 30px;\n  color: white;\n  font-style: italic;\n  font-size: 12px; }\n\n#app_header nav {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  min-height: 40px;\n  width: 100%;\n  box-shadow: 0px -0px 5px 1px black; }\n\n#app_header nav a {\n  height: 40px;\n  line-height: 40px;\n  padding: 0px 10px;\n  margin: 0px;\n  color: white; }\n\n#app_header nav a.burger {\n  display: none;\n  text-decoration: none;\n  background: url(" + __webpack_require__(69) + ") center 0px no-repeat; }\n\n#app_header nav a:not(.burger) {\n  display: block;\n  text-decoration: none;\n  background-color: white;\n  color: black; }\n\n#app_header nav a.active:not(.burger) {\n  font-weight: bold; }\n\n#app_header nav a:not(.burger):hover {\n  background-color: black;\n  color: white; }\n\n#app_header nav.collapse a:not(.burger) {\n  display: none; }\n\n#app_header nav.collapse a.burger {\n  display: block; }\n", ""]);
 
 // exports
 
@@ -851,7 +875,7 @@ exports = module.exports = __webpack_require__(6)(undefined);
 
 
 // module
-exports.push([module.i, "html, body {\n  height: 100%;\n  font-family: Arial, Helvetica, sans-serif;\n  padding: 20px;\n}\n\na.active {\n  background-color: gray;\n}\n\n.errorMsg {\n\tcolor:red;\n\tfont-size:0.8em;\n\tfont-weight:bold;\n}\n\ninput {\n\tbackground-color: white;\n}\n\ninput.has-success {\n\t-webkit-transition: background-color 1.5s ease-in-out;\n\ttransition: background-color 1.5s ease-in-out;\n\tbackground-color: #73d216;\n}\n\ninput.has-error {\n\t-webkit-transition: background-color 1.5s ease-in-out;\n\ttransition: background-color 1.5s ease-in-out;\n\tbackground-color: #d21030;\n}\n\n#user-table div.row {\n\tmargin-top: 5px;\n\tmargin-bottom: 5px;\n}\n\n#user-table-header {\n\tmargin-top: 40px;\n\tmargin-bottom: 40px;\n\tfont-weight: bold;\n}\n\n#user-table-footer {\n\tmargin-top: 40px;\n\tmargin-bottom: 40px;\n}", ""]);
+exports.push([module.i, "/* this file will be extracted to main dist folder and is imported in index.html */\n/* This file is for setting global styles  */\nhtml, body {\n  height: 100%;\n  font-family: Arial, Helvetica, sans-serif;\n  padding: 0px;\n  margin: 0px; }\n\napp {\n  height: 100%;\n  padding: 0px;\n  margin: 0px;\n  display: flex;\n  flex-direction: column; }\n\n#authentication-container {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  z-index: 1000;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5); }\n\n#authentication-container form {\n  display: block;\n  position: relative;\n  top: 40%;\n  left: 40%;\n  width: 20%;\n  background-color: white;\n  padding: 10px; }\n\n#authentication-container form fieldset {\n  margin: 10px 0px; }\n\n#authentication-container form label {\n  display: block; }\n\n#authentication-container form input:not([type=button]) {\n  width: 100%;\n  border: 1px solid black; }\n", ""]);
 
 // exports
 
@@ -889,19 +913,33 @@ exports.push([module.i, "h1 {\n  color: #00BCD4;\n}", ""]);
 /***/ }),
 
 /***/ 69:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "a26fbb3c4b49fdbac7e474ad066a9fae.svg";
+
+/***/ }),
+
+/***/ 70:
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n  <h1>Projet SMB215 (2017) Charles Huber</h1>\n\n  <div>\n    <h4>Réalisation d’une application répartie sous Docker</h4>\n    <br> \n    <p>Pour le moment, seulement une gestion basique des utilisateurs a été implémentée...</p>\n    \n    <br> \n    <p>L'authentification, la gestion des droits et le protocole https seront mis en place ultérieurement !</p>\n    \n    <br> \n    <div>\t\n    \tLe fonctionnement de l'architecture docker est validée par l'implémentation du CRUD (Create Read Update Delete) \n    \tsur la ressource \"utilisateur\". Ceci sur l'ensemble de la chaine applicative respectant le \"design-pattern\" MVC:\n    \t<ul>\n    \t<li><em style=\"font-weight:bold\">M</em>odèle : Conteneur Mysql</li>\n    \t<li><em style=\"font-weight:bold\">V</em>ue : Conteneur \"4tfront\" hébergeant le serveur Apache et le code Angular2 du client</li>\n    \t<li><em style=\"font-weight:bold\">C</em>ontroleur : Conteneur \"4trest\" hébergeant le tomcat qui expose les services REST</li>\n    \t</ul>\t\n   \t</div>\n   \t\n   \t<p>\n   \t\tCe projet a vocation a mettre en place les briques de base de mon projet de mémoire. Il s'agit d'une application de gestion des congés et du temps de travail nommée \"tatoutontan\".\n   \t\t(tttt => 4t)\n   \t</p>\n  </div>\n\n</div>\n"
+module.exports = "\n<div id=\"app_header\">\n  <nav>\n    <a href=\"#\" class=\"burger\"></a>\n    <a [routerLink]=\" ['./'] \"\n      routerLinkActive=\"active\" [routerLinkActiveOptions]= \"{exact: true}\">\n      Accueil\n    </a>\n    <a [routerLink]=\" ['./periods'] \"\n           routerLinkActive=\"active\" [routerLinkActiveOptions]= \"{exact: true}\">\n    Periodes\n    </a>\n    <a [routerLink]=\" ['./user'] \"\n           routerLinkActive=\"active\" [routerLinkActiveOptions]= \"{exact: true}\">\n    Utilisateurs\n    </a>\n  </nav>\n</div>\n\n<div id=\"app_main\">\n  <main>\n    <router-outlet></router-outlet>\n  </main>\n</div>\n\n<div id=\"app_footer\">\n  <footer>\n    <div>\n      <a [href]=\"url\">mentions légales</a>\n    </div>\n  </footer>\n</div>\n"
 
 /***/ }),
 
 /***/ 71:
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <h1 x-large class=\"sample-content\">Your Content Here</h1>\n\n  <hr>\n\n  <div>\n    For hot module reloading run\n    <pre>npm run start:hmr</pre>\n  </div>\n\n  <hr>\n\n  <div>\n    <h4>Local State</h4>\n\n    <form (ngSubmit)=\"submitState(localState.value)\" autocomplete=\"off\">\n\n      <input\n        [value]=\"localState.value\"\n        (input)=\"localState.value = $event.target.value\"\n        placeholder=\"Submit Local State to App State\"\n        autofocus>\n\n      <button>Submit Value</button>\n    </form>\n    <!--\n        <input type=\"text\" [value]=\"localState.value\" (input)=\"localState.value = $event.target.value\" autofocus>\n        Rather than wiring up two-way data-binding ourselves with [value] and (input)\n        we can use Angular's [(ngModel)] syntax\n        <input type=\"text\" name=\"textInput\" [(ngModel)]=\"localState.value\" autofocus>\n      -->\n\n    <pre>this.localState = {{ localState | json }}</pre>\n\n  </div>\n\n</div>\n"
+
+/***/ }),
+
+/***/ 73:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(65);
+var content = __webpack_require__(66);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(17)(content, {});
@@ -922,7 +960,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 72:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -949,11 +987,11 @@ if(false) {
 
 /***/ }),
 
-/***/ 73:
+/***/ 75:
 /***/ (function(module, exports, __webpack_require__) {
 
 
-        var result = __webpack_require__(66);
+        var result = __webpack_require__(65);
 
         if (typeof result === "string") {
             module.exports = result;
@@ -964,7 +1002,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 74:
+/***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
 

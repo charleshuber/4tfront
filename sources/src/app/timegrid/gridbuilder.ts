@@ -5,8 +5,13 @@ import {DateUtils} from './dateutils';
 
 export class GridBuilder {
 
-
+  private dateAttribute = 'data-date';
+  private unitAttribute = 'data-timeunit';
+  private timegridRowClass = 'timegrid-row';
   private timegridColClass = 'timegrid-col';
+  private timegridColReferenceClass = this.timegridColClass + '-reference';
+  private timegridColContentClass = this.timegridColClass + '-content';
+  private timegridColLabelClass = this.timegridColClass + '-label';
 
   private grid: HTMLElement = null;
   private _unit: TimeUnit;
@@ -45,6 +50,21 @@ export class GridBuilder {
       case TimeUnit.YEAR: rowsize = this._range.asYears;
     }
     this.renderColumns(row, unit, rowsize, 0);
+    this.renderLabels();
+  }
+
+  private renderLabels(){
+    for(let level=0; level<2; level++){
+      let labelCells = document.querySelectorAll('.' + this.timegridColLabelClass + '-' + level);
+      for(let i=0; i < labelCells.length; i++){
+        let cell = <HTMLElement> labelCells.item(0);
+        let date: Date = new Date(parseInt(cell.getAttribute(this.dateAttribute)));
+        let unit: TimeUnit = parseInt(cell.getAttribute(this.unitAttribute));
+        if(!this.printLabel(cell, date, unit, level)){
+          continue;
+        }
+      }
+    }
   }
 
   private renderColumns(target: HTMLElement, unit: TimeUnit, rowsize: number, level: number) {
@@ -59,11 +79,11 @@ export class GridBuilder {
     if(childUnit){
       for(let i=0; i<columns.length; i++){
         let column: HTMLElement = columns[i];
-        let columnDate = new Date(parseInt(column.getAttribute('data-date')));
+        let columnDate = new Date(parseInt(column.getAttribute(this.dateAttribute)));
         let childNumber = this.childElementsNumber(unit, columnDate);
         let width = Math.trunc(column.offsetWidth / this._maxresolution);
         if(width > childNumber){
-          let content: HTMLElement = <HTMLElement> column.querySelector('.timegrid-col-content');
+          let content: HTMLElement = <HTMLElement> column.querySelector('.' + this.timegridColContentClass);
           let innerContent = document.createElement('div');
           content.appendChild(innerContent);
           this.renderColumns(innerContent, childUnit, childNumber, level + 1);
@@ -71,8 +91,8 @@ export class GridBuilder {
       }
     }
 
-    target.classList.add('timegrid-row');
-    target.classList.add('timegrid-row-' + level);
+    target.classList.add(this.timegridRowClass);
+    target.classList.add(this.timegridRowClass + '-' + level);
     target.classList.add(rowClass);
     target.classList.add(rowClass + '-' + level);
   }
@@ -86,9 +106,7 @@ export class GridBuilder {
       column.classList.add(colClass + '-' + level);
       column.classList.add(this.timegridColClass);
       column.classList.add(this.timegridColClass +'-' + level);
-      column.setAttribute('data-date', '' + currentDate.getTime());
-      column.setAttribute('data-date-formatted', '' + DateUtils.formatDate(currentDate, 'dd/MM/yyyy'));
-
+      column.setAttribute(this.dateAttribute, '' + currentDate.getTime());
       this.renderTimeGridColumn(column, currentDate, unit, level);
       columns.push(column);
       currentDate = DateUtils.increment(currentDate, unit);
@@ -99,58 +117,58 @@ export class GridBuilder {
   private renderTimeGridColumn(target:HTMLElement, date: Date, unit: TimeUnit, level: number){
     let isReference = DateUtils.trunc(this._date, this._unit).getTime() === DateUtils.trunc(date, this._unit).getTime();
     if(isReference){
-      target.classList.add('timegrid-col-reference');
+      target.classList.add(this.timegridColReferenceClass);
     }
     let content = document.createElement('div');
-    content.classList.add('timegrid-col-content');
-    content.classList.add('timegrid-col-content-' + level);
+    content.classList.add(this.timegridColContentClass);
+    content.classList.add(this.timegridColContentClass + '-' + level);
 
-    content.setAttribute('data-date', '' + date.getTime());
-    content.setAttribute('data-date-formatted', '' + date);
+    content.setAttribute(this.unitAttribute, '' + unit);
+    content.setAttribute(this.dateAttribute, '' + date.getTime());
+    content.setAttribute(this.dateAttribute + '-formatted', '' + date);
 
     let labelCell = document.createElement('div');
-    labelCell.classList.add('timegrid-col-label');
-    labelCell.classList.add('timegrid-col-label-' + level);
+    labelCell.setAttribute(this.unitAttribute, '' + unit);
+    labelCell.setAttribute(this.dateAttribute, '' + date.getTime());
+    labelCell.classList.add(this.timegridColLabelClass);
+    labelCell.classList.add(this.timegridColLabelClass + '-' + level);
 
     target.appendChild(content);
     target.appendChild(labelCell);
-    this.printLabel(labelCell, date, unit, level);
   }
 
   private getClasses(unit:TimeUnit):string[] {
     switch(unit){
-      case TimeUnit.MINUTE: return ['timegrid-row-minutes','timegrid-col-minute'];
-      case TimeUnit.HOUR: return ['timegrid-row-hours','timegrid-col-hour'];
-      case TimeUnit.DAY: return ['timegrid-row-days','timegrid-col-day'];
-      case TimeUnit.WEEK: return ['timegrid-row-weeks','timegrid-col-week'];
-      case TimeUnit.MONTH: return ['timegrid-row-months','timegrid-col-month'];
-      case TimeUnit.YEAR: return ['timegrid-row-years','timegrid-col-year'];
+      case TimeUnit.MINUTE: return [this.timegridRowClass + '-minutes', this.timegridColClass + '-minute'];
+      case TimeUnit.HOUR: return [this.timegridRowClass + '-hours', this.timegridColClass + '-hour'];
+      case TimeUnit.DAY: return [this.timegridRowClass + 'days', this.timegridColClass + '-day'];
+      case TimeUnit.WEEK: return [this.timegridRowClass + 'weeks', this.timegridColClass + '-week'];
+      case TimeUnit.MONTH: return [this.timegridRowClass + 'months', this.timegridColClass + '-month'];
+      case TimeUnit.YEAR: return [this.timegridRowClass + 'years', this.timegridColClass + '-year'];
     }
     return ['',''];
   }
 
-  private printLabel(labelCell: HTMLElement, date: Date, unit: TimeUnit, level: number){
+  private printLabel(labelCell: HTMLElement, date: Date, unit: TimeUnit, level: number): boolean {
     switch(unit){
-      case TimeUnit.MINUTE: this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm', 'mm']); return;
-      case TimeUnit.HOUR: this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm', 'mm']); return;
-      case TimeUnit.DAY: this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm', 'mm']); return;
-      case TimeUnit.WEEK: this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm', 'mm']); return;
-      case TimeUnit.MONTH: this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm', 'mm']); return;
-      case TimeUnit.YEAR: this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm', 'mm']); return;
+      case TimeUnit.MINUTE: return this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm']);
+      case TimeUnit.HOUR: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM hh:00', 'hh']);
+      case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd-MM']);
+      case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd-MM']);
+      case TimeUnit.MONTH: return this.printLabelWithPatterns(labelCell, date, level, ['MM-yyyy', 'MM']);
+      case TimeUnit.YEAR: return this.printLabelWithPatterns(labelCell, date, level, ['yyyy']);
     }
+    return false;
   }
 
-  private printLabelWithPatterns(labelCell: HTMLElement, date: Date, level: number, patterns:string[]){
+  private printLabelWithPatterns(labelCell: HTMLElement, date: Date, level: number, patterns:string[]): boolean{
     let startWidth = labelCell.offsetWidth;
-    for(let i = level; i < patterns.length; i++){
-      let formatted = DateUtils.formatDate(date, patterns[i]);
+    if(level < patterns.length && startWidth > (patterns.length * 5)){
+      let formatted = DateUtils.formatDate(date, patterns[level]);
       labelCell.innerHTML = formatted;
-      let currentWidth = labelCell.offsetWidth;
-      if(currentWidth == startWidth){
-        return;
-      }
-      this.emptyElement(labelCell);
+      return true;
     }
+    return false;
   }
 
   private childElementsNumber(unit: TimeUnit, date: Date){
