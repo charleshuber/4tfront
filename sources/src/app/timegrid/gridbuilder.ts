@@ -5,6 +5,7 @@ import {DateUtils} from './dateutils';
 
 export class GridBuilder {
 
+  private labelCharWidth = 10;
   private dateAttribute = 'data-date';
   private unitAttribute = 'data-timeunit';
   private timegridRowClass = 'timegrid-row';
@@ -12,6 +13,8 @@ export class GridBuilder {
   private timegridColReferenceClass = this.timegridColClass + '-reference';
   private timegridColContentClass = this.timegridColClass + '-content';
   private timegridColLabelClass = this.timegridColClass + '-label';
+  private timegridColReferenceContentClass = this.timegridColReferenceClass + '-content';
+  private timegridColReferenceLabelClass = this.timegridColReferenceClass + '-label';
 
   private grid: HTMLElement = null;
   private _unit: TimeUnit;
@@ -54,14 +57,17 @@ export class GridBuilder {
   }
 
   private renderLabels(){
+    levelloop:
     for(let level=0; level<2; level++){
       let labelCells = document.querySelectorAll('.' + this.timegridColLabelClass + '-' + level);
+      let forcedPattern = undefined;
       for(let i=0; i < labelCells.length; i++){
-        let cell = <HTMLElement> labelCells.item(0);
+        let cell = <HTMLElement> labelCells.item(i);
         let date: Date = new Date(parseInt(cell.getAttribute(this.dateAttribute)));
         let unit: TimeUnit = parseInt(cell.getAttribute(this.unitAttribute));
-        if(!this.printLabel(cell, date, unit, level)){
-          continue;
+        forcedPattern = this.printLabel(cell, date, unit, level, forcedPattern)
+        if(!forcedPattern){
+          continue levelloop;
         }
       }
     }
@@ -116,16 +122,13 @@ export class GridBuilder {
 
   private renderTimeGridColumn(target:HTMLElement, date: Date, unit: TimeUnit, level: number){
     let isReference = DateUtils.trunc(this._date, this._unit).getTime() === DateUtils.trunc(date, this._unit).getTime();
-    if(isReference){
-      target.classList.add(this.timegridColReferenceClass);
-    }
-    let content = document.createElement('div');
-    content.classList.add(this.timegridColContentClass);
-    content.classList.add(this.timegridColContentClass + '-' + level);
+    let contentCell = document.createElement('div');
+    contentCell.classList.add(this.timegridColContentClass);
+    contentCell.classList.add(this.timegridColContentClass + '-' + level);
 
-    content.setAttribute(this.unitAttribute, '' + unit);
-    content.setAttribute(this.dateAttribute, '' + date.getTime());
-    content.setAttribute(this.dateAttribute + '-formatted', '' + date);
+    contentCell.setAttribute(this.unitAttribute, '' + unit);
+    contentCell.setAttribute(this.dateAttribute, '' + date.getTime());
+    contentCell.setAttribute(this.dateAttribute + '-formatted', '' + date);
 
     let labelCell = document.createElement('div');
     labelCell.setAttribute(this.unitAttribute, '' + unit);
@@ -133,8 +136,14 @@ export class GridBuilder {
     labelCell.classList.add(this.timegridColLabelClass);
     labelCell.classList.add(this.timegridColLabelClass + '-' + level);
 
-    target.appendChild(content);
+    target.appendChild(contentCell);
     target.appendChild(labelCell);
+
+    if(isReference){
+      target.classList.add(this.timegridColReferenceClass);
+      contentCell.classList.add(this.timegridColReferenceContentClass);
+      labelCell.classList.add(this.timegridColReferenceLabelClass);
+    }
   }
 
   private getClasses(unit:TimeUnit):string[] {
@@ -149,26 +158,54 @@ export class GridBuilder {
     return ['',''];
   }
 
-  private printLabel(labelCell: HTMLElement, date: Date, unit: TimeUnit, level: number): boolean {
+  private printLabel(labelCell: HTMLElement, date: Date, unit: TimeUnit, level: number, forcedPattern: string): string {
     switch(unit){
-      case TimeUnit.MINUTE: return this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm']);
-      case TimeUnit.HOUR: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM hh:00', 'hh']);
-      case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd-MM']);
-      case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd-MM']);
-      case TimeUnit.MONTH: return this.printLabelWithPatterns(labelCell, date, level, ['MM-yyyy', 'MM']);
-      case TimeUnit.YEAR: return this.printLabelWithPatterns(labelCell, date, level, ['yyyy']);
+      case TimeUnit.MINUTE: return this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm'], forcedPattern);
+      case TimeUnit.HOUR: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM hh:00', 'hh:00', 'hh'], forcedPattern);
+      case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['dd-MM', 'dd/MM/yy', 'dd'], forcedPattern);
+      case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd-MM', 'dd'], forcedPattern);
+      case TimeUnit.MONTH: return this.printLabelWithPatterns(labelCell, date, level, ['MM-yyyy', 'MM'], forcedPattern);
+      case TimeUnit.YEAR: return this.printLabelWithPatterns(labelCell, date, level, ['yyyy', 'yy'], forcedPattern);
     }
-    return false;
+    return null;
   }
 
-  private printLabelWithPatterns(labelCell: HTMLElement, date: Date, level: number, patterns:string[]): boolean{
-    let startWidth = labelCell.offsetWidth;
-    if(level < patterns.length && startWidth > (patterns.length * 5)){
-      let formatted = DateUtils.formatDate(date, patterns[level]);
-      labelCell.innerHTML = formatted;
-      return true;
+  private printLabelWithPatterns(labelCell: HTMLElement, date: Date, level: number, patterns:string[], forcedPattern: string): string{
+    if(!forcedPattern){
+      forcedPattern = this.searchAndApplyPattern(labelCell, date, level, patterns);
+    } else {
+      labelCell.innerHTML = DateUtils.formatDate(date, forcedPattern);;
     }
-    return false;
+    return forcedPattern;
+  }
+
+  private searchAndApplyPattern(labelCell: HTMLElement, date: Date, level: number, patterns:string[]): string{
+    if(level < patterns.length){
+      let startWidth = labelCell.offsetWidth;
+      patterns = patterns.sort((p1, p2) => p2.length - p1.length);
+      let levelPatterns = patterns.splice(level, patterns.length - level);
+      for(let i=0; i < levelPatterns.length; i++){
+        let label = DateUtils.formatDate(date, levelPatterns[i]);
+        labelCell.innerHTML = label;
+        if(labelCell.offsetWidth == startWidth){
+          return levelPatterns[i];
+        }
+        labelCell.innerHTML = '';
+      }
+      /*
+
+      let maxLabelLength = Math.trunc(startWidth / this.labelCharWidth);
+      let eligibles = levelPatterns
+        // +2 represents text margin
+        .filter(pattern => maxLabelLength > pattern.length + 2);
+      if(eligibles.length > 0){
+        let formatted = DateUtils.formatDate(date, eligibles[0]);
+        labelCell.innerHTML = formatted;
+        return true;
+      }
+      */
+    }
+    return null;
   }
 
   private childElementsNumber(unit: TimeUnit, date: Date){

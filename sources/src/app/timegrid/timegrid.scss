@@ -55,6 +55,12 @@
   background-color: #eee;
 }
 
+.timegrid-col-reference-label{
+  //box-shadow: 0 0 1em 1px #bbb inset;
+  font-weight: bold;
+  color: blue;
+}
+
 .timegrid-col:first-child {
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
