@@ -22,7 +22,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   private _size: number = 1;
   private _target: Date = new Date();
   private _timerange: Timerange;
-  private _maxresolution = 1;
+  private _maxresolution = 5;
   private _gridId: string;
   private builder: GridBuilder;
   private _intervals: TimeInterval[];
@@ -179,7 +179,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     let timeInterval = new TimeInterval();
     timeInterval.startTime = this.startDate;
     timeInterval.endTime = this.endDate;
-    this.rendered.emit(timeInterval);
+    //this.rendered.emit(timeInterval);
   }
 
   private printIntervals(){

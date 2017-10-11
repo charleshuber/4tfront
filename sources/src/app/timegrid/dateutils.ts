@@ -24,7 +24,7 @@ export namespace DateUtils {
       case TimeUnit.MONTH: newDate.setMonth(date.getMonth() + 1); break;
       case TimeUnit.WEEK: newDate.setDate(date.getDate() + 8); break;
       case TimeUnit.DAY: newDate.setDate(date.getDate() + 1); break;
-      case TimeUnit.HOUR: newDate.setHours(date.getHours() + 1);
+      case TimeUnit.HOUR: newDate.setHours(date.getHours() + 1); break;
       case TimeUnit.MINUTE: newDate.setMinutes(date.getMinutes() + 1);
     }
     return newDate;

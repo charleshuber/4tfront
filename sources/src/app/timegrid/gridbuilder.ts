@@ -61,7 +61,8 @@ export class GridBuilder {
       case TimeUnit.MONTH: rowsize = this._range.asMonths; break;
       case TimeUnit.YEAR: rowsize = this._range.asYears;
     }
-    this.renderColumns(row, unit, rowsize, 0);
+    let truncatedStartDate: Date = DateUtils.trunc(this._start, this._unit);
+    this.renderRowOfColumns(row, unit, rowsize, 0, truncatedStartDate);
     this.renderLabels();
   }
 
@@ -82,10 +83,15 @@ export class GridBuilder {
     }
   }
 
-  private renderColumns(target: HTMLElement, unit: TimeUnit, rowsize: number, level: number) {
-    let currentDate: Date = DateUtils.trunc(this._start, this._unit);
+  private renderRowOfColumns(target: HTMLElement, unit: TimeUnit, rowsize: number, level: number, startDate: Date) {
 
-    let columns: HTMLElement[] = this.renderGridColumns(target, rowsize, currentDate, unit, level);
+    //Be aware to apply css before rendering any child elements otherwise you will get errors in child width computation
+    target.classList.add(this.timegridRowClass);
+    target.setAttribute(this.levelAttribute, '' + level);
+    target.setAttribute(this.unitAttribute, '' + unit);
+    target.setAttribute(this.dateAttribute, '' + startDate.getTime());
+
+    let columns: HTMLElement[] = this.renderColumns(target, rowsize, startDate, unit, level);
 
     let childUnit = this.child(unit);
     if(childUnit){
@@ -98,18 +104,13 @@ export class GridBuilder {
           let content: HTMLElement = <HTMLElement> column.querySelector('.' + this.timegridColContentClass);
           let innerContent = document.createElement('div');
           content.appendChild(innerContent);
-          this.renderColumns(innerContent, childUnit, childNumber, level + 1);
+          this.renderRowOfColumns(innerContent, childUnit, childNumber, level + 1, columnDate);
         }
       }
     }
-
-    target.classList.add(this.timegridRowClass);
-    target.setAttribute(this.levelAttribute, '' + level);
-    target.setAttribute(this.unitAttribute, '' + unit);
-    target.setAttribute(this.dateAttribute, '' + currentDate.getTime());
   }
 
-  private renderGridColumns(target: HTMLElement, rowsize: number, currentDate: Date, unit: TimeUnit, level: number) : HTMLElement[]{
+  private renderColumns(target: HTMLElement, rowsize: number, currentDate: Date, unit: TimeUnit, level: number) : HTMLElement[]{
     let columns: HTMLElement[] = [];
     for(let i=0; i < rowsize; i++){
       let column = document.createElement('div');
@@ -118,14 +119,15 @@ export class GridBuilder {
       column.setAttribute(this.levelAttribute, '' + level);
       column.setAttribute(this.unitAttribute, '' + unit);
       column.setAttribute(this.dateAttribute, '' + currentDate.getTime());
-      this.renderTimeGridColumn(column, currentDate, unit, level);
+      column.setAttribute(this.dateAttribute + '-formatted', '' + currentDate);
+      this.renderColumn(column, currentDate, unit, level);
       columns.push(column);
       currentDate = DateUtils.increment(currentDate, unit);
     }
     return columns;
   }
 
-  private renderTimeGridColumn(target:HTMLElement, date: Date, unit: TimeUnit, level: number){
+  private renderColumn(target:HTMLElement, date: Date, unit: TimeUnit, level: number){
     let isReference = level == 0 && DateUtils.trunc(this._date, this._unit).getTime() === DateUtils.trunc(date, this._unit).getTime();
     let contentCell = document.createElement('div');
     contentCell.classList.add(this.timegridColContentClass);
@@ -140,22 +142,22 @@ export class GridBuilder {
     labelCell.setAttribute(this.unitAttribute, '' + unit);
     labelCell.setAttribute(this.dateAttribute, '' + date.getTime());
 
-    target.appendChild(contentCell);
-    target.appendChild(labelCell);
-
     if(isReference){
       target.classList.add(this.timegridColReferenceClass);
       contentCell.classList.add(this.timegridColReferenceContentClass);
       labelCell.classList.add(this.timegridColReferenceLabelClass);
     }
+
+    target.appendChild(contentCell);
+    target.appendChild(labelCell);
   }
 
   private printLabel(labelCell: HTMLElement, date: Date, unit: TimeUnit, level: number, forcedPattern: string): string {
     switch(unit){
       case TimeUnit.MINUTE: return this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm'], forcedPattern);
-      case TimeUnit.HOUR: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM hh:00', 'hh:00', 'hh'], forcedPattern);
-      case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['dd-MM', 'dd/MM/yy', 'dd'], forcedPattern);
-      case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd-MM', 'dd'], forcedPattern);
+      case TimeUnit.HOUR: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM hh:00', 'hh'], forcedPattern);
+      case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd'], forcedPattern);
+      case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd'], forcedPattern);
       case TimeUnit.MONTH: return this.printLabelWithPatterns(labelCell, date, level, ['MM-yyyy', 'MM'], forcedPattern);
       case TimeUnit.YEAR: return this.printLabelWithPatterns(labelCell, date, level, ['yyyy', 'yy'], forcedPattern);
     }
@@ -177,12 +179,13 @@ export class GridBuilder {
       patterns = patterns.sort((p1, p2) => p2.length - p1.length);
       let levelPatterns = patterns.splice(level, patterns.length - level);
       for(let i=0; i < levelPatterns.length; i++){
-        let label = DateUtils.formatDate(date, levelPatterns[i]);
-        labelCell.innerHTML = label;
-        if(labelCell.offsetWidth < (startWidth + Math.trunc(startWidth * 0.1))){
+        let labelSpan:HTMLElement = document.createElement('span');
+        labelSpan.innerHTML = DateUtils.formatDate(date, levelPatterns[i]);
+        labelCell.appendChild(labelSpan);
+        if(labelSpan.offsetWidth < startWidth){
           return levelPatterns[i];
         }
-        labelCell.innerHTML = '';
+        labelSpan.remove();
       }
     }
     return null;
