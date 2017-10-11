@@ -1,6 +1,7 @@
 import {TimeUnit} from './timeunit';
 import {Timerange} from './timerange';
 import {DateUtils} from './dateutils';
+import { TimeInterval } from '../rest/resources/time/timeinterval';
 
 
 export class GridBuilder {
@@ -15,6 +16,7 @@ export class GridBuilder {
   private timegridColLabelClass = this.timegridColClass + '-label';
   private timegridColReferenceContentClass = this.timegridColReferenceClass + '-content';
   private timegridColReferenceLabelClass = this.timegridColReferenceClass + '-label';
+  private timegridRowCellClass = 'timegrid-row-cell';
 
   private grid: HTMLElement = null;
   private _unit: TimeUnit;
@@ -36,6 +38,12 @@ export class GridBuilder {
 
   public render(){
       this.renderRowGrid(this.grid, this._unit);
+  }
+
+  public printIntervals(intervals: TimeInterval[]){
+    if(intervals && this.grid != null){
+      this.buildPeriodsRows(intervals.length);
+    }
   }
 
   private renderRowGrid(parent:HTMLElement, unit: TimeUnit){
@@ -187,23 +195,11 @@ export class GridBuilder {
       for(let i=0; i < levelPatterns.length; i++){
         let label = DateUtils.formatDate(date, levelPatterns[i]);
         labelCell.innerHTML = label;
-        if(labelCell.offsetWidth == startWidth){
+        if(labelCell.offsetWidth < (startWidth + Math.trunc(startWidth * 0.1))){
           return levelPatterns[i];
         }
         labelCell.innerHTML = '';
       }
-      /*
-
-      let maxLabelLength = Math.trunc(startWidth / this.labelCharWidth);
-      let eligibles = levelPatterns
-        // +2 represents text margin
-        .filter(pattern => maxLabelLength > pattern.length + 2);
-      if(eligibles.length > 0){
-        let formatted = DateUtils.formatDate(date, eligibles[0]);
-        labelCell.innerHTML = formatted;
-        return true;
-      }
-      */
     }
     return null;
   }
@@ -238,4 +234,18 @@ export class GridBuilder {
     }
   }
 
+  private buildPeriodsRows(size: number){
+    if(size && size > 0){
+      let contentCells = document.querySelectorAll('.' + this.timegridColContentClass);
+      for(let i=0; i<contentCells.length; i++){
+        /*
+        for(let row=0; row<size; row++){
+          let rowCell = document.createElement('div');
+          rowCell.classList.add(this.timegridRowCellClass);
+          rowCell.classList.add(this.timegridRowCellClass + '-' + row);
+        }
+        */
+      }
+    }
+  }
 }

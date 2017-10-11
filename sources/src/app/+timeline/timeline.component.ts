@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { TimelineService } from '../rest/resources/timeline/timeline.service';
 import { Timeline } from '../rest/resources/timeline/timeline';
+import { TimeInterval } from '../rest/resources/time/timeinterval';
 
 @Component({
   selector: 'timeline',
@@ -17,6 +18,7 @@ export class TimelineComponent implements OnInit {
 
   private id: number;
   private timeline: Timeline = new Timeline();
+  private periods: TimeInterval[];
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +38,18 @@ export class TimelineComponent implements OnInit {
     if(this.id){
       this.loadTimeline();
     }
+  }
+
+  public gridRendered(event){
+    this.periods = [];
+    let ti: TimeInterval =  new TimeInterval();
+
+    ti.startTime = new Date();
+    ti.endTime = new Date();
+    ti.startTime.setHours(ti.startTime.getHours()-1);
+    ti.endTime.setHours(ti.endTime.getHours()+1);
+
+    this.periods.push(ti);
   }
 
   private saveTimeline(){

@@ -14,7 +14,7 @@
       </div>
       <div class="list-row" class="timeline-timegrid-row">
         <div class="list-cell">
-          <timegrid></timegrid>
+          <timegrid (rendered)="gridRendered($event)" [intervals]="periods"></timegrid>
         </div>
       </div>
     </div>

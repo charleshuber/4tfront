@@ -1,10 +1,12 @@
-import { Component, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import {Timerange} from './timerange';
+
 import {TimeUnit, TimeUnitUtils} from './timeunit';
 import {GridBuilder} from './gridbuilder';
+import { TimeInterval } from '../rest/resources/time/timeinterval';
 
 @Component({
   selector: 'timegrid',
@@ -22,6 +24,16 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   private _timerange: Timerange;
   private _maxresolution = 1;
   private _gridId: string;
+  private builder: GridBuilder;
+  private _intervals: TimeInterval[];
+
+  @Output()
+  private rendered: EventEmitter <TimeInterval> = new EventEmitter();
+
+  @Input() set intervals(value: TimeInterval[]) {
+     this._intervals = value;
+     this.printIntervals();
+  }
 
   public ngOnInit() {
       this.keys = Object.keys(this.timeunits).filter(f => !isNaN(Number(f)));
@@ -162,8 +174,18 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   }
 
   private render(){
-    let builder = new GridBuilder(this._gridId, this._unit, this._timerange, this.startDate, this.endDate, this._target, this._maxresolution);
-    builder.render();
+    this.builder = new GridBuilder(this._gridId, this._unit, this._timerange, this.startDate, this.endDate, this._target, this._maxresolution);
+    this.builder.render();
+    let timeInterval = new TimeInterval();
+    timeInterval.startTime = this.startDate;
+    timeInterval.endTime = this.endDate;
+    this.rendered.emit(timeInterval);
+  }
+
+  private printIntervals(){
+    if(this._intervals && this.builder){
+        this.builder.printIntervals(this._intervals);
+    }
   }
 
   private computeTimerange(): Timerange {

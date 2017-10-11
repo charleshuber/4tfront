@@ -69,7 +69,7 @@
 .timegrid-col-content {
   flex-grow: 1;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .timegrid-col-label {
@@ -77,9 +77,6 @@
   line-height: normal;
   color: #455;
   font-size: 0.6em;
-  overflow: hidden;
-white-space: nowrap; /* Don't forget this one */
-text-overflow: ellipsis;
 }
 
 .timegrid-col-reference-label{
@@ -89,4 +86,9 @@ text-overflow: ellipsis;
 }
 
 .timegrid-col-day {
+}
+
+.time-grid-row-cell{
+  flex-grow: 1;
+  position: relative;
 }
