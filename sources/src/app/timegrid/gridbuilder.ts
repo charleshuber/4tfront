@@ -9,6 +9,7 @@ export class GridBuilder {
   private labelCharWidth = 10;
   private dateAttribute = 'data-date';
   private unitAttribute = 'data-timeunit';
+  private levelAttribute = 'data-level';
   private timegridRowClass = 'timegrid-row';
   private timegridColClass = 'timegrid-col';
   private timegridColReferenceClass = this.timegridColClass + '-reference';
@@ -67,7 +68,7 @@ export class GridBuilder {
   private renderLabels(){
     levelloop:
     for(let level=0; level<2; level++){
-      let labelCells = document.querySelectorAll('.' + this.timegridColLabelClass + '-' + level);
+      let labelCells = document.querySelectorAll('.' + this.timegridColLabelClass + '['+ this.levelAttribute +'="' + level + '"]');
       let forcedPattern = undefined;
       for(let i=0; i < labelCells.length; i++){
         let cell = <HTMLElement> labelCells.item(i);
@@ -83,11 +84,8 @@ export class GridBuilder {
 
   private renderColumns(target: HTMLElement, unit: TimeUnit, rowsize: number, level: number) {
     let currentDate: Date = DateUtils.trunc(this._start, this._unit);
-    let classes = this.getClasses(unit);
-    let rowClass = classes[0];
-    let cellClass = classes[1];
 
-    let columns: HTMLElement[] = this.renderGridColumns(target, rowsize, currentDate, unit, level, cellClass);
+    let columns: HTMLElement[] = this.renderGridColumns(target, rowsize, currentDate, unit, level);
 
     let childUnit = this.child(unit);
     if(childUnit){
@@ -106,20 +104,19 @@ export class GridBuilder {
     }
 
     target.classList.add(this.timegridRowClass);
-    target.classList.add(this.timegridRowClass + '-' + level);
-    target.classList.add(rowClass);
-    target.classList.add(rowClass + '-' + level);
+    target.setAttribute(this.levelAttribute, '' + level);
+    target.setAttribute(this.unitAttribute, '' + unit);
+    target.setAttribute(this.dateAttribute, '' + currentDate.getTime());
   }
 
-  private renderGridColumns(target: HTMLElement, rowsize: number, currentDate: Date, unit: TimeUnit, level: number, colClass: string) : HTMLElement[]{
+  private renderGridColumns(target: HTMLElement, rowsize: number, currentDate: Date, unit: TimeUnit, level: number) : HTMLElement[]{
     let columns: HTMLElement[] = [];
     for(let i=0; i < rowsize; i++){
       let column = document.createElement('div');
       target.appendChild(column);
-      column.classList.add(colClass);
-      column.classList.add(colClass + '-' + level);
       column.classList.add(this.timegridColClass);
-      column.classList.add(this.timegridColClass +'-' + level);
+      column.setAttribute(this.levelAttribute, '' + level);
+      column.setAttribute(this.unitAttribute, '' + unit);
       column.setAttribute(this.dateAttribute, '' + currentDate.getTime());
       this.renderTimeGridColumn(column, currentDate, unit, level);
       columns.push(column);
@@ -129,20 +126,19 @@ export class GridBuilder {
   }
 
   private renderTimeGridColumn(target:HTMLElement, date: Date, unit: TimeUnit, level: number){
-    let isReference = DateUtils.trunc(this._date, this._unit).getTime() === DateUtils.trunc(date, this._unit).getTime();
+    let isReference = level == 0 && DateUtils.trunc(this._date, this._unit).getTime() === DateUtils.trunc(date, this._unit).getTime();
     let contentCell = document.createElement('div');
     contentCell.classList.add(this.timegridColContentClass);
-    contentCell.classList.add(this.timegridColContentClass + '-' + level);
-
+    contentCell.setAttribute(this.levelAttribute, '' + level);
     contentCell.setAttribute(this.unitAttribute, '' + unit);
     contentCell.setAttribute(this.dateAttribute, '' + date.getTime());
     contentCell.setAttribute(this.dateAttribute + '-formatted', '' + date);
 
     let labelCell = document.createElement('div');
+    labelCell.classList.add(this.timegridColLabelClass);
+    labelCell.setAttribute(this.levelAttribute, '' + level);
     labelCell.setAttribute(this.unitAttribute, '' + unit);
     labelCell.setAttribute(this.dateAttribute, '' + date.getTime());
-    labelCell.classList.add(this.timegridColLabelClass);
-    labelCell.classList.add(this.timegridColLabelClass + '-' + level);
 
     target.appendChild(contentCell);
     target.appendChild(labelCell);
@@ -152,18 +148,6 @@ export class GridBuilder {
       contentCell.classList.add(this.timegridColReferenceContentClass);
       labelCell.classList.add(this.timegridColReferenceLabelClass);
     }
-  }
-
-  private getClasses(unit:TimeUnit):string[] {
-    switch(unit){
-      case TimeUnit.MINUTE: return [this.timegridRowClass + '-minutes', this.timegridColClass + '-minute'];
-      case TimeUnit.HOUR: return [this.timegridRowClass + '-hours', this.timegridColClass + '-hour'];
-      case TimeUnit.DAY: return [this.timegridRowClass + 'days', this.timegridColClass + '-day'];
-      case TimeUnit.WEEK: return [this.timegridRowClass + 'weeks', this.timegridColClass + '-week'];
-      case TimeUnit.MONTH: return [this.timegridRowClass + 'months', this.timegridColClass + '-month'];
-      case TimeUnit.YEAR: return [this.timegridRowClass + 'years', this.timegridColClass + '-year'];
-    }
-    return ['',''];
   }
 
   private printLabel(labelCell: HTMLElement, date: Date, unit: TimeUnit, level: number, forcedPattern: string): string {

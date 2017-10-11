@@ -32,20 +32,20 @@
 }
 
 
-.timegrid-col-0 {
+.timegrid-col[data-level="0"] {
   border-right-width: 1px;
   border-right-color: #aaa;
   border-right-style: solid;
 }
 
-.timegrid-col-1 {
-  border-right-width: 1px;
+.timegrid-col[data-level="1"] {
+  border-right-width: 0px;
   border-right-color: #bbb;
   border-right-style: dotted;
 }
 
-.timegrid-col-2 {
-  border-right-width: 1px;
+.timegrid-col[data-level="2"] {
+  border-right-width: 0px;
   border-right-color: #ccc;
   border-right-style: dashed;
 }
