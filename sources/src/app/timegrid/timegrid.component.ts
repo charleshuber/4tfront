@@ -179,7 +179,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     let timeInterval = new TimeInterval();
     timeInterval.startTime = this.startDate;
     timeInterval.endTime = this.endDate;
-    //this.rendered.emit(timeInterval);
+    this.rendered.emit(timeInterval);
   }
 
   private printIntervals(){

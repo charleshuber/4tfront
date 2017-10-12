@@ -157,7 +157,7 @@ export class GridBuilder {
       case TimeUnit.MINUTE: return this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm'], forcedPattern);
       case TimeUnit.HOUR: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM hh:00', 'hh'], forcedPattern);
       case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd'], forcedPattern);
-      case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd'], forcedPattern);
+      case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['ww', 'ww'], forcedPattern);
       case TimeUnit.MONTH: return this.printLabelWithPatterns(labelCell, date, level, ['MM-yyyy', 'MM'], forcedPattern);
       case TimeUnit.YEAR: return this.printLabelWithPatterns(labelCell, date, level, ['yyyy', 'yy'], forcedPattern);
     }
@@ -168,7 +168,9 @@ export class GridBuilder {
     if(!forcedPattern){
       forcedPattern = this.searchAndApplyPattern(labelCell, date, level, patterns);
     } else {
-      labelCell.innerHTML = DateUtils.formatDate(date, forcedPattern);;
+      let labelSpan:HTMLElement = document.createElement('span');
+      labelSpan.innerHTML = DateUtils.formatDate(date, forcedPattern);
+      labelCell.appendChild(labelSpan);
     }
     return forcedPattern;
   }
@@ -193,12 +195,12 @@ export class GridBuilder {
 
   private childElementsNumber(unit: TimeUnit, date: Date){
     switch(unit){
-      case TimeUnit.MINUTE: return 0;
-      case TimeUnit.HOUR: return 60;
-      case TimeUnit.DAY: return 24;
-      case TimeUnit.WEEK: return 7;
-      case TimeUnit.MONTH: return new Date(date.getFullYear(), date.getMonth(), 0).getDate();
-      case TimeUnit.YEAR: return 12;
+      case TimeUnit.MINUTE: return 0; /*no child elements*/
+      case TimeUnit.HOUR: return 60; /*60 minutes*/
+      case TimeUnit.DAY: return 24; /*24 hours*/
+      case TimeUnit.WEEK: return 7; /*7 days*/
+      case TimeUnit.MONTH: return new Date(date.getFullYear(), date.getMonth(), 0).getDate(); /*28 to 31 days*/
+      case TimeUnit.YEAR: return 12; /*12 months*/
     }
   }
 
