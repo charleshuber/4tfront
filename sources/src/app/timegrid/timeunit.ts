@@ -1,10 +1,12 @@
 export enum TimeUnit {
-  MINUTE = 1,
-  HOUR = 2,
-  DAY = 3 ,
-  WEEK = 4,
-  MONTH = 5,
-  YEAR = 6
+  MINUTE = 101,
+  MINUTES_5 = 105,
+  MINUTES_15 = 115,
+  HOUR = 201,
+  DAY = 301 ,
+  WEEK = 401,
+  MONTH = 501,
+  YEAR = 601
 }
 
 export namespace TimeUnitUtils {

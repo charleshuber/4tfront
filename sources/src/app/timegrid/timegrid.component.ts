@@ -18,7 +18,10 @@ export class TimegridComponent implements OnInit, AfterViewInit {
 
   public timeunits = TimeUnit;
   public keys;
+  public alignements = ALIGN;
+  public aligns;
   private _unit: TimeUnit = TimeUnit.DAY;
+  private _align: ALIGN = ALIGN.CENTER;
   private _size: number = 1;
   private _target: Date = new Date();
   private _timerange: Timerange;
@@ -37,6 +40,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
       this.keys = Object.keys(this.timeunits).filter(f => !isNaN(Number(f)));
+      this.aligns = Object.keys(this.alignements).filter(f => !isNaN(Number(f)));
       this._gridId = "timegrid-" + Math.random();
       this.compute();
   }
@@ -67,9 +71,19 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     this.render();
   }
 
-  set size(size: number){
+  get align() {
+    return this._align;
+  }
+
+  set align(align: any){
+    this._align = parseInt(align);
+    this.compute();
+    this.render();
+  }
+
+  set size(size: string){
     let previousSize = this._size;
-    this._size = size;
+    this._size = parseInt(size);
     this.compute();
     if(!this.isViewValid()){
       this._size = previousSize;
@@ -92,7 +106,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   }
 
   get size(){
-    return this._size;
+    return '' + this._size;
   }
 
   get date(){
@@ -136,6 +150,8 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   get lowerTimeUnit(): TimeUnit{
     let maxrowsize = this.maxrowsize;
     if(maxrowsize >= this._timerange.asMinutes) return TimeUnit.MINUTE;
+    if(maxrowsize >= this._timerange.asMinutes / 5) return TimeUnit.MINUTES_5;
+    if(maxrowsize >= this._timerange.asMinutes / 15) return TimeUnit.MINUTES_15;
     if(maxrowsize >= this._timerange.asHours) return TimeUnit.HOUR;
     if(maxrowsize >= this._timerange.asDays) return TimeUnit.DAY;
     if(maxrowsize >= this._timerange.asWeeks) return TimeUnit.WEEK;
@@ -147,6 +163,10 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     switch(this._unit){
       case TimeUnit.MINUTE:
       return this._timerange.asMinutes;
+      case TimeUnit.MINUTES_5:
+      return Math.trunc(this._timerange.asMinutes / 5);
+      case TimeUnit.MINUTES_15:
+      return Math.trunc(this._timerange.asMinutes / 15);
       case TimeUnit.HOUR:
       return this._timerange.asHours;
       case TimeUnit.DAY:
@@ -213,6 +233,8 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     }
     switch(this._unit){
       case TimeUnit.MINUTE:
+      case TimeUnit.MINUTES_5:
+      case TimeUnit.MINUTES_15:
       rangeDateBorder.setMinutes(rangeDateBorder.getMinutes() + rangeBorder);
       break;
       case TimeUnit.HOUR:
@@ -235,13 +257,23 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   }
 
   private beforeRange(): number{
-    return Math.trunc(this._size / 2);
+    switch(this._align){
+      case ALIGN.CENTER: return Math.trunc(this._size / 2);
+      case ALIGN.LEFT: return 0;
+      case ALIGN.RIGHT: return this._size;
+    }
   }
 
   private afterRange(): number{
-    let overlay = this._size % 2;
-    return Math.trunc(this._size / 2) + overlay;
+    switch(this._align){
+      case ALIGN.CENTER:
+      let overlay = this._size % 2;
+      return Math.trunc(this._size / 2) + overlay;
+      case ALIGN.LEFT: return this._size;
+      case ALIGN.RIGHT: return 0;
+    }
   }
+
 }
 
 export enum ALIGN {

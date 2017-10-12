@@ -7,6 +7,9 @@
       name="name"/>
       <select id="{{gridId}}-unit" [(ngModel)]="unit">
         <option *ngFor="let key of keys" [value]="key">{{timeunits[key]}}</option>
+      </select>
+      <select id="{{gridId}}-align" [(ngModel)]="align">
+        <option *ngFor="let key of aligns" [value]="key">{{alignements[key]}}</option>
       </select>`
   </div>
   <!--
