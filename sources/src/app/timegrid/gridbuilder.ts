@@ -55,9 +55,9 @@ export class GridBuilder {
     let rowsize = 0;
     switch(unit){
 
-      case TimeUnit.MINUTE:
-      case TimeUnit.MINUTES_5:
-      case TimeUnit.MINUTES_15: rowsize = this._range.asMinutes; break;
+      case TimeUnit.MINUTE: rowsize = this._range.asMinutes; break;
+      case TimeUnit.MINUTES_5: rowsize = Math.ceil(this._range.asMinutes / 5); break;
+      case TimeUnit.MINUTES_15: rowsize = Math.ceil(this._range.asMinutes / 15); break;
       case TimeUnit.HOUR: rowsize = this._range.asHours; break;
       case TimeUnit.DAY: rowsize = this._range.asDays; break;
       case TimeUnit.WEEK: rowsize = this._range.asWeeks; break;

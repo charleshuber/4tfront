@@ -239,9 +239,13 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     }
     switch(this._unit){
       case TimeUnit.MINUTE:
-      case TimeUnit.MINUTES_5:
-      case TimeUnit.MINUTES_15:
       rangeDateBorder.setMinutes(rangeDateBorder.getMinutes() + rangeBorder);
+      break;
+      case TimeUnit.MINUTES_5:
+      rangeDateBorder.setMinutes(rangeDateBorder.getMinutes() + rangeBorder * 5);
+      break;
+      case TimeUnit.MINUTES_15:
+      rangeDateBorder.setMinutes(rangeDateBorder.getMinutes() + rangeBorder * 15);
       break;
       case TimeUnit.HOUR:
       rangeDateBorder.setHours(rangeDateBorder.getHours() + rangeBorder);
