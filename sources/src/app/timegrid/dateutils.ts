@@ -5,21 +5,45 @@ export namespace DateUtils {
   export function trunc(date: Date, unit: TimeUnit): Date{
     let newDate: Date = new Date(date.getTime());
     switch(unit){
-      case TimeUnit.YEAR: newDate.setMonth(0);
+      case TimeUnit.YEAR:
+      newDate.setMonth(0);
       case TimeUnit.MONTH:
       case TimeUnit.WEEK:
-      if(unit == TimeUnit.MONTH){
-        newDate.setDate(1);
-      } else {
-        newDate = truncToMonday(newDate);
-      }
-      case TimeUnit.DAY: newDate.setHours(0);
-      case TimeUnit.HOUR: newDate.setMinutes(0);
+      newDate = truncDate(newDate, unit);
+      case TimeUnit.DAY:
+      newDate.setHours(0);
+      case TimeUnit.HOUR:
+      case TimeUnit.MINUTES_15:
+      case TimeUnit.MINUTES_5:
+      newDate = truncMinutes(newDate, unit);
       case TimeUnit.MINUTE:
       newDate.setSeconds(0);
       newDate.setMilliseconds(0);
     }
     return newDate;
+  }
+
+  function truncDate(date: Date, unit: TimeUnit): Date {
+      let newDate: Date = new Date(date.getTime());
+      if(unit === TimeUnit.WEEK){
+        newDate = truncToMonday(newDate);
+      } else{
+        newDate.setDate(1);
+      }
+      return newDate;
+  }
+
+  function truncMinutes(date: Date, unit: TimeUnit): Date {
+      let newDate: Date = new Date(date.getTime());
+      let minutes = newDate.getMinutes();
+      if(unit === TimeUnit.MINUTES_5){
+        newDate.setMinutes(minutes - (minutes % 5));
+      } else if(unit === TimeUnit.MINUTES_15){
+        newDate.setMinutes(minutes - (minutes % 15));
+      } else {
+        newDate.setMinutes(0);
+      }
+      return newDate;
   }
 
   export function increment(date: Date, unit: TimeUnit): Date{
@@ -30,7 +54,9 @@ export namespace DateUtils {
       case TimeUnit.WEEK: newDate.setDate(date.getDate() + 8); break;
       case TimeUnit.DAY: newDate.setDate(date.getDate() + 1); break;
       case TimeUnit.HOUR: newDate.setHours(date.getHours() + 1); break;
-      case TimeUnit.MINUTE: newDate.setMinutes(date.getMinutes() + 1);
+      case TimeUnit.MINUTES_15: newDate.setMinutes(date.getMinutes() + 15); break;
+      case TimeUnit.MINUTES_5: newDate.setMinutes(date.getMinutes() + 5); break;
+      case TimeUnit.MINUTE: newDate.setMinutes(date.getMinutes() + 1); break;
     }
     return newDate;
   }

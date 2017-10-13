@@ -54,7 +54,10 @@ export class GridBuilder {
 
     let rowsize = 0;
     switch(unit){
-      case TimeUnit.MINUTE: rowsize = this._range.asMinutes; break;
+
+      case TimeUnit.MINUTE:
+      case TimeUnit.MINUTES_5:
+      case TimeUnit.MINUTES_15: rowsize = this._range.asMinutes; break;
       case TimeUnit.HOUR: rowsize = this._range.asHours; break;
       case TimeUnit.DAY: rowsize = this._range.asDays; break;
       case TimeUnit.WEEK: rowsize = this._range.asWeeks; break;
@@ -154,7 +157,9 @@ export class GridBuilder {
 
   private printLabel(labelCell: HTMLElement, date: Date, unit: TimeUnit, level: number, forcedPattern: string): string {
     switch(unit){
-      case TimeUnit.MINUTE: return this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm'], forcedPattern);
+      case TimeUnit.MINUTE:
+      case TimeUnit.MINUTES_5:
+      case TimeUnit.MINUTES_15: return this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm'], forcedPattern);
       case TimeUnit.HOUR: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM hh:00', 'hh'], forcedPattern);
       case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd'], forcedPattern);
       case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['ww', 'ww'], forcedPattern);
@@ -196,6 +201,8 @@ export class GridBuilder {
   private childElementsNumber(unit: TimeUnit, date: Date){
     switch(unit){
       case TimeUnit.MINUTE: return 0; /*no child elements*/
+      case TimeUnit.MINUTES_5: return 5; /*5 minutes*/
+      case TimeUnit.MINUTES_15: return 3; /*3 x 5 minutes*/
       case TimeUnit.HOUR: return 60; /*60 minutes*/
       case TimeUnit.DAY: return 24; /*24 hours*/
       case TimeUnit.WEEK: return 7; /*7 days*/
@@ -206,7 +213,9 @@ export class GridBuilder {
 
   private child(unit: TimeUnit): TimeUnit{
     switch(unit){
-      case TimeUnit.HOUR: return TimeUnit.MINUTE;
+      case TimeUnit.MINUTES_5: return TimeUnit.MINUTE;
+      case TimeUnit.MINUTES_15: return TimeUnit.MINUTES_5;
+      case TimeUnit.HOUR: return TimeUnit.MINUTES_15;
       case TimeUnit.DAY: return TimeUnit.HOUR;
       case TimeUnit.WEEK: return TimeUnit.DAY;
       case TimeUnit.MONTH: return TimeUnit.DAY;

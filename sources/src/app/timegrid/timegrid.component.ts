@@ -6,6 +6,7 @@ import {Timerange} from './timerange';
 
 import {TimeUnit, TimeUnitUtils} from './timeunit';
 import {GridBuilder} from './gridbuilder';
+import {DateUtils} from './dateutils';
 import { TimeInterval } from '../rest/resources/time/timeinterval';
 
 @Component({
@@ -230,6 +231,11 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     let rangeBorder = this.afterRange();
     if(before){
       rangeBorder = this.beforeRange() * -1;
+    }
+    //In case of RIGHT alignement, the range will end at the begining of the curentDate,
+    //We have to move the range window one step right to put the current period of time inside
+    if(this._align == ALIGN.RIGHT){
+      rangeDateBorder = DateUtils.increment(rangeDateBorder, this._unit);
     }
     switch(this._unit){
       case TimeUnit.MINUTE:
