@@ -82,8 +82,21 @@
   font-size: 0.6em;
 }
 
+.timegrid-col-label[data-level="0"] {
+  border-top-width: 1px;
+  border-top-color: #aaa;
+  border-top-style: solid;
+}
+
+.timegrid-col-label[data-level="1"] {
+  border-top-width: 1px;
+  border-top-color: #aaa;
+  border-top-style: dotted;
+}
+
 .timegrid-col-label span {
-  padding: 0 1px;
+  display: inline-block;
+  padding: 2px 1px;
 }
 
 .timegrid-col-reference-label{
