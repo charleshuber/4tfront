@@ -2,6 +2,8 @@ import {TimeUnit} from './timeunit';
 
 export namespace DateUtils {
 
+  export let dayLabels: string[] = new Array('Dim','Lun','Mar','Mer','Jeu','Ven','Sam');
+
   export function trunc(date: Date, unit: TimeUnit): Date{
     let newDate: Date = new Date(date.getTime());
     switch(unit){
@@ -65,7 +67,12 @@ export namespace DateUtils {
   export function formatDate(date: Date, pattern: string): string{
     let minPattern = pattern.replace(/mm/g, '' + on2Digits(date.getMinutes()));
     let hrPattern = minPattern.replace(/hh/g, '' + on2Digits(date.getHours()));
-    let dyPattern = hrPattern.replace(/dd/g, '' + on2Digits(date.getDate()));
+
+    let dyPattern = hrPattern.replace(/llldd/g, '' + dayLabels[date.getDay()].substring(0,3) + '<br>' + on2Digits(date.getDate()));
+    dyPattern = dyPattern.replace(/lldd/g, '' + dayLabels[date.getDay()].substring(0,2) + '<br>' + on2Digits(date.getDate()));
+    dyPattern = dyPattern.replace(/ldd/g, '' + dayLabels[date.getDay()].substring(0,1) + '<br>' + on2Digits(date.getDate()));
+    dyPattern = dyPattern.replace(/dd/g, '' + on2Digits(date.getDate()));
+
     let wkPattern = dyPattern.replace(/ww/g, '' + on2Digits(getWeekNumber(date)));
     let mtPattern = wkPattern.replace(/MM/g, '' + on2Digits(date.getMonth() + 1));
     let fullYearPattern = mtPattern.replace(/yyyy/g, '' + date.getFullYear());

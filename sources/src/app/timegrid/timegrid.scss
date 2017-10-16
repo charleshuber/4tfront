@@ -49,9 +49,13 @@
 }
 
 .timegrid-col[data-level="1"] {
-  border-right-width: 0px;
+  border-right-width: 1px;
   border-right-color: #bbb;
   border-right-style: dotted;
+}
+
+.timegrid-col[data-level="1"]:last-child {
+  border-right-width: 0px;
 }
 
 .timegrid-col[data-level="2"] {

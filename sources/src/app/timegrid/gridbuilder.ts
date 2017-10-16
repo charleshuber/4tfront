@@ -160,7 +160,7 @@ export class GridBuilder {
       case TimeUnit.MINUTES_5:
       case TimeUnit.MINUTES_15: return this.printLabelWithPatterns(labelCell, date, level, ['hh:mm', 'mm'], forcedPattern);
       case TimeUnit.HOUR: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM hh:00', 'hh'], forcedPattern);
-      case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['dd/MM/yy', 'dd'], forcedPattern);
+      case TimeUnit.DAY: return this.printLabelWithPatterns(labelCell, date, level, ['llldd/MM/yy', 'llldd', 'lldd', 'ldd'], forcedPattern);
       case TimeUnit.WEEK: return this.printLabelWithPatterns(labelCell, date, level, ['ww', 'ww'], forcedPattern);
       case TimeUnit.MONTH: return this.printLabelWithPatterns(labelCell, date, level, ['MM-yyyy', 'MM'], forcedPattern);
       case TimeUnit.YEAR: return this.printLabelWithPatterns(labelCell, date, level, ['yyyy', 'yy'], forcedPattern);
@@ -202,7 +202,7 @@ export class GridBuilder {
       case TimeUnit.MINUTE: return 0; /*no child elements*/
       case TimeUnit.MINUTES_5: return 5; /*5 minutes*/
       case TimeUnit.MINUTES_15: return 3; /*3 x 5 minutes*/
-      case TimeUnit.HOUR: return 60; /*60 minutes*/
+      case TimeUnit.HOUR: return 4; /*4 quarters*/
       case TimeUnit.DAY: return 24; /*24 hours*/
       case TimeUnit.WEEK: return 7; /*7 days*/
       case TimeUnit.MONTH: return DateUtils.daysInMonth(date); /*28 to 31 days*/
