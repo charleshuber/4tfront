@@ -51,7 +51,8 @@ export namespace DateUtils {
     switch(unit){
       case TimeUnit.YEAR: newDate.setFullYear(date.getFullYear() + 1); break;
       case TimeUnit.MONTH: newDate.setMonth(date.getMonth() + 1); break;
-      case TimeUnit.WEEK: newDate.setDate(date.getDate() + 8); break;
+      case TimeUnit.WEEK:
+      newDate.setDate(date.getDate() + 7); break;
       case TimeUnit.DAY: newDate.setDate(date.getDate() + 1); break;
       case TimeUnit.HOUR: newDate.setHours(date.getHours() + 1); break;
       case TimeUnit.MINUTES_15: newDate.setMinutes(date.getMinutes() + 15); break;
@@ -76,6 +77,12 @@ export namespace DateUtils {
     let newDate = new Date(date.getTime());
     newDate.setDate(date.getDate() - date.getDay() + 1);
     return newDate;
+  }
+
+  export function daysInMonth(date: Date): number{
+    //day 0 of the next month is equals to the last day of the current month
+    let result = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    return result;
   }
 
   /* For a given date, get the ISO week number

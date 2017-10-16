@@ -54,7 +54,6 @@ export class GridBuilder {
 
     let rowsize = 0;
     switch(unit){
-
       case TimeUnit.MINUTE: rowsize = this._range.asMinutes; break;
       case TimeUnit.MINUTES_5: rowsize = Math.ceil(this._range.asMinutes / 5); break;
       case TimeUnit.MINUTES_15: rowsize = Math.ceil(this._range.asMinutes / 15); break;
@@ -206,7 +205,7 @@ export class GridBuilder {
       case TimeUnit.HOUR: return 60; /*60 minutes*/
       case TimeUnit.DAY: return 24; /*24 hours*/
       case TimeUnit.WEEK: return 7; /*7 days*/
-      case TimeUnit.MONTH: return new Date(date.getFullYear(), date.getMonth(), 0).getDate(); /*28 to 31 days*/
+      case TimeUnit.MONTH: return DateUtils.daysInMonth(date); /*28 to 31 days*/
       case TimeUnit.YEAR: return 12; /*12 months*/
     }
   }

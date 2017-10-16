@@ -214,29 +214,30 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     let startDate = this.startDate;
     let endDate = this.endDate;
     let rangeAsMillis: number = endDate.getTime() - startDate.getTime();
-    let rangeAsMonth: number = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth()) + 1;
-    let rangeAsYear: number = endDate.getFullYear() - startDate.getFullYear() + 1;
+    let rangeAsMonth: number = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+    let rangeAsYear: number = endDate.getFullYear() - startDate.getFullYear();
 
     timerange.asMinutes = Math.trunc((rangeAsMillis / (60 * 1000))) + (rangeAsMillis % (60 * 1000) > 0 ? 1 : 0);
     timerange.asHours = Math.trunc((rangeAsMillis / (60 * 60 * 1000))) + (rangeAsMillis % (60 * 60 * 1000) > 0 ? 1 : 0);
     timerange.asDays = Math.trunc((rangeAsMillis / (24 * 60 * 60 * 1000))) + (rangeAsMillis % (24 * 60 * 60 * 1000) > 0 ? 1 : 0);
-    timerange.asWeeks = Math.trunc((timerange.asDays / 7)) + (timerange.asDays % 7 > 0 ? 1 : 0);
+    timerange.asWeeks = Math.trunc((rangeAsMillis / (7 * 24 * 60 * 60 * 1000))) + (rangeAsMillis % (7 * 24 * 60 * 60 * 1000) > 0 ? 1 : 0);
     timerange.asMonths = rangeAsMonth;
     timerange.asYears = rangeAsYear;
     return timerange;
   }
 
   private dateRange(before: boolean): Date {
-    let rangeDateBorder = new Date(this._target.getTime());
-    let rangeBorder = this.afterRange();
+    let rangeDateBorder = DateUtils.trunc(this._target, this._unit);
+
+    if(this._align == ALIGN.LEFT && before){
+      return rangeDateBorder;
+    }
+
+    let rangeBorder = this.rightRange();
     if(before){
-      rangeBorder = this.beforeRange() * -1;
+      rangeBorder = this.leftRange() * -1;
     }
-    //In case of RIGHT alignement, the range will end at the begining of the curentDate,
-    //We have to move the range window one step right to put the current period of time inside
-    if(this._align == ALIGN.RIGHT){
-      rangeDateBorder = DateUtils.increment(rangeDateBorder, this._unit);
-    }
+
     switch(this._unit){
       case TimeUnit.MINUTE:
       rangeDateBorder.setMinutes(rangeDateBorder.getMinutes() + rangeBorder);
@@ -245,7 +246,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
       rangeDateBorder.setMinutes(rangeDateBorder.getMinutes() + rangeBorder * 5);
       break;
       case TimeUnit.MINUTES_15:
-      rangeDateBorder.setMinutes(rangeDateBorder.getMinutes() + rangeBorder * 15);
+      rangeDateBorder.setMinutes(rangeDateBorder.getMinutes() + rangeBorder* 15);
       break;
       case TimeUnit.HOUR:
       rangeDateBorder.setHours(rangeDateBorder.getHours() + rangeBorder);
@@ -266,21 +267,30 @@ export class TimegridComponent implements OnInit, AfterViewInit {
     return rangeDateBorder;
   }
 
-  private beforeRange(): number{
+  private leftRange(): number{
+    //because the reference date is truncated,
+    //the period of the reference date is inside the right range;
+    //So the leftRange can never span the range totality;
     switch(this._align){
       case ALIGN.CENTER: return Math.trunc(this._size / 2);
       case ALIGN.LEFT: return 0;
-      case ALIGN.RIGHT: return this._size;
+      case ALIGN.RIGHT: return this._size - 1;
     }
   }
 
-  private afterRange(): number{
+  private rightRange(): number{
+    //because the reference date is truncated,
+    //the period of the reference date is inside the right range;
+    //So the rightRange can never be equals to 0;
     switch(this._align){
       case ALIGN.CENTER:
-      let overlay = this._size % 2;
-      return Math.trunc(this._size / 2) + overlay;
+      //so we have to add one unit to contain it
+      if(this._size % 2 > 0){
+          return Math.trunc(this._size / 2) + 1;
+      }
+      return Math.trunc(this._size / 2);
       case ALIGN.LEFT: return this._size;
-      case ALIGN.RIGHT: return 0;
+      case ALIGN.RIGHT: return 1;
     }
   }
 
