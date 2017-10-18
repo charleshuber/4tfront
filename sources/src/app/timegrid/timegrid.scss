@@ -106,18 +106,36 @@
 .timegrid-row-cell{
   flex-grow: 1;
 	position: relative;
+  margin-bottom: 2px;
 }
 
 .timegrid-row-cell .timegrid-period-line {
 	position: absolute;
 	z-index: 1;
 	height: 100%;
+  line-height: 25px;
 	overflow: hidden;
 	background-color: #333;
-  border-radius: 3px;
+  border-radius: 4px;
+  opacity: 0.8;
 }
+
+.timegrid-row-cell .timegrid-period-line.start-truncated {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.timegrid-row-cell .timegrid-period-line.end-truncated {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
 
 .timegrid-row-cell .timegrid-period-line span {
 	padding: 10px;
   font-style: italic;
+}
+
+.timegrid-row-cell .timegrid-period-line span span{
+	line-height: normal;
 }

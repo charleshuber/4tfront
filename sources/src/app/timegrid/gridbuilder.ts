@@ -120,6 +120,9 @@ export class GridBuilder {
           this._unitDepth = unit;
         }
       }
+    } else {
+      this._depth = level;
+      this._unitDepth = unit;
     }
   }
 
@@ -263,8 +266,28 @@ export class GridBuilder {
     for(let i=0; i<intervalsInfo.length; i++){
       let timeintervalinfo: TimeIntervalInfo = intervalsInfo[i];
       let timeinterval: TimeInterval = timeintervalinfo.interval;
-      let startTime = this._start.getTime() > timeinterval.startTime.getTime() ? this._start : timeinterval.startTime;
-      let endTime = this._end.getTime() < timeinterval.endTime.getTime() ? this._end : timeinterval.endTime;
+
+      if(!this.isPrintableInterval(timeinterval)){
+        continue;
+      }
+
+      let line: HTMLElement = document.createElement('div');
+      line.classList.add(this.timegridPeriodLine);
+      line.setAttribute(this.periodStartAttribute, '' + timeinterval.startTime.getTime());
+      line.setAttribute(this.periodEndAttribute, '' + timeinterval.endTime.getTime());
+
+      let startTime = timeinterval.startTime;
+      if(this._start.getTime() > timeinterval.startTime.getTime()){
+        startTime = this._start;
+        line.classList.add('start-truncated');
+      }
+
+      let endTime = timeinterval.endTime;
+      if(this._end.getTime() < timeinterval.endTime.getTime()){
+        endTime = this._end;
+        line.classList.add('end-truncated');
+      }
+
       let start = DateUtils.trunc(startTime, this._unitDepth);
       let end = DateUtils.trunc(endTime, this._unitDepth);
       let indexRowCells = '.' + this.timegridRowCellClass + '['+ this.indexAttribute +'="' + i + '"]';
@@ -272,24 +295,44 @@ export class GridBuilder {
       let startCell: HTMLElement = <HTMLElement> document.querySelector(indexRowCells + '['+ this.dateAttribute +'="' + start.getTime() + '"]');
       let endCell: HTMLElement = <HTMLElement> document.querySelector(indexRowCells + '['+ this.dateAttribute +'="' + end.getTime() + '"]');
 
-      let line: HTMLElement = document.createElement('div');
-      line.classList.add(this.timegridPeriodLine);
-      line.setAttribute(this.periodStartAttribute, '' + timeinterval.startTime.getTime());
-      line.setAttribute(this.periodEndAttribute, '' + timeinterval.endTime.getTime());
+      if(endCell == null){
+        let timeBeforeEnd = DateUtils.trunc(new Date(end.getTime() - 1), this._unitDepth);
+        endCell = <HTMLElement> document.querySelector(indexRowCells + '['+ this.dateAttribute +'="' + timeBeforeEnd.getTime() + '"]');
+      }
 
       startCell.appendChild(line);
 
-      let width: number = (endCell === startCell)? startCell.offsetWidth : endCell.offsetLeft - startCell.offsetLeft;
+      let endOfBeforeEndCell = endCell.offsetLeft + endCell.offsetWidth;
+      let width: number = (endCell === startCell)? startCell.offsetWidth : endOfBeforeEndCell - startCell.offsetLeft;
       line.style.width = '' + width + 'px';
       if(timeintervalinfo.color && timeintervalinfo.color.length){
           line.style.backgroundColor = timeintervalinfo.color;
       }
       if(timeintervalinfo.label && timeintervalinfo.label.length){
         let span = document.createElement('span');
-        span.innerHTML = timeintervalinfo.label;
+        span.innerHTML = timeintervalinfo.label
+        +' <br><span style="font-size:0.7em">' + timeinterval.startTime + '</span>'
+        +' <br><span style="font-size:0.7em">' + timeinterval.endTime + '</span>';
         line.appendChild(span);
       }
     }
-
   }
+
+  private isPrintableInterval(interval: TimeInterval): boolean{
+    if(this._start.getTime() >= interval.startTime.getTime() && this._end.getTime() <= interval.endTime.getTime()){
+      return true;
+    }
+    let validStartTime: boolean = interval.startTime && this.isInInterval(interval.startTime);
+    let validEndTime: boolean = interval.endTime && this.isInInterval(interval.endTime);
+    return validStartTime || validEndTime;
+  }
+
+  private isInInterval(datetime: Date): boolean{
+    let datetimemill = datetime.getTime();
+    if(datetimemill >= this._start.getTime() &&  datetimemill <= this._end.getTime()){
+      return true;
+    }
+    return false;
+  }
+
 }
