@@ -25,8 +25,6 @@
 
 .timegrid-col {
   flex-grow: 1;
-  flex-basis: 1;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -105,7 +103,21 @@
   color: #357;
 }
 
-.time-grid-row-cell{
+.timegrid-row-cell{
   flex-grow: 1;
-  position: relative;
+	position: relative;
+}
+
+.timegrid-row-cell .timegrid-period-line {
+	position: absolute;
+	z-index: 1;
+	height: 100%;
+	overflow: hidden;
+	background-color: #333;
+  border-radius: 3px;
+}
+
+.timegrid-row-cell .timegrid-period-line span {
+	padding: 10px;
+  font-style: italic;
 }

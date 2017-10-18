@@ -7,6 +7,7 @@ import {Timerange} from './timerange';
 import {TimeUnit, TimeUnitUtils} from './timeunit';
 import {GridBuilder} from './gridbuilder';
 import {DateUtils} from './dateutils';
+import {TimeIntervalInfo} from './timeintervalinfo';
 import { TimeInterval } from '../rest/resources/time/timeinterval';
 
 @Component({
@@ -29,12 +30,12 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   private _maxresolution = 5;
   private _gridId: string;
   private builder: GridBuilder;
-  private _intervals: TimeInterval[];
+  private _intervals: TimeIntervalInfo[];
 
   @Output()
   private rendered: EventEmitter <TimeInterval> = new EventEmitter();
 
-  @Input() set intervals(value: TimeInterval[]) {
+  @Input() set intervals(value: TimeIntervalInfo[]) {
      this._intervals = value;
      this.printIntervals();
   }

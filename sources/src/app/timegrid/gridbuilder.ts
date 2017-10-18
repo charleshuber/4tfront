@@ -1,15 +1,19 @@
 import {TimeUnit} from './timeunit';
 import {Timerange} from './timerange';
 import {DateUtils} from './dateutils';
+import { TimeIntervalInfo } from './timeintervalinfo';
 import { TimeInterval } from '../rest/resources/time/timeinterval';
 
 
 export class GridBuilder {
 
   private labelCharWidth = 10;
+  private indexAttribute = 'data-index';
   private dateAttribute = 'data-date';
   private unitAttribute = 'data-timeunit';
   private levelAttribute = 'data-level';
+  private periodStartAttribute = 'data-start';
+  private periodEndAttribute = 'data-end';
   private timegridRowClass = 'timegrid-row';
   private timegridColClass = 'timegrid-col';
   private timegridColReferenceClass = this.timegridColClass + '-reference';
@@ -18,6 +22,7 @@ export class GridBuilder {
   private timegridColReferenceContentClass = this.timegridColReferenceClass + '-content';
   private timegridColReferenceLabelClass = this.timegridColReferenceClass + '-label';
   private timegridRowCellClass = 'timegrid-row-cell';
+  private timegridPeriodLine = 'timegrid-period-line';
 
   private grid: HTMLElement = null;
   private _unit: TimeUnit;
@@ -26,6 +31,8 @@ export class GridBuilder {
   private _end: Date;
   private _date: Date;
   private _maxresolution: number;
+  private _depth: number;
+  private _unitDepth: TimeUnit;
 
   constructor(targetId: string, unit: TimeUnit, range: Timerange, start: Date, end: Date, date: Date, maxresolution: number){
     this.grid = document.getElementById(targetId);
@@ -41,9 +48,10 @@ export class GridBuilder {
       this.renderRowGrid(this.grid, this._unit);
   }
 
-  public printIntervals(intervals: TimeInterval[]){
+  public printIntervals(intervals: TimeIntervalInfo[]){
     if(intervals && this.grid != null){
       this.buildPeriodsRows(intervals.length);
+      this.buildIntervals(intervals);
     }
   }
 
@@ -107,6 +115,9 @@ export class GridBuilder {
           let innerContent = document.createElement('div');
           content.appendChild(innerContent);
           this.renderRowOfColumns(innerContent, childUnit, childNumber, level + 1, columnDate);
+        } else {
+          this._depth = level;
+          this._unitDepth = unit;
         }
       }
     }
@@ -233,16 +244,52 @@ export class GridBuilder {
 
   private buildPeriodsRows(size: number){
     if(size && size > 0){
-      let contentCells = document.querySelectorAll('.' + this.timegridColContentClass);
+      let contentCells = document.querySelectorAll('.' + this.timegridColContentClass + '['+ this.levelAttribute +'="' + this._depth + '"]');
       for(let i=0; i<contentCells.length; i++){
-        /*
+        let contentCell = contentCells.item(i);
         for(let row=0; row<size; row++){
           let rowCell = document.createElement('div');
           rowCell.classList.add(this.timegridRowCellClass);
-          rowCell.classList.add(this.timegridRowCellClass + '-' + row);
+          rowCell.setAttribute(this.indexAttribute, '' + row);
+          rowCell.setAttribute(this.dateAttribute, '' + contentCell.getAttribute(this.dateAttribute));
+          rowCell.setAttribute(this.levelAttribute, '' + this._depth);
+          contentCell.appendChild(rowCell);
         }
-        */
       }
     }
+  }
+
+  private buildIntervals(intervalsInfo: TimeIntervalInfo[]){
+    for(let i=0; i<intervalsInfo.length; i++){
+      let timeintervalinfo: TimeIntervalInfo = intervalsInfo[i];
+      let timeinterval: TimeInterval = timeintervalinfo.interval;
+      let startTime = this._start.getTime() > timeinterval.startTime.getTime() ? this._start : timeinterval.startTime;
+      let endTime = this._end.getTime() < timeinterval.endTime.getTime() ? this._end : timeinterval.endTime;
+      let start = DateUtils.trunc(startTime, this._unitDepth);
+      let end = DateUtils.trunc(endTime, this._unitDepth);
+      let indexRowCells = '.' + this.timegridRowCellClass + '['+ this.indexAttribute +'="' + i + '"]';
+
+      let startCell: HTMLElement = <HTMLElement> document.querySelector(indexRowCells + '['+ this.dateAttribute +'="' + start.getTime() + '"]');
+      let endCell: HTMLElement = <HTMLElement> document.querySelector(indexRowCells + '['+ this.dateAttribute +'="' + end.getTime() + '"]');
+
+      let line: HTMLElement = document.createElement('div');
+      line.classList.add(this.timegridPeriodLine);
+      line.setAttribute(this.periodStartAttribute, '' + timeinterval.startTime.getTime());
+      line.setAttribute(this.periodEndAttribute, '' + timeinterval.endTime.getTime());
+
+      startCell.appendChild(line);
+
+      let width: number = (endCell === startCell)? startCell.offsetWidth : endCell.offsetLeft - startCell.offsetLeft;
+      line.style.width = '' + width + 'px';
+      if(timeintervalinfo.color && timeintervalinfo.color.length){
+          line.style.backgroundColor = timeintervalinfo.color;
+      }
+      if(timeintervalinfo.label && timeintervalinfo.label.length){
+        let span = document.createElement('span');
+        span.innerHTML = timeintervalinfo.label;
+        line.appendChild(span);
+      }
+    }
+
   }
 }

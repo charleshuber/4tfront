@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { TimelineService } from '../rest/resources/timeline/timeline.service';
 import { Timeline } from '../rest/resources/timeline/timeline';
 import { TimeInterval } from '../rest/resources/time/timeinterval';
+import { TimeIntervalInfo } from '../timegrid/timeintervalinfo';
 
 @Component({
   selector: 'timeline',
@@ -18,7 +19,7 @@ export class TimelineComponent implements OnInit {
 
   private id: number;
   private timeline: Timeline = new Timeline();
-  private periods: TimeInterval[];
+  private periods: TimeIntervalInfo[];
 
   constructor(
     private route: ActivatedRoute,
@@ -43,13 +44,28 @@ export class TimelineComponent implements OnInit {
   public gridRendered(event){
     this.periods = [];
     let ti: TimeInterval =  new TimeInterval();
+    let ti2: TimeInterval =  new TimeInterval();
+    let ti3: TimeInterval =  new TimeInterval();
 
     ti.startTime = new Date();
     ti.endTime = new Date();
     ti.startTime.setHours(ti.startTime.getHours()-1);
     ti.endTime.setHours(ti.endTime.getHours()+1);
 
-    this.periods.push(ti);
+    ti2.startTime = new Date();
+    ti2.endTime = new Date();
+    ti2.startTime.setHours(ti2.startTime.getHours()-2);
+    ti2.endTime.setHours(ti2.endTime.getHours()+2);
+
+    ti3.startTime = new Date();
+    ti3.endTime = new Date();
+    ti3.startTime.setHours(ti2.startTime.getHours()-3);
+    ti3.endTime.setHours(ti2.endTime.getHours()+10);
+
+    this.periods = [];
+    this.periods.push(new TimeIntervalInfo(ti, '#c48', 'period 1'));
+    this.periods.push(new TimeIntervalInfo(ti2, '#8c4', 'period 2'));
+    this.periods.push(new TimeIntervalInfo(ti3, '#48c', 'period 3'));
   }
 
   private saveTimeline(){
