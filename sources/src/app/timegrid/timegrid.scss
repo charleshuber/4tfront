@@ -15,6 +15,26 @@
 
 .timegrid-tools{
   flex-basis: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.scalebar{
+  display: flex;
+  flex-basis: 40%;
+  flex-direction: row;
+}
+
+.scalebar-item{
+  cursor: pointer;
+  background-color: #48c;
+  margin: 2px;
+  border-radius: 2px;
+  flex-grow: 1;
+}
+
+.scalebar-item.active{
+  background-color: #4fa;
 }
 
 .timegrid-row {
@@ -113,7 +133,6 @@
 	position: absolute;
 	z-index: 1;
 	height: 100%;
-  line-height: 25px;
 	overflow: hidden;
 	background-color: #333;
   border-radius: 4px;
@@ -131,11 +150,12 @@
 }
 
 
-.timegrid-row-cell .timegrid-period-line span {
+.timegrid-row-cell .timegrid-period-line > span {
+  display: block;
 	padding: 10px;
   font-style: italic;
+  line-height: normal;
 }
 
-.timegrid-row-cell .timegrid-period-line span span{
-	line-height: normal;
+.timegrid-row-cell .timegrid-period-line > span span{
 }

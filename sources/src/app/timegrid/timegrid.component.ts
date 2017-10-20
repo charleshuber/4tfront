@@ -24,6 +24,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   public aligns;
   private _unit: TimeUnit = TimeUnit.DAY;
   private _align: ALIGN = ALIGN.CENTER;
+  private maxsize: number[] = Array(25).fill(1).map((x,i)=> x+i);
   private _size: number = 1;
   private _target: Date = new Date();
   private _timerange: Timerange;
@@ -186,6 +187,7 @@ export class TimegridComponent implements OnInit, AfterViewInit {
   private isViewValid(): boolean{
     return this.timeUnitNumber <= this.maxrowsize;
   }
+
   private computeAndRender(){
     this.compute();
     this.render();
@@ -294,7 +296,6 @@ export class TimegridComponent implements OnInit, AfterViewInit {
       case ALIGN.RIGHT: return 1;
     }
   }
-
 }
 
 export enum ALIGN {
