@@ -2,7 +2,7 @@
   <div id="{{gridId}}" class="timegrid"></div>
   <div class="timegrid-tools">
     <div class="scalebar">
-      <div *ngFor="let number of maxsize; let i=index" class="scalebar-item" [ngClass]="{'active':number<=size}" (click)="size=number" (mouseover)="size=number">
+      <div *ngFor="let number of maxsize; let i=index" class="scalebar-item" [ngClass]="{'active':number<=size}" (click)="size=number">
       </div>
     </div>
     <div>
