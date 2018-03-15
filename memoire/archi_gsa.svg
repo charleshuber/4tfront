@@ -11,8 +11,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="242.0137mm"
-   height="107.19987mm"
-   viewBox="0 0 857.52886 379.84205"
+   height="112.81989mm"
+   viewBox="0 0 857.52886 399.75552"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -132,9 +132,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="734.61437"
-     inkscape:cy="157.64792"
+     inkscape:zoom="0.5"
+     inkscape:cx="-42.26105"
+     inkscape:cy="476.16136"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -146,25 +146,30 @@
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0"
+     fit-margin-bottom="5"
      showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     showborder="true">
     <sodipodi:guide
-       position="247.48737,-209.72184"
+       position="247.48737,-173.1111"
        orientation="1,0"
        id="guide4329" />
     <sodipodi:guide
-       position="607.10167,-282.45283"
+       position="607.10167,-245.8421"
        orientation="1,0"
        id="guide4331" />
     <sodipodi:guide
-       position="408.10163,55.443216"
+       position="408.10163,92.053913"
        orientation="1,0"
        id="guide4333" />
     <sodipodi:guide
-       position="783.92856,44.999991"
+       position="783.92856,81.610685"
        orientation="1,0"
        id="guide4335" />
+    <sodipodi:guide
+       position="511.18214,244.20444"
+       orientation="1,0"
+       id="guide4316" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -182,14 +187,14 @@
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-40.463058,-48.235847)">
+     transform="translate(-40.463058,-64.93303)">
     <rect
        style="fill:#1e5a91;fill-opacity:0.36977491;stroke:#141450;stroke-width:1.91199994;stroke-miterlimit:4;stroke-dasharray:7.648, 1.912;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4644"
        width="632.73962"
        height="357.68225"
-       x="45.116863"
-       y="69.439636"
+       x="42.158009"
+       y="65.889015"
        ry="11.897722" />
     <rect
        style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.40329963;stroke-opacity:1"
@@ -351,7 +356,7 @@
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="287.92426"
        y="365.88626"
        id="text6097-9-0-0-2"
@@ -360,7 +365,7 @@
          id="tspan6099-6-7-1-0"
          x="287.92426"
          y="365.88626"
-         style="font-size:15px">5.Renvoi les résultats </tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans'">5.Renvoi les résultats </tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -375,41 +380,78 @@
          id="tspan8063">6.Affiche les résultats </tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="67.680222"
-       y="420.00671"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="552.34039"
+       y="260.45334"
        id="text8065"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan8067"
-         x="67.680222"
-         y="420.00671">Zone démilitarisée</tspan></text>
+         x="552.34039"
+         y="260.45334">Zone démilitarisée</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="55.441753"
-       y="61.12159"
-       id="text8065-4"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan8067-5"
-         x="55.441753"
-         y="61.12159">Réseau du Parlement Européen</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="538.55353"
-       y="91.50737"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="552.16425"
+       y="235.89941"
        id="text8065-1"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan8067-0"
-         x="538.55353"
-         y="91.50737">Zone sécurisée</tspan></text>
+         x="552.16425"
+         y="235.89941">Zone sécurisée</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.93174493;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Lend-0-6-7)"
        d="m 648.13661,364.04836 174.78496,0"
        id="path4286-6-8-8"
        inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="124.2613"
+       y="391.11868"
+       id="text6097-0-36"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6099-1-75"
+         x="124.2613"
+         y="391.11868"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"><tspan
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"
+           id="tspan6207-3"><tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"
+   id="tspan6209-5"> &lt;&lt;GSA&gt;</tspan>&gt;</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="262.14386"
+       y="444.37802"
+       id="text6097-0-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6099-1-2"
+         x="262.14386"
+         y="444.37802"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"><tspan
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"
+           id="tspan6207-9"><tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"
+   id="tspan6209-1"> &lt;&lt;Réseau du Parlement Européen&gt;</tspan>&gt;</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="510.14075"
+       y="400.42523"
+       id="text6097-0-36-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6099-1-75-7"
+         x="510.14075"
+         y="400.42523"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"><tspan
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"
+           id="tspan6207-3-0"><tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic'"
+   id="tspan6209-5-9"> &lt;&lt;EUROPARL&gt;</tspan>&gt;</tspan></tspan></text>
   </g>
 </svg>
