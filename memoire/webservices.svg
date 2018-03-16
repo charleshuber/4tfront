@@ -10,9 +10,9 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="221.04962mm"
-   height="78.303246mm"
-   viewBox="0 0 783.2467 277.45244"
+   width="237.6685mm"
+   height="109.74549mm"
+   viewBox="0 0 842.1325 388.86197"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -290,6 +290,38 @@
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
          transform="matrix(-0.8,0,0,-0.8,-10,0)" />
     </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker5276-5"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         id="path5278-6" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker5394-2"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         id="path5396-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -299,8 +331,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.3464554"
-     inkscape:cx="435.13044"
-     inkscape:cy="231.63036"
+     inkscape:cx="458.88663"
+     inkscape:cy="226.55976"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -316,39 +348,39 @@
      fit-margin-right="0"
      fit-margin-bottom="10">
     <sodipodi:guide
-       position="-3.7272558,372.93002"
+       position="-3.7272557,484.33959"
        orientation="1,0"
        id="guide4215" />
     <sodipodi:guide
-       position="493.60657,199.36303"
+       position="493.60657,310.77259"
        orientation="1,0"
        id="guide7449" />
     <sodipodi:guide
-       position="-279.04848,0.80343592"
+       position="-279.04848,112.21298"
        orientation="1,0"
        id="guide8730" />
     <sodipodi:guide
-       position="187.597,574.88139"
+       position="187.597,686.29097"
        orientation="1,0"
        id="guide13653" />
     <sodipodi:guide
-       position="387.25161,433.66231"
+       position="387.25161,545.07188"
        orientation="0,1"
        id="guide15279" />
     <sodipodi:guide
-       position="154.83771,273.18609"
+       position="154.83771,384.59565"
        orientation="1,0"
        id="guide15281" />
     <sodipodi:guide
-       position="241.27125,162.68672"
+       position="241.27125,274.09628"
        orientation="0,1"
        id="guide8974" />
     <sodipodi:guide
-       position="235.54521,143.05458"
+       position="235.54521,254.46413"
        orientation="0,1"
        id="guide8976" />
     <sodipodi:guide
-       position="86.868815,204.87723"
+       position="86.868815,316.28679"
        orientation="1,0"
        id="guide9404" />
   </sodipodi:namedview>
@@ -400,7 +432,7 @@
        id="rect7564"
        width="340.01279"
        height="222.37183"
-       x="263.75244"
+       x="263.00977"
        y="532.60406"
        ry="27.001614" />
     <image
@@ -513,7 +545,7 @@
          sodipodi:role="line"
          x="611.409"
          y="606.20459"
-         id="tspan15205">9. Resultats</tspan><tspan
+         id="tspan15205">3. Resultats</tspan><tspan
          sodipodi:role="line"
          x="611.409"
          y="624.95459"
@@ -528,7 +560,7 @@
          sodipodi:role="line"
          id="tspan4264-9-1-4-0-8"
          x="611.02881"
-         y="568.25659">6. Appels REST</tspan></text>
+         y="568.25659">2. Appels REST</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -539,7 +571,7 @@
          sodipodi:role="line"
          id="tspan4264-9-1-4-0-88"
          x="163.95862"
-         y="639.59863">10. Affiche </tspan><tspan
+         y="639.59863">4. Affiche </tspan><tspan
          sodipodi:role="line"
          x="163.95862"
          y="658.34863"
@@ -616,6 +648,82 @@
          sodipodi:role="line"
          id="tspan4264-9-4-6-2"
          x="268.46198"
-         y="664.20331">&lt;&lt;Compsant EURORAPL&gt;&gt;</tspan></text>
+         y="664.20331">&lt;&lt;Composant EUROPARL&gt;&gt;</tspan></text>
+    <path
+       style="fill:#2465a9;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 792.86988,866.40386 37.92715,0 c 0,0 -3.4317,-49.5227 -18.97697,-49.47717 -17.40753,0.051 -18.95018,49.47717 -18.95018,49.47717 z"
+       id="path8728-2-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccsc" />
+    <circle
+       style="fill:#2465a9;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path8722-2-7"
+       cx="811.56427"
+       cy="805.81458"
+       r="13.829587" />
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="730.95129"
+       y="884.63104"
+       id="text4262-5-5-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4264-9-5-3"
+         x="730.95129"
+         y="884.63104">&lt;Navigateur administrateur&gt;&gt;</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.78097892;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker5394-2)"
+       d="m 833.80962,698.90254 c 0.59145,2.04763 0,92.96233 0,92.96233"
+       id="path4353-3-10-1"
+       inkscape:connector-curvature="0"
+       inkscape:transform-center-x="2.7455607"
+       inkscape:transform-center-y="-1.3978663" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.77695483;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker5276-5)"
+       d="m 778.91674,792.30295 c -0.59177,-2.05941 0,-93.49653 0,-93.49653"
+       id="path4353-0-7-6-2"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="839.02515"
+       y="737.09485"
+       id="text4262-5-6-4-3-70"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="839.02515"
+         y="737.09485"
+         id="tspan15205-9">2. Resultats</tspan><tspan
+         sodipodi:role="line"
+         x="839.02515"
+         y="755.84485"
+         id="tspan5385-3">    JSON</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="668.56879"
+       y="741.48022"
+       id="text4262-5-6-4-3-7-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4264-9-1-4-0-8-0"
+         x="668.56879"
+         y="741.48022">1. Appels REST</tspan><tspan
+         sodipodi:role="line"
+         x="668.56879"
+         y="760.23022"
+         id="tspan5670">en AJAX</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="728.39465"
+       y="442.6362"
+       id="text4602"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4604"
+         x="728.39465"
+         y="442.6362"></tspan></text>
   </g>
 </svg>
