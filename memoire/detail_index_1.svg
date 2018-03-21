@@ -10,8 +10,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="200.65305mm"
-   height="263.41397mm"
-   viewBox="0 0 710.97536 933.35659"
+   height="258.41397mm"
+   viewBox="0 0 710.97536 915.64005"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -56,9 +56,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.0354967"
-     inkscape:cx="83.00251"
-     inkscape:cy="892.6685"
+     inkscape:zoom="0.91598485"
+     inkscape:cx="380.8273"
+     inkscape:cy="465.94283"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -69,12 +69,12 @@
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
-     fit-margin-bottom="10"
+     fit-margin-bottom="5"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0">
     <sodipodi:guide
-       position="255.50495,38.841975"
+       position="255.50495,21.125408"
        orientation="0,1"
        id="guide11243" />
   </sodipodi:namedview>
@@ -409,7 +409,7 @@
    id="tspan8109"
    style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold Italic';fill:#006600;fill-opacity:1">committees_fr</tspan></tspan></text>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:"
        d="m 30.92233,25.239227 c -3.171521,2.378641 -2.37864,3.171521 -2.37864,3.171521 l 419.43366,0 49.86136,-8.738084"
        id="path8111"
        inkscape:connector-curvature="0"
@@ -441,13 +441,13 @@
          y="477.9845"
          id="tspan8417">au format JSON&quot;</tspan></text>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:"
        d="m 521.8835,49.368677 c 38.05825,-0.79288 16.59223,386.276343 38,414.820033 -19.02913,26.16505 0.0582,444.66216 -38,443.86928"
        id="path8415"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:"
        d="m 259.22761,64.832606 c 19.5806,-0.407929 -0.11263,14.951099 17.56321,39.940564 -16.40292,28.41068 3.12015,43.98487 -17.56321,43.55397"
        id="path8415-7"
        inkscape:connector-curvature="0"
@@ -468,7 +468,7 @@
          y="115.9369"
          id="tspan9211">ayant chacun une copie.</tspan></text>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:"
        d="m 259.75984,156.40064 c 19.5806,-0.40793 -0.11263,33.41714 17.56321,58.4066 -16.40292,28.41068 3.12015,63.29028 -17.56321,62.85938"
        id="path8415-7-6"
        inkscape:connector-curvature="0"
@@ -505,7 +505,7 @@
          y="258.25385"
          id="tspan9243">pour déterminer la chaîne de traitement.</tspan></text>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend-2)"
+       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:"
        d="m 215.04651,324.00038 -64.09469,25.29046"
        id="path8111-0"
        inkscape:connector-curvature="0"
@@ -526,7 +526,7 @@
          y="325.53317"
          id="tspan11117">(european parliament page).</tspan></text>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:"
        d="m 248.08149,375.25848 c 19.5806,-0.40793 -0.11263,193.9886 17.56321,218.97806 -16.40292,28.41068 3.12015,243.24106 -17.56321,242.81016"
        id="path8415-7-6-0"
        inkscape:connector-curvature="0"
