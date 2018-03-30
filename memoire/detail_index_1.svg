@@ -57,7 +57,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.91598485"
-     inkscape:cx="380.8273"
+     inkscape:cx="133.55247"
      inkscape:cy="465.94283"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -86,7 +86,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -435,11 +435,11 @@
          sodipodi:role="line"
          id="tspan8395-6"
          x="563.16888"
-         y="462.3595">Contenu de la requête HTTP</tspan><tspan
+         y="462.3595">Contenu de la requête </tspan><tspan
          sodipodi:role="line"
          x="563.16888"
          y="477.9845"
-         id="tspan8417">au format JSON&quot;</tspan></text>
+         id="tspan8417">HTTP au format JSON</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#006600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:"
        d="m 521.8835,49.368677 c 38.05825,-0.79288 16.59223,386.276343 38,414.820033 -19.02913,26.16505 0.0582,444.66216 -38,443.86928"
@@ -499,7 +499,7 @@
          sodipodi:role="line"
          x="281.95575"
          y="242.62883"
-         id="tspan9241">L'ordre des filtres utilisé est important</tspan><tspan
+         id="tspan9241">L'ordre des filtres utilisés est important</tspan><tspan
          sodipodi:role="line"
          x="281.95575"
          y="258.25385"
@@ -573,7 +573,7 @@
          sodipodi:role="line"
          x="271.3848"
          y="659.64185"
-         id="tspan11235">chaque propriété.</tspan><tspan
+         id="tspan11235">chacune de ces propriétés.</tspan><tspan
          sodipodi:role="line"
          x="271.3848"
          y="675.26685"
