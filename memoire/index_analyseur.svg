@@ -229,7 +229,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0462236"
-     inkscape:cx="302.81374"
+     inkscape:cx="86.320822"
      inkscape:cy="342.9406"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -266,7 +266,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -967,7 +967,7 @@
          y="422.22769">courir</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="67.945282"
        y="-44.966034"
        id="text11496"
@@ -975,19 +975,24 @@
          sodipodi:role="line"
          id="tspan11498"
          x="67.945282"
-         y="-44.966034">Soit un index contenant les champs &quot;<tspan
-   style="font-style:italic;font-weight:bold"
+         y="-44.966034"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:sans-serif;-inkscape-font-specification:sans-serif">Exemple:</tspan><tspan
+         sodipodi:role="line"
+         x="67.945282"
+         y="-29.341034"
+         id="tspan11508">soit un index contenant les champs &quot;<tspan
+   style="font-style:italic;font-weight:bold;font-size:12.5px"
    id="tspan11518">texte_plein</tspan>&quot; et &quot;<tspan
-   style="font-style:italic;font-weight:bold"
-   id="tspan11526">texte_recherche</tspan>&quot;, </tspan><tspan
+   style="font-style:italic;font-weight:bold;font-size:12.5px"
+   id="tspan11526">texte_recherche</tspan>&quot;, qui sont </tspan><tspan
          sodipodi:role="line"
          x="67.945282"
-         y="-26.216034"
-         id="tspan11506">alimentés à partir des mêmes données,</tspan><tspan
+         y="-13.716034"
+         id="tspan4444">alimentés à partir des mêmes données, nous pouvons imaginer l'indexation d'un </tspan><tspan
          sodipodi:role="line"
          x="67.945282"
-         y="-7.4660339"
-         id="tspan11508">nous pouvons imaginer l'indexation d'un Document 1 comme suit:</tspan></text>
+         y="1.9089661"
+         id="tspan4456">&quot;Document 1&quot; comme suit :</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:11.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -998,7 +1003,7 @@
          sodipodi:role="line"
          id="tspan11502"
          x="526.94531"
-         y="-63.966034"></tspan><tspan
+         y="-63.966034" /><tspan
          sodipodi:role="line"
          x="526.94531"
          y="-49.903534"
@@ -1014,7 +1019,7 @@
            height="20"
            x="88"
            y="476.94116" /></flowRegion><flowPara
-         id="flowPara11516"></flowPara></flowRoot>    <text
+         id="flowPara11516" /></flowRoot>    <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:11.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="556.94531"
@@ -1024,7 +1029,7 @@
          sodipodi:role="line"
          id="tspan11524"
          x="556.94531"
-         y="-44.966034"></tspan></text>
+         y="-44.966034" /></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:11.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1470,5 +1475,5 @@
            height="15.293098"
            x="-71.686394"
            y="375.89249" /></flowRegion><flowPara
-         id="flowPara20456"></flowPara></flowRoot>  </g>
+         id="flowPara20456" /></flowRoot>  </g>
 </svg>
