@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="162.59204mm"
-   height="205.3544mm"
-   viewBox="0 0 576.11353 727.6337"
+   width="202.2739mm"
+   height="180.14645mm"
+   viewBox="0 0 716.71852 638.31421"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -229,7 +229,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0462236"
-     inkscape:cx="86.320822"
+     inkscape:cx="288.61071"
      inkscape:cy="342.9406"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -243,18 +243,18 @@
      inkscape:window-maximized="1"
      fit-margin-bottom="10"
      fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0">
+     fit-margin-left="20"
+     fit-margin-right="20">
     <sodipodi:guide
-       position="303.09913,600.27765"
+       position="372.83798,600.27768"
        orientation="0,1"
        id="guide6241" />
     <sodipodi:guide
-       position="301.07637,551.20527"
+       position="370.81522,551.20529"
        orientation="1,0"
        id="guide9987" />
     <sodipodi:guide
-       position="62.865003,573.66733"
+       position="132.60386,573.66736"
        orientation="1,0"
        id="guide11548" />
   </sodipodi:namedview>
@@ -266,7 +266,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -274,7 +274,7 @@
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-68.846161,56.362518)">
+     transform="translate(0.89269203,-32.956955)">
     <rect
        style="fill:#f0f0f0;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:3, 3;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4136-7-3-6-0-6"
@@ -967,34 +967,6 @@
          y="422.22769">courir</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="67.945282"
-       y="-44.966034"
-       id="text11496"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan11498"
-         x="67.945282"
-         y="-44.966034"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;font-family:sans-serif;-inkscape-font-specification:sans-serif">Exemple:</tspan><tspan
-         sodipodi:role="line"
-         x="67.945282"
-         y="-29.341034"
-         id="tspan11508">soit un index contenant les champs &quot;<tspan
-   style="font-style:italic;font-weight:bold;font-size:12.5px"
-   id="tspan11518">texte_plein</tspan>&quot; et &quot;<tspan
-   style="font-style:italic;font-weight:bold;font-size:12.5px"
-   id="tspan11526">texte_recherche</tspan>&quot;, qui sont </tspan><tspan
-         sodipodi:role="line"
-         x="67.945282"
-         y="-13.716034"
-         id="tspan4444">alimentés à partir des mêmes données, nous pouvons imaginer l'indexation d'un </tspan><tspan
-         sodipodi:role="line"
-         x="67.945282"
-         y="1.9089661"
-         id="tspan4456">&quot;Document 1&quot; comme suit :</tspan></text>
-    <text
-       xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:11.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="526.94531"
        y="-63.966034"
@@ -1468,7 +1440,7 @@
     <flowRoot
        xml:space="preserve"
        id="flowRoot20450"
-       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:11.25px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+       style="font-style:normal;font-weight:normal;font-size:11.25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
          id="flowRegion20452"><rect
            id="rect20454"
            width="30.586197"
