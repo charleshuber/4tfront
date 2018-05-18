@@ -54,6 +54,7 @@ export class TimelineCalendarFrame extends React.Component{
     let viewbox = '0 0 ' + viewBoxWidth + ' 110'
     let maxNumber = 250;
     let rulerIndex = computeRulerIndex(viewBow.width.timeline, viewBow.width.leftpane, maxNumber, this.state)
+    let rulers = rulerIndex ? TimeUnit.values.filter(tu => rulerIndex[tu]).map((tu, i) => <Ruler key={i} y={102 + i * 3} index={rulerIndex[tu]}/>) : [];
     return (
       <div>
         <h1>Timeline Calendar Frame</h1>
@@ -69,10 +70,7 @@ export class TimelineCalendarFrame extends React.Component{
             <Timeline position={3} startPoint={90} endPoint={410} color="pink" leftPaneWidth={viewBow.width.leftpane} height={viewBow.height.timeline} />
             <Timeline position={4} startPoint={120} endPoint={390} color="purple" leftPaneWidth={viewBow.width.leftpane} height={viewBow.height.timeline} />
             <Timeline position={5} startPoint={40} endPoint={500} color="brown" leftPaneWidth={viewBow.width.leftpane} height={viewBow.height.timeline} />
-            <Ruler y={102} width={viewBow.width.timeline} timelineOffset={viewBow.width.leftpane}
-              startDate={this.state.startDate}
-              timeunit={this.state.timeunit}
-              unitnumber={this.state.unitnumber}/>
+            {rulers}
           </svg>
         </div>
         <TimelineCalendarForm publish={this.handleFormChange}/>
@@ -81,7 +79,7 @@ export class TimelineCalendarFrame extends React.Component{
   }
 }
 
-function computeRulerIndex(y_width, offset, maxNumber, {startDate, timeunit, unitnumber}){
+function computeRulerIndex(x_width, offset, maxNumber, {startDate, timeunit, unitnumber}){
   if(!(startDate && timeunit && unitnumber)){
     return null;
   }
@@ -90,10 +88,10 @@ function computeRulerIndex(y_width, offset, maxNumber, {startDate, timeunit, uni
   TimeUnit.values.filter(timeunit => rulerInfo[timeunit]).forEach(timeunit => {
       let timeInitIndex = new Map();
       let number = rulerInfo[timeunit];
-      let y_interval = y_width / number;
+      let x_interval = x_width / number;
       for(let i=0; i<=number; i++){
         let keyMoment = addToMoment(startDate, timeunit, number * i);
-        timeInitIndex.set(keyMoment, offset + y_interval * i);
+        timeInitIndex.set(keyMoment, offset + x_interval * i);
       }
       rulerIndex[timeunit] = timeInitIndex;
   })

@@ -365,23 +365,22 @@ __webpack_require__.r(__webpack_exports__);
   if (!valid(props)) {
     return null;
   }
-  let maxNumber = 250;
-  let rulerInfo = computeRulerInfo(maxNumber, props);
-  let interval = props.width / rulerInfo.firstUnitNumber;
-  let rulerMapping = (num, i) => {
-    let position = num * interval + props.timelineOffset;
-    let isKeyPosition = num * interval % 100 === 0;
-    let litteHeight = 3;
-    let bigHeight = 5;
-    let littleYEnd = props.y + litteHeight;
-    let bigYEnd = props.y + bigHeight;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('line', { key: i, x1: position, y1: props.y, x2: position, y2: isKeyPosition ? bigYEnd : littleYEnd, stroke: 'rgb(120,120,120)', strokeWidth: '0.2' });
+  let dashs = [];
+  let i = 0;
+  let rulerMapping = (v, k, map) => {
+    let height = 3;
+    dashs.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('line', { key: i++, x1: v, x2: v, y1: props.y, y2: props.y + height, stroke: 'rgb(120,120,120)', strokeWidth: '0.2' }));
   };
-  return [...Array(rulerInfo.firstUnitNumber - 1).keys()].map(num => num + 1).map(rulerMapping);
+  props.index.forEach(rulerMapping);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
+    'g',
+    null,
+    dashs
+  );
 });
 
-function valid({ startDate, timeunit, unitnumber, width }) {
-  return startDate && timeunit && unitnumber && width;
+function valid({ index }) {
+  return true && index;
 }
 
 function computeRulerInfo(maxNumber, { startDate, timeunit, unitnumber }) {
@@ -521,6 +520,7 @@ class TimelineCalendarFrame extends react__WEBPACK_IMPORTED_MODULE_0___default.a
     let viewbox = '0 0 ' + viewBoxWidth + ' 110';
     let maxNumber = 250;
     let rulerIndex = computeRulerIndex(viewBow.width.timeline, viewBow.width.leftpane, maxNumber, this.state);
+    let rulers = rulerIndex ? _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].values.filter(tu => rulerIndex[tu]).map((tu, i) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ruler_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], { key: i, y: 102 + i * 3, index: rulerIndex[tu] })) : [];
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
       'div',
       null,
@@ -552,10 +552,7 @@ class TimelineCalendarFrame extends react__WEBPACK_IMPORTED_MODULE_0___default.a
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeline_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], { position: 3, startPoint: 90, endPoint: 410, color: 'pink', leftPaneWidth: viewBow.width.leftpane, height: viewBow.height.timeline }),
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeline_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], { position: 4, startPoint: 120, endPoint: 390, color: 'purple', leftPaneWidth: viewBow.width.leftpane, height: viewBow.height.timeline }),
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeline_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], { position: 5, startPoint: 40, endPoint: 500, color: 'brown', leftPaneWidth: viewBow.width.leftpane, height: viewBow.height.timeline }),
-          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ruler_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], { y: 102, width: viewBow.width.timeline, timelineOffset: viewBow.width.leftpane,
-            startDate: this.state.startDate,
-            timeunit: this.state.timeunit,
-            unitnumber: this.state.unitnumber })
+          rulers
         )
       ),
       react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_form_timeline_calendar_form_jsx__WEBPACK_IMPORTED_MODULE_5__["TimelineCalendarForm"], { publish: this.handleFormChange })
@@ -563,7 +560,7 @@ class TimelineCalendarFrame extends react__WEBPACK_IMPORTED_MODULE_0___default.a
   }
 }
 
-function computeRulerIndex(y_width, offset, maxNumber, { startDate, timeunit, unitnumber }) {
+function computeRulerIndex(x_width, offset, maxNumber, { startDate, timeunit, unitnumber }) {
   if (!(startDate && timeunit && unitnumber)) {
     return null;
   }
@@ -572,10 +569,10 @@ function computeRulerIndex(y_width, offset, maxNumber, { startDate, timeunit, un
   _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].values.filter(timeunit => rulerInfo[timeunit]).forEach(timeunit => {
     let timeInitIndex = new Map();
     let number = rulerInfo[timeunit];
-    let y_interval = y_width / number;
+    let x_interval = x_width / number;
     for (let i = 0; i <= number; i++) {
       let keyMoment = Object(_js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_3__["addToMoment"])(startDate, timeunit, number * i);
-      timeInitIndex.set(keyMoment, offset + y_interval * i);
+      timeInitIndex.set(keyMoment, offset + x_interval * i);
     }
     rulerIndex[timeunit] = timeInitIndex;
   });

@@ -6,23 +6,20 @@ export default (props) => {
   if(!valid(props)){
     return null;
   }
-  let maxNumber = 250;
-  let rulerInfo = computeRulerInfo(maxNumber, props)
-  let interval = props.width / rulerInfo.firstUnitNumber;
-  let rulerMapping = (num, i) => {
-    let position = num * interval + props.timelineOffset;
-    let isKeyPosition = (num * interval) % 100 === 0;
-    let litteHeight = 3;
-    let bigHeight = 5;
-    let littleYEnd = props.y + litteHeight;
-    let bigYEnd = props.y + bigHeight;
-    return <line key={i} x1={position} y1={props.y} x2={position} y2={isKeyPosition ? bigYEnd:littleYEnd} stroke="rgb(120,120,120)" strokeWidth="0.2" />
+  let dashs = []
+  let i=0
+  let rulerMapping = (v, k, map) => {
+    let height = 3;
+    dashs.push(<line key={i++} x1={v} x2={v} y1={props.y} y2={props.y + height} stroke="rgb(120,120,120)" strokeWidth="0.2" />)
   }
-  return [...Array(rulerInfo.firstUnitNumber-1).keys()].map(num => num+1).map(rulerMapping)
+  props.index.forEach(rulerMapping)
+  return <g>
+    {dashs}
+  </g>;
 }
 
-function valid({startDate, timeunit, unitnumber, width}){
-  return startDate && timeunit && unitnumber && width;
+function valid({index}){
+  return true && index;
 }
 
 function computeRulerInfo(maxNumber, {startDate, timeunit, unitnumber}){
