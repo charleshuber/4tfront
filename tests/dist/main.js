@@ -463,8 +463,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _timeline_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./timeline.jsx */ "./jsx/calendar/timeline/timeline.jsx");
 /* harmony import */ var _ruler_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ruler.jsx */ "./jsx/calendar/timeline/ruler.jsx");
 /* harmony import */ var _js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../js/time/dateutils.js */ "./js/time/dateutils.js");
-/* harmony import */ var _form_timeline_calendar_form_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form/timeline-calendar-form.jsx */ "./jsx/calendar/timeline/form/timeline-calendar-form.jsx");
+/* harmony import */ var _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../js/time/timeunit.js */ "./js/time/timeunit.js");
+/* harmony import */ var _form_timeline_calendar_form_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./form/timeline-calendar-form.jsx */ "./jsx/calendar/timeline/form/timeline-calendar-form.jsx");
 __webpack_require__(/*! ./timeline-calendar-frame.css */ "./jsx/calendar/timeline/timeline-calendar-frame.css");
+
 
 
 
@@ -517,6 +519,8 @@ class TimelineCalendarFrame extends react__WEBPACK_IMPORTED_MODULE_0___default.a
   render() {
     let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
     let viewbox = '0 0 ' + viewBoxWidth + ' 110';
+    let maxNumber = 250;
+    let rulerIndex = computeRulerIndex(viewBow.width.timeline, viewBow.width.leftpane, maxNumber, this.state);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
       'div',
       null,
@@ -554,9 +558,59 @@ class TimelineCalendarFrame extends react__WEBPACK_IMPORTED_MODULE_0___default.a
             unitnumber: this.state.unitnumber })
         )
       ),
-      react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_form_timeline_calendar_form_jsx__WEBPACK_IMPORTED_MODULE_4__["TimelineCalendarForm"], { publish: this.handleFormChange })
+      react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_form_timeline_calendar_form_jsx__WEBPACK_IMPORTED_MODULE_5__["TimelineCalendarForm"], { publish: this.handleFormChange })
     );
   }
+}
+
+function computeRulerIndex(y_width, offset, maxNumber, { startDate, timeunit, unitnumber }) {
+  if (!(startDate && timeunit && unitnumber)) {
+    return null;
+  }
+  let rulerInfo = computeRulerInfo(maxNumber, timeunit, unitnumber);
+  let rulerIndex = {};
+  _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].values.filter(timeunit => rulerInfo[timeunit]).forEach(timeunit => {
+    let timeInitIndex = new Map();
+    let number = rulerInfo[timeunit];
+    let y_interval = y_width / number;
+    for (let i = 0; i <= number; i++) {
+      let keyMoment = Object(_js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_3__["addToMoment"])(startDate, timeunit, number * i);
+      timeInitIndex.set(keyMoment, offset + y_interval * i);
+    }
+    rulerIndex[timeunit] = timeInitIndex;
+  });
+  return rulerIndex;
+}
+
+function computeRulerInfo(maxNumber, timeunit, unitnumber) {
+  let result = {};
+  let duration = _js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_3__["default"].getDuration(timeunit, unitnumber);
+  if (Math.ceil(duration.asMinutes()) <= maxNumber) {
+    result[_js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].MINUTE] = Math.ceil(duration.asMinutes());
+  }
+  if (Math.ceil(duration.asMinutes() / 5) <= maxNumber) {
+    result[_js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].MINUTES_5] = Math.ceil(duration.asMinutes() / 5);
+  }
+  if (Math.ceil(duration.asMinutes() / 15) <= maxNumber) {
+    result[_js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].MINUTES_15] = Math.ceil(duration.asMinutes() / 15);
+  }
+  if (Math.ceil(duration.asHours()) <= maxNumber) {
+    result[_js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].HOUR] = Math.ceil(duration.asHours());
+  }
+  if (Math.ceil(duration.asDays()) <= maxNumber) {
+    result[_js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].DAY] = Math.ceil(duration.asDays());
+  }
+  if (Math.ceil(duration.asWeeks()) <= maxNumber) {
+    result[_js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].WEEK] = Math.ceil(duration.asWeeks());
+  }
+  if (Math.ceil(duration.asMonths()) <= maxNumber) {
+    result[_js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].MONTH] = Math.ceil(duration.asMonths());
+  }
+  if (Math.ceil(duration.asYears()) <= maxNumber) {
+    result[_js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_4__["default"].YEAR] = Math.ceil(duration.asYears());
+  }
+  result.duration = duration;
+  return result;
 }
 
 /***/ }),

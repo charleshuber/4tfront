@@ -5,6 +5,7 @@ import React from 'react'
 import Timeline from './timeline.jsx'
 import Ruler from './ruler.jsx'
 import DU, {addToMoment} from '../../../js/time/dateutils.js'
+import TimeUnit from '../../../js/time/timeunit.js'
 import {TimelineCalendarForm} from './form/timeline-calendar-form.jsx'
 
 const viewBow = {
@@ -51,6 +52,8 @@ export class TimelineCalendarFrame extends React.Component{
   render(){
     let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
     let viewbox = '0 0 ' + viewBoxWidth + ' 110'
+    let maxNumber = 250;
+    let rulerIndex = computeRulerIndex(viewBow.width.timeline, viewBow.width.leftpane, maxNumber, this.state)
     return (
       <div>
         <h1>Timeline Calendar Frame</h1>
@@ -76,4 +79,54 @@ export class TimelineCalendarFrame extends React.Component{
       </div>
     )
   }
+}
+
+function computeRulerIndex(y_width, offset, maxNumber, {startDate, timeunit, unitnumber}){
+  if(!(startDate && timeunit && unitnumber)){
+    return null;
+  }
+  let rulerInfo = computeRulerInfo(maxNumber, timeunit, unitnumber);
+  let rulerIndex = {};
+  TimeUnit.values.filter(timeunit => rulerInfo[timeunit]).forEach(timeunit => {
+      let timeInitIndex = new Map();
+      let number = rulerInfo[timeunit];
+      let y_interval = y_width / number;
+      for(let i=0; i<=number; i++){
+        let keyMoment = addToMoment(startDate, timeunit, number * i);
+        timeInitIndex.set(keyMoment, offset + y_interval * i);
+      }
+      rulerIndex[timeunit] = timeInitIndex;
+  })
+  return rulerIndex;
+}
+
+function computeRulerInfo(maxNumber, timeunit, unitnumber){
+  let result = {};
+  let duration = DU.getDuration(timeunit, unitnumber);
+  if(Math.ceil(duration.asMinutes()) <= maxNumber){
+    result[TimeUnit.MINUTE] = Math.ceil(duration.asMinutes());
+  }
+  if(Math.ceil(duration.asMinutes() / 5) <= maxNumber){
+    result[TimeUnit.MINUTES_5] = Math.ceil(duration.asMinutes() / 5);
+  }
+  if(Math.ceil(duration.asMinutes() / 15) <= maxNumber){
+    result[TimeUnit.MINUTES_15] = Math.ceil(duration.asMinutes() / 15);
+  }
+  if(Math.ceil(duration.asHours()) <= maxNumber){
+    result[TimeUnit.HOUR] = Math.ceil(duration.asHours());
+  }
+  if(Math.ceil(duration.asDays()) <= maxNumber){
+    result[TimeUnit.DAY] = Math.ceil(duration.asDays());
+  }
+  if(Math.ceil(duration.asWeeks()) <= maxNumber){
+    result[TimeUnit.WEEK] = Math.ceil(duration.asWeeks());
+  }
+  if(Math.ceil(duration.asMonths()) <= maxNumber){
+    result[TimeUnit.MONTH] = Math.ceil(duration.asMonths());
+  }
+  if(Math.ceil(duration.asYears()) <= maxNumber){
+    result[TimeUnit.YEAR] = Math.ceil(duration.asYears());
+  }
+  result.duration = duration;
+  return result;
 }
