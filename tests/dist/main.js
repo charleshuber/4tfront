@@ -75,17 +75,14 @@
 /*!******************************!*\
   !*** ./js/time/dateutils.js ***!
   \******************************/
-/*! exports provided: dayLabels, addToMoment, trunc, increment, formatDate, daysInMonth, default */
+/*! exports provided: dayLabels, addToMoment, getDuration, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dayLabels", function() { return dayLabels; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToMoment", function() { return addToMoment; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trunc", function() { return trunc; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "increment", function() { return increment; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "daysInMonth", function() { return daysInMonth; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDuration", function() { return getDuration; });
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _timeunit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./timeunit */ "./js/time/timeunit.js");
@@ -125,146 +122,33 @@ function addToMoment(moment, unit, number) {
   return null;
 }
 
-function trunc(date, unit) {
-  let newDate = new Date(date.getTime());
-  switch (unit) {
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].YEAR:
-      newDate.setMonth(0);
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MONTH:
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].WEEK:
-      newDate = truncDate(newDate, unit);
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].DAY:
-      newDate.setHours(0);
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].HOUR:
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_15:
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_5:
-      newDate = truncMinutes(newDate, unit);
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTE:
-      newDate.setSeconds(0);
-      newDate.setMilliseconds(0);
+function getDuration(unit, number) {
+  if (unit && number) {
+    switch (unit) {
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].YEAR:
+        return moment__WEBPACK_IMPORTED_MODULE_0___default.a.duration(number, 'years');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MONTH:
+        return moment__WEBPACK_IMPORTED_MODULE_0___default.a.duration(number, 'months');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].WEEK:
+        return moment__WEBPACK_IMPORTED_MODULE_0___default.a.duration(number, 'weeks');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].DAY:
+        return moment__WEBPACK_IMPORTED_MODULE_0___default.a.duration(number, 'days');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].HOUR:
+        return moment__WEBPACK_IMPORTED_MODULE_0___default.a.duration(number, 'hours');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_15:
+        return moment__WEBPACK_IMPORTED_MODULE_0___default.a.duration(number * 15, 'minutes');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_5:
+        return moment__WEBPACK_IMPORTED_MODULE_0___default.a.duration(number * 5, 'minutes');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTE:
+        return moment__WEBPACK_IMPORTED_MODULE_0___default.a.duration(number, 'minutes');
+    }
   }
-  return newDate;
-}
-
-function increment(date, unit) {
-  let newDate = new Date(date.getTime());
-  switch (unit) {
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].YEAR:
-      newDate.setFullYear(date.getFullYear() + 1);break;
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MONTH:
-      newDate.setMonth(date.getMonth() + 1);break;
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].WEEK:
-      newDate.setDate(date.getDate() + 7);break;
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].DAY:
-      newDate.setDate(date.getDate() + 1);break;
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].HOUR:
-      newDate.setHours(date.getHours() + 1);break;
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_15:
-      newDate.setMinutes(date.getMinutes() + 15);break;
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_5:
-      newDate.setMinutes(date.getMinutes() + 5);break;
-    case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTE:
-      newDate.setMinutes(date.getMinutes() + 1);break;
-  }
-  return newDate;
-}
-
-function formatDate(date, pattern) {
-  let minPattern = pattern.replace(/mm/g, '' + on2Digits(date.getMinutes()));
-  let hrPattern = minPattern.replace(/hh/g, '' + on2Digits(date.getHours()));
-
-  let dyPattern = hrPattern.replace(/llldd/g, '' + dayLabels[date.getDay()].substring(0, 3) + '<br>' + on2Digits(date.getDate()));
-  dyPattern = dyPattern.replace(/lldd/g, '' + dayLabels[date.getDay()].substring(0, 2) + '<br>' + on2Digits(date.getDate()));
-  dyPattern = dyPattern.replace(/ldd/g, '' + dayLabels[date.getDay()].substring(0, 1) + '<br>' + on2Digits(date.getDate()));
-  dyPattern = dyPattern.replace(/dd/g, '' + on2Digits(date.getDate()));
-
-  let wkPattern = dyPattern.replace(/ww/g, '' + on2Digits(getWeekNumber(date)));
-  let mtPattern = wkPattern.replace(/MM/g, '' + on2Digits(date.getMonth() + 1));
-  let fullYearPattern = mtPattern.replace(/yyyy/g, '' + date.getFullYear());
-  let yearPattern = fullYearPattern.replace(/yy/g, '' + truncFullYear(date));
-  return yearPattern;
-}
-
-function daysInMonth(date) {
-  //day 0 of the next month is equals to the last day of the current month
-  let result = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-  return result;
-}
-
-function truncDate(date, unit) {
-  let newDate = new Date(date.getTime());
-  if (unit === _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].WEEK) {
-    newDate = truncToMonday(newDate);
-  } else {
-    newDate.setDate(1);
-  }
-  return newDate;
-}
-
-function truncMinutes(date, unit) {
-  let newDate = new Date(date.getTime());
-  let minutes = newDate.getMinutes();
-  if (unit === _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_5) {
-    newDate.setMinutes(minutes - minutes % 5);
-  } else if (unit === _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_15) {
-    newDate.setMinutes(minutes - minutes % 15);
-  } else {
-    newDate.setMinutes(0);
-  }
-  return newDate;
-}
-
-function truncToMonday(date) {
-  let newDate = new Date(date.getTime());
-  newDate.setDate(date.getDate() - date.getDay() + 1);
-  return newDate;
-}
-
-/* For a given date, get the ISO week number
-*
-* Based on information at:
-*
-*    http://www.merlyn.demon.co.uk/weekcalc.htm#WNR
-*
-* Algorithm is to find nearest thursday, it's year
-* is the year of the week number. Then get weeks
-* between that date and the first day of that year.
-*
-* Note that dates in one year can be weeks of previous
-* or next year, overlap is up to 3 days.
-*
-* e.g. 2014/12/29 is Monday in week  1 of 2015
-*      2012/1/1   is Sunday in week 52 of 2011
-*/
-function getWeekNumber(date) {
-  // Copy date so don't modify original
-  date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  // Set to nearest Thursday: current date + 4 - current day number
-  // Make Sunday's day number 7
-  date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
-  // Get first day of year
-  var yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
-  // Calculate full weeks to nearest Thursday
-  var weekNo = Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
-  // Return array of year and week number
-  return weekNo;
-}
-
-function on2Digits(digit) {
-  return digit < 10 ? '0' + digit : '' + digit;
-}
-
-function truncFullYear(date) {
-  let fullyear = '' + date.getFullYear();
-  return fullyear.substring(fullyear.length - 2, fullyear.length);
+  return null;
 }
 
 const DateUtils = {
-  "dayLabels": dayLabels,
-  "trunc": trunc,
-  "increment": increment,
-  "formatDate": formatDate,
-  "daysInMonth": daysInMonth
+  "addToMoment": addToMoment,
+  "getDuration": getDuration
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (DateUtils);
@@ -471,20 +355,66 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../js/time/timeunit */ "./js/time/timeunit.js");
+/* harmony import */ var _js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../js/time/dateutils.js */ "./js/time/dateutils.js");
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = (props => {
+  if (!valid(props)) {
+    return null;
+  }
+  let maxNumber = 250;
+  let rulerInfo = computeRulerInfo(maxNumber, props);
+  let interval = props.width / rulerInfo.firstUnitNumber;
   let rulerMapping = (num, i) => {
-    let position = num * props.interval + props.timelineOffset;
-    let isKeyPosition = num * props.interval % 100 === 0;
+    let position = num * interval + props.timelineOffset;
+    let isKeyPosition = num * interval % 100 === 0;
     let litteHeight = 3;
     let bigHeight = 5;
     let littleYEnd = props.y + litteHeight;
     let bigYEnd = props.y + bigHeight;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("line", { key: i, x1: position, y1: props.y, x2: position, y2: isKeyPosition ? bigYEnd : littleYEnd, stroke: "rgb(120,120,120)", strokeWidth: "0.2" });
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('line', { key: i, x1: position, y1: props.y, x2: position, y2: isKeyPosition ? bigYEnd : littleYEnd, stroke: 'rgb(120,120,120)', strokeWidth: '0.2' });
   };
-  return [...Array(props.width - 1).keys()].map(num => num + 1).map(rulerMapping);
+  return [...Array(rulerInfo.firstUnitNumber - 1).keys()].map(num => num + 1).map(rulerMapping);
 });
+
+function valid({ startDate, timeunit, unitnumber, width }) {
+  return startDate && timeunit && unitnumber && width;
+}
+
+function computeRulerInfo(maxNumber, { startDate, timeunit, unitnumber }) {
+  let result = {};
+  let duration = _js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_2__["default"].getDuration(timeunit, unitnumber);
+  if (Math.ceil(duration.asMinutes()) <= maxNumber) {
+    result.firstUnitNumber = Math.ceil(duration.asMinutes());
+    result.firstUnit = _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTE;
+  } else if (Math.ceil(duration.asMinutes() / 5) <= maxNumber) {
+    result.firstUnitNumber = Math.ceil(duration.asMinutes() / 5);
+    result.firstUnit = _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_5;
+  } else if (Math.ceil(duration.asMinutes() / 15) <= maxNumber) {
+    result.firstUnitNumber = Math.ceil(duration.asMinutes() / 15);
+    result.firstUnit = _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_15;
+  } else if (Math.ceil(duration.asHours()) <= maxNumber) {
+    result.firstUnitNumber = Math.ceil(duration.asHours());
+    result.firstUnit = _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].HOUR;
+  } else if (Math.ceil(duration.asDays()) <= maxNumber) {
+    result.firstUnitNumber = Math.ceil(duration.asDays());
+    result.firstUnit = _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].DAY;
+  } else if (Math.ceil(duration.asWeeks()) <= maxNumber) {
+    result.firstUnitNumber = Math.ceil(duration.asWeeks());
+    result.firstUnit = _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].WEEK;
+  } else if (Math.ceil(duration.asMonths()) <= maxNumber) {
+    result.firstUnitNumber = Math.ceil(duration.asMonths());
+    result.firstUnit = _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MONTH;
+  } else if (Math.ceil(duration.asYears()) <= maxNumber) {
+    result.firstUnitNumber = Math.ceil(duration.asYears());
+    result.firstUnit = _js_time_timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].YEAR;
+  }
+  result.duration = duration;
+  return result;
+}
 
 /***/ }),
 
@@ -586,6 +516,7 @@ class TimelineCalendarFrame extends react__WEBPACK_IMPORTED_MODULE_0___default.a
 
   render() {
     let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
+    let viewbox = '0 0 ' + viewBoxWidth + ' 110';
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
       'div',
       null,
@@ -611,13 +542,16 @@ class TimelineCalendarFrame extends react__WEBPACK_IMPORTED_MODULE_0___default.a
         { className: 'svg-container' },
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
           'svg',
-          { version: '1.1', viewBox: '0 0 510 110', preserveAspectRatio: 'xMinYMin meet', className: 'svg-content' },
+          { version: '1.1', viewBox: viewbox, preserveAspectRatio: 'xMinYMin meet', className: 'svg-content' },
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeline_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], { position: 1, startPoint: 50, endPoint: 150, color: 'red', leftPaneWidth: viewBow.width.leftpane, height: viewBow.height.timeline }),
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeline_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], { position: 2, startPoint: 20, endPoint: 40, color: 'blue', leftPaneWidth: viewBow.width.leftpane, height: viewBow.height.timeline }),
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeline_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], { position: 3, startPoint: 90, endPoint: 410, color: 'pink', leftPaneWidth: viewBow.width.leftpane, height: viewBow.height.timeline }),
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeline_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], { position: 4, startPoint: 120, endPoint: 390, color: 'purple', leftPaneWidth: viewBow.width.leftpane, height: viewBow.height.timeline }),
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeline_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], { position: 5, startPoint: 40, endPoint: 500, color: 'brown', leftPaneWidth: viewBow.width.leftpane, height: viewBow.height.timeline }),
-          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ruler_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], { y: 102, width: 250, interval: 2, timelineOffset: 10 })
+          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ruler_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], { y: 102, width: viewBow.width.timeline, timelineOffset: viewBow.width.leftpane,
+            startDate: this.state.startDate,
+            timeunit: this.state.timeunit,
+            unitnumber: this.state.unitnumber })
         )
       ),
       react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_form_timeline_calendar_form_jsx__WEBPACK_IMPORTED_MODULE_4__["TimelineCalendarForm"], { publish: this.handleFormChange })

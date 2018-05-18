@@ -34,139 +34,33 @@ export function addToMoment(moment, unit, number){
   return null;
 }
 
-export function trunc(date, unit){
-  let newDate = new Date(date.getTime());
-  switch(unit){
-    case TimeUnit.YEAR:
-    newDate.setMonth(0);
-    case TimeUnit.MONTH:
-    case TimeUnit.WEEK:
-    newDate = truncDate(newDate, unit);
-    case TimeUnit.DAY:
-    newDate.setHours(0);
-    case TimeUnit.HOUR:
-    case TimeUnit.MINUTES_15:
-    case TimeUnit.MINUTES_5:
-    newDate = truncMinutes(newDate, unit);
-    case TimeUnit.MINUTE:
-    newDate.setSeconds(0);
-    newDate.setMilliseconds(0);
-  }
-  return newDate;
-}
-
-export function increment(date, unit){
-  let newDate = new Date(date.getTime());
-  switch(unit){
-    case TimeUnit.YEAR: newDate.setFullYear(date.getFullYear() + 1); break;
-    case TimeUnit.MONTH: newDate.setMonth(date.getMonth() + 1); break;
-    case TimeUnit.WEEK:
-    newDate.setDate(date.getDate() + 7); break;
-    case TimeUnit.DAY: newDate.setDate(date.getDate() + 1); break;
-    case TimeUnit.HOUR: newDate.setHours(date.getHours() + 1); break;
-    case TimeUnit.MINUTES_15: newDate.setMinutes(date.getMinutes() + 15); break;
-    case TimeUnit.MINUTES_5: newDate.setMinutes(date.getMinutes() + 5); break;
-    case TimeUnit.MINUTE: newDate.setMinutes(date.getMinutes() + 1); break;
-  }
-  return newDate;
-}
-
-export function formatDate(date, pattern){
-  let minPattern = pattern.replace(/mm/g, '' + on2Digits(date.getMinutes()));
-  let hrPattern = minPattern.replace(/hh/g, '' + on2Digits(date.getHours()));
-
-  let dyPattern = hrPattern.replace(/llldd/g, '' + dayLabels[date.getDay()].substring(0,3) + '<br>' + on2Digits(date.getDate()));
-  dyPattern = dyPattern.replace(/lldd/g, '' + dayLabels[date.getDay()].substring(0,2) + '<br>' + on2Digits(date.getDate()));
-  dyPattern = dyPattern.replace(/ldd/g, '' + dayLabels[date.getDay()].substring(0,1) + '<br>' + on2Digits(date.getDate()));
-  dyPattern = dyPattern.replace(/dd/g, '' + on2Digits(date.getDate()));
-
-  let wkPattern = dyPattern.replace(/ww/g, '' + on2Digits(getWeekNumber(date)));
-  let mtPattern = wkPattern.replace(/MM/g, '' + on2Digits(date.getMonth() + 1));
-  let fullYearPattern = mtPattern.replace(/yyyy/g, '' + date.getFullYear());
-  let yearPattern = fullYearPattern.replace(/yy/g, '' + truncFullYear(date));
-  return yearPattern;
-}
-
-export function daysInMonth(date): number{
-  //day 0 of the next month is equals to the last day of the current month
-  let result = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-  return result;
-}
-
-function truncDate(date, unit) {
-  let newDate = new Date(date.getTime());
-  if(unit === TimeUnit.WEEK){
-    newDate = truncToMonday(newDate);
-  } else{
-    newDate.setDate(1);
-  }
-  return newDate;
-}
-
-function truncMinutes(date, unit) {
-  let newDate = new Date(date.getTime());
-  let minutes = newDate.getMinutes();
-  if(unit === TimeUnit.MINUTES_5){
-    newDate.setMinutes(minutes - (minutes % 5));
-  } else if(unit === TimeUnit.MINUTES_15){
-    newDate.setMinutes(minutes - (minutes % 15));
-  } else {
-    newDate.setMinutes(0);
-  }
-  return newDate;
-}
-
-function truncToMonday(date) {
-  let newDate = new Date(date.getTime());
-  newDate.setDate(date.getDate() - date.getDay() + 1);
-  return newDate;
-}
-
-/* For a given date, get the ISO week number
-*
-* Based on information at:
-*
-*    http://www.merlyn.demon.co.uk/weekcalc.htm#WNR
-*
-* Algorithm is to find nearest thursday, it's year
-* is the year of the week number. Then get weeks
-* between that date and the first day of that year.
-*
-* Note that dates in one year can be weeks of previous
-* or next year, overlap is up to 3 days.
-*
-* e.g. 2014/12/29 is Monday in week  1 of 2015
-*      2012/1/1   is Sunday in week 52 of 2011
-*/
-function getWeekNumber(date) {
-  // Copy date so don't modify original
-  date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  // Set to nearest Thursday: current date + 4 - current day number
-  // Make Sunday's day number 7
-  date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay()||7));
-  // Get first day of year
-  var yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
-  // Calculate full weeks to nearest Thursday
-  var weekNo = Math.ceil(( ( (date.getTime() - yearStart.getTime()) / 86400000) + 1)/7);
-  // Return array of year and week number
-  return weekNo;
-}
-
-function on2Digits(digit) {
-  return digit < 10 ? '0' + digit : '' + digit;
-}
-
-function truncFullYear(date) {
-  let fullyear = '' + date.getFullYear();
-  return fullyear.substring(fullyear.length - 2, fullyear.length);
+export function getDuration(unit, number){
+    if(unit && number){
+      switch(unit){
+        case TimeUnit.YEAR:
+          return moment.duration(number, 'years')
+        case TimeUnit.MONTH:
+          return moment.duration(number, 'months')
+        case TimeUnit.WEEK:
+          return moment.duration(number, 'weeks')
+        case TimeUnit.DAY:
+          return moment.duration(number, 'days')
+        case TimeUnit.HOUR:
+          return moment.duration(number, 'hours')
+        case TimeUnit.MINUTES_15:
+          return moment.duration(number * 15, 'minutes')
+        case TimeUnit.MINUTES_5:
+          return moment.duration(number * 5, 'minutes')
+        case TimeUnit.MINUTE:
+          return moment.duration(number, 'minutes')
+      }
+    }
+    return null;
 }
 
 const DateUtils = {
-  "dayLabels" : dayLabels,
-  "trunc" : trunc,
-  "increment" : increment,
-  "formatDate" : formatDate,
-  "daysInMonth" : daysInMonth
+  "addToMoment" : addToMoment,
+  "getDuration" : getDuration
 }
 
 export default DateUtils
