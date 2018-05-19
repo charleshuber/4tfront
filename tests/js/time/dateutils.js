@@ -58,9 +58,38 @@ export function getDuration(unit, number){
     return null;
 }
 
+export function floor(moment, unit){
+  if(unit && moment){
+    let result = moment.clone()
+    switch(unit){
+      case TimeUnit.YEAR:
+        result.startOf('years')
+      case TimeUnit.MONTH:
+        result.startOf('months')
+      case TimeUnit.WEEK:
+        result.startOf('weeks')
+      case TimeUnit.DAY:
+        result.startOf('days')
+      case TimeUnit.HOUR:
+        result.startOf('hours')
+      case TimeUnit.MINUTES_15:
+        let quarter = parseInt(result.minutes() / 15)
+        result.minutes(quarter * 15)
+      case TimeUnit.MINUTES_5:
+        let quint = parseInt(result.minutes() / 5)
+        result.minutes(quint * 5)
+      case TimeUnit.MINUTE:
+        result.startOf('minutes')
+    }
+    return result
+  }
+  return null;
+}
+
 const DateUtils = {
   "addToMoment" : addToMoment,
-  "getDuration" : getDuration
+  "getDuration" : getDuration,
+  "floor" : floor
 }
 
 export default DateUtils

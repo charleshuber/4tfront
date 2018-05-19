@@ -13,9 +13,7 @@ export default (props) => {
     dashs.push(<line key={i++} x1={v} x2={v} y1={props.y} y2={props.y + height} stroke="rgb(120,120,120)" strokeWidth="0.2" />)
   }
   props.index.forEach(rulerMapping)
-  return <g>
-    {dashs}
-  </g>;
+  return <g>{dashs}</g>
 }
 
 function valid({index}){

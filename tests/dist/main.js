@@ -75,7 +75,7 @@
 /*!******************************!*\
   !*** ./js/time/dateutils.js ***!
   \******************************/
-/*! exports provided: dayLabels, addToMoment, getDuration, default */
+/*! exports provided: dayLabels, addToMoment, getDuration, floor, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83,6 +83,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dayLabels", function() { return dayLabels; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToMoment", function() { return addToMoment; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDuration", function() { return getDuration; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "floor", function() { return floor; });
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _timeunit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./timeunit */ "./js/time/timeunit.js");
@@ -146,9 +147,38 @@ function getDuration(unit, number) {
   return null;
 }
 
+function floor(moment, unit) {
+  if (unit && moment) {
+    let result = moment.clone();
+    switch (unit) {
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].YEAR:
+        result.startOf('years');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MONTH:
+        result.startOf('months');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].WEEK:
+        result.startOf('weeks');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].DAY:
+        result.startOf('days');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].HOUR:
+        result.startOf('hours');
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_15:
+        let quarter = parseInt(result.minutes() / 15);
+        result.minutes(quarter * 15);
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTES_5:
+        let quint = parseInt(result.minutes() / 5);
+        result.minutes(quint * 5);
+      case _timeunit__WEBPACK_IMPORTED_MODULE_1__["default"].MINUTE:
+        result.startOf('minutes');
+    }
+    return result;
+  }
+  return null;
+}
+
 const DateUtils = {
   "addToMoment": addToMoment,
-  "getDuration": getDuration
+  "getDuration": getDuration,
+  "floor": floor
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (DateUtils);
@@ -218,11 +248,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _timeunit_selection_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./timeunit-selection.jsx */ "./jsx/calendar/timeline/form/timeunit-selection.jsx");
-/* harmony import */ var _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../js/time/timeunit.js */ "./js/time/timeunit.js");
-/* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-datepicker/dist/react-datepicker.css */ "./node_modules/react-datepicker/dist/react-datepicker.css");
-/* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var rc_slider_assets_index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rc-slider/assets/index.css */ "./node_modules/rc-slider/assets/index.css");
-/* harmony import */ var rc_slider_assets_index_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(rc_slider_assets_index_css__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../js/time/dateutils.js */ "./js/time/dateutils.js");
+/* harmony import */ var _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../js/time/timeunit.js */ "./js/time/timeunit.js");
+/* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-datepicker/dist/react-datepicker.css */ "./node_modules/react-datepicker/dist/react-datepicker.css");
+/* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var rc_slider_assets_index_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rc-slider/assets/index.css */ "./node_modules/rc-slider/assets/index.css");
+/* harmony import */ var rc_slider_assets_index_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(rc_slider_assets_index_css__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -237,9 +269,10 @@ class TimelineCalendarForm extends react__WEBPACK_IMPORTED_MODULE_0___default.a.
 
   constructor(props) {
     super(props);
+    let timeunit = _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_6__["default"].DAY;
     this.state = {
-      timeunit: _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_5__["default"].DAY,
-      startDate: moment__WEBPACK_IMPORTED_MODULE_3___default()(),
+      timeunit: timeunit,
+      startDate: _js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_5__["default"].floor(moment__WEBPACK_IMPORTED_MODULE_3___default()(), timeunit),
       unitnumber: 10
     };
     this.handleTimeunitSelection = this.handleTimeunitSelection.bind(this);
@@ -252,14 +285,16 @@ class TimelineCalendarForm extends react__WEBPACK_IMPORTED_MODULE_0___default.a.
   }
 
   handleTimeunitSelection(event) {
+    let value = event.target.value;
     this.notify({
-      timeunit: event.target.value
+      timeunit: value,
+      startDate: _js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_5__["default"].floor(this.state.startDate, value)
     });
   }
 
   handleStartDateChange(date) {
     this.notify({
-      startDate: date
+      startDate: _js_time_dateutils_js__WEBPACK_IMPORTED_MODULE_5__["default"].floor(date, this.state.timeunit)
     });
   }
 
@@ -298,7 +333,7 @@ class TimelineCalendarForm extends react__WEBPACK_IMPORTED_MODULE_0___default.a.
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
           'div',
           null,
-          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeunit_selection_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], { selected: this.state.timeunit, options: _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_5__["default"].values, handleChange: this.handleTimeunitSelection })
+          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_timeunit_selection_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], { selected: this.state.timeunit, options: _js_time_timeunit_js__WEBPACK_IMPORTED_MODULE_6__["default"].values, handleChange: this.handleTimeunitSelection })
         ),
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(
           'div',
