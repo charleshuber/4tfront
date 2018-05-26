@@ -1,8 +1,11 @@
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 module.exports = {
-  entry: './jsx/app.jsx',
+  entry: './src/jsx/app.jsx',
   output: {
-    path: __dirname + '/dist/',
-    filename: 'main.js'
+    path: path.join(__dirname, '/dist'),
+    filename: 'bundle.js'
   },
   devtool: '#sourcemap',
   stats: {
@@ -17,13 +20,11 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loaders: ['babel-loader']
-      },
-      {
-        test: /\.ts?$/,
-        exclude: /(node_modules)/,
-        loaders: ['ts-loader']
+        loaders: ['babel-loader'/*,'eslint-loader'*/]
       }
     ]
-  }
+  },
+  plugins: [new HtmlWebpackPlugin({
+    template : './src/index.html'
+  })]
 }

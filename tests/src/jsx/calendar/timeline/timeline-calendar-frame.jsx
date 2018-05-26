@@ -1,7 +1,6 @@
 require('./timeline-calendar-frame.css')
 
 import React from 'react'
-
 import Timeline from './timeline.jsx'
 import Ruler from './ruler.jsx'
 import DU, {addToMoment} from '../../../js/time/dateutils.js'
@@ -53,11 +52,18 @@ export class TimelineCalendarFrame extends React.Component{
     let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
     let viewbox = '0 0 ' + viewBoxWidth + ' 110'
     let maxNumber = 250;
-    let rulerIndex = computeRulerIndex(viewBow.width.timeline, viewBow.width.leftpane, maxNumber, this.state)
-    let rulers = rulerIndex ? TimeUnit.values.filter(tu => rulerIndex[tu]).map((tu, i) => <Ruler key={i} y={102 + i * 3} index={rulerIndex[tu]}/>) : [];
+    let rulerIndex = computeRulerIndex(viewBow.width.timeline, maxNumber, this.state)
+    let rulers = [];
+    if(rulerIndex){
+      rulers = TimeUnit.values
+      .filter(tu => rulerIndex[tu])
+      .filter(tu => rulerIndex[tu].size <= maxNumber)
+      .map((tu, i) => <Ruler key={i} y={102 + i * 3} index={rulerIndex[tu]} color={rulersColor.get(tu)}/>)
+    }
+
     return (
       <div>
-        <h1>Timeline Calendar Frame</h1>
+        <h1>Timeline Calendar Frame Yop</h1>
         <div> Timeunit: {this.state.timeunit} - number: {this.state.unitnumber} - startDate: {this.startDateFormat} - endDate: {this.endDateFormat}</div>
         {/*
           https://www.sarasoueidan.com/blog/svg-coordinate-systems
@@ -79,52 +85,65 @@ export class TimelineCalendarFrame extends React.Component{
   }
 }
 
-function computeRulerIndex(x_width, offset, maxNumber, {startDate, timeunit, unitnumber}){
+function computeRulerIndex(x_width, maxGradsNumber, {startDate, timeunit, unitnumber}){
   if(!(startDate && timeunit && unitnumber)){
     return null;
   }
-  let rulerInfo = computeRulerInfo(maxNumber, timeunit, unitnumber);
+  let rulerBD = rulerBreakDown(startDate, timeunit, unitnumber, maxGradsNumber);
+  let x_factor = secondsRange => secondsRange * x_width / rulerBD.range.seconds
   let rulerIndex = {};
-  TimeUnit.values.filter(timeunit => rulerInfo[timeunit]).forEach(timeunit => {
-      let timeInitIndex = new Map();
-      let number = rulerInfo[timeunit];
-      let x_interval = x_width / number;
-      for(let i=0; i<=number; i++){
-        let keyMoment = addToMoment(startDate, timeunit, number * i);
-        timeInitIndex.set(keyMoment, offset + x_interval * i);
-      }
-      rulerIndex[timeunit] = timeInitIndex;
+  TimeUnit.values.filter(timeunit => rulerBD[timeunit]).forEach(timeunit => {
+    let timeUnitIndex = new Map();
+    let tuRuler = rulerBD[timeunit];
+    tuRuler.grads.forEach(grad => {
+      let x_interval = x_factor(grad.seconds);
+      timeUnitIndex.set(grad.date, x_interval);
+    });
+    rulerIndex[timeunit] = timeUnitIndex;
   })
   return rulerIndex;
 }
 
-function computeRulerInfo(maxNumber, timeunit, unitnumber){
+function rulerBreakDown(startDate, reftimeunit, refunitnumber, breakdownlimit){
   let result = {};
-  let duration = DU.getDuration(timeunit, unitnumber);
-  if(Math.ceil(duration.asMinutes()) <= maxNumber){
-    result[TimeUnit.MINUTE] = Math.ceil(duration.asMinutes());
-  }
-  if(Math.ceil(duration.asMinutes() / 5) <= maxNumber){
-    result[TimeUnit.MINUTES_5] = Math.ceil(duration.asMinutes() / 5);
-  }
-  if(Math.ceil(duration.asMinutes() / 15) <= maxNumber){
-    result[TimeUnit.MINUTES_15] = Math.ceil(duration.asMinutes() / 15);
-  }
-  if(Math.ceil(duration.asHours()) <= maxNumber){
-    result[TimeUnit.HOUR] = Math.ceil(duration.asHours());
-  }
-  if(Math.ceil(duration.asDays()) <= maxNumber){
-    result[TimeUnit.DAY] = Math.ceil(duration.asDays());
-  }
-  if(Math.ceil(duration.asWeeks()) <= maxNumber){
-    result[TimeUnit.WEEK] = Math.ceil(duration.asWeeks());
-  }
-  if(Math.ceil(duration.asMonths()) <= maxNumber){
-    result[TimeUnit.MONTH] = Math.ceil(duration.asMonths());
-  }
-  if(Math.ceil(duration.asYears()) <= maxNumber){
-    result[TimeUnit.YEAR] = Math.ceil(duration.asYears());
-  }
-  result.duration = duration;
+  //define the displayed dates range of the ruler
+  let displayedRangeStart = DU.roundDown(startDate, reftimeunit);
+  let displayedRangeEnd = DU.addToMoment(displayedRangeStart, reftimeunit, refunitnumber)
+  result.range = {
+    start : displayedRangeStart,
+    end : displayedRangeEnd,
+    seconds : DU.rangeAsSeconds(displayedRangeStart, displayedRangeEnd)
+  };
+  result.unit = reftimeunit;
+  TimeUnit.values.forEach((tu) => {
+
+    //Be sure the start date of the unit is inside the dates range
+    let currentDate = DU.roundUp(displayedRangeStart, tu)
+    //Be sure the end date of the unit is outside the dates range
+    let endDate = DU.roundUp(displayedRangeEnd, tu)
+    if(DU.rangeAsUnit(startDate, endDate, tu) <= breakdownlimit){
+      let tuRuler = {}
+      tuRuler.unit = tu
+      tuRuler.grads =  []
+      while(currentDate.isBefore(endDate)){
+        currentDate = DU.addToMoment(currentDate, tu, 1);
+        tuRuler.grads.push({
+          date: currentDate,
+          seconds : DU.rangeAsSeconds(displayedRangeStart, currentDate)
+        });
+      }
+      result[tu] = tuRuler
+    }
+  });
   return result;
 }
+
+let rulersColor = new Map();
+rulersColor.set(TimeUnit.MINUTE, 'rgb(200,80,200)')
+rulersColor.set(TimeUnit.MINUTES_5, 'rgb(210,60,210)')
+rulersColor.set(TimeUnit.MINUTES_15, 'rgb(220,40,220)')
+rulersColor.set(TimeUnit.HOUR, 'rgb(80,80,200)')
+rulersColor.set(TimeUnit.DAY, 'rgb(80,200,200)')
+rulersColor.set(TimeUnit.WEEK, 'rgb(80,200,80)')
+rulersColor.set(TimeUnit.WEEK, 'rgb(200,200,80)')
+rulersColor.set(TimeUnit.YEAR, 'rgb(200,80,80)')

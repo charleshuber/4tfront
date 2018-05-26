@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
-export default (props) => {
+const Timeline = (props) => {
   let insideHeight = props.height - 1;
   let insideLeftPaneWidth = props.leftPaneWidth - 1;
   let timelineWidth = props.endPoint - props.startPoint;
@@ -13,3 +14,14 @@ export default (props) => {
     </g>
   )
 }
+
+Timeline.propTypes = {
+    color: PropTypes.string.isRequired,
+    height: PropTypes.number.isRequired,
+    leftPaneWidth: PropTypes.number.isRequired,
+    endPoint: PropTypes.number.isRequired,
+    startPoint: PropTypes.number.isRequired,
+    position: PropTypes.number.isRequired,
+};
+
+export default Timeline

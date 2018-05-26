@@ -1,7 +1,7 @@
 import moment from 'moment'
 import TimeUnit from './timeunit';
 
-export let dayLabels = new Array('Dim','Lun','Mar','Mer','Jeu','Ven','Sam');
+//export let dayLabels = new Array('Dim','Lun','Mar','Mer','Jeu','Ven','Sam');
 
 /*
   https://momentjs.com/docs/#/manipulating/
@@ -58,30 +58,84 @@ export function getDuration(unit, number){
     return null;
 }
 
-export function floor(moment, unit){
+export function rangeAsUnit(startDate, endDate, unit){
+    if(startDate && endDate && unit){
+      let duration = moment.duration(endDate.diff(startDate))
+      switch(unit){
+        case TimeUnit.YEAR:
+          return duration.asYears()
+        case TimeUnit.MONTH:
+          return duration.asMonths()
+        case TimeUnit.WEEK:
+          return duration.asWeeks()
+        case TimeUnit.DAY:
+          return duration.asDays()
+        case TimeUnit.HOUR:
+          return duration.asHours()
+        case TimeUnit.MINUTES_15:
+          return duration.asMinutes() / 15
+        case TimeUnit.MINUTES_5:
+          return duration.asMinutes() / 5
+        case TimeUnit.MINUTE:
+          return duration.asMinutes()
+      }
+    }
+    return null;
+}
+
+export function roundUp(moment, unit){
+  if(moment && unit) {
+    let truncated =  roundDown(moment, unit);
+    if(truncated.isBefore(moment)){
+      return addToMoment(truncated, unit, 1);
+    }
+    return truncated;
+  }
+  return null;
+}
+
+export function roundDown(moment, unit){
   if(unit && moment){
     let result = moment.clone()
     switch(unit){
       case TimeUnit.YEAR:
-        result.startOf('years')
+        return result.startOf('years')
       case TimeUnit.MONTH:
-        result.startOf('months')
+        return result.startOf('months')
       case TimeUnit.WEEK:
-        result.startOf('weeks')
+        return result.startOf('weeks')
       case TimeUnit.DAY:
-        result.startOf('days')
+        return result.startOf('days')
       case TimeUnit.HOUR:
-        result.startOf('hours')
+        return result.startOf('hours')
       case TimeUnit.MINUTES_15:
-        let quarter = parseInt(result.minutes() / 15)
-        result.minutes(quarter * 15)
+        var quarter = parseInt(result.minutes() / 15)
+        return result.minutes(quarter * 15)
       case TimeUnit.MINUTES_5:
-        let quint = parseInt(result.minutes() / 5)
-        result.minutes(quint * 5)
+        var quint = parseInt(result.minutes() / 5)
+        return result.minutes(quint * 5)
       case TimeUnit.MINUTE:
-        result.startOf('minutes')
+        return result.startOf('minutes')
     }
     return result
+  }
+  return null;
+}
+
+export function rangeAsSeconds(startDate, endDate){
+  return moment.duration(endDate.diff(startDate)).asSeconds();
+}
+
+export function min(m1, m2){
+  if(m1 && m2){
+    return moment.min(m1,m2)
+  }
+  return null;
+}
+
+export function max(m1, m2){
+  if(m1 && m2){
+    return moment.max(m1,m2)
   }
   return null;
 }
@@ -89,7 +143,10 @@ export function floor(moment, unit){
 const DateUtils = {
   "addToMoment" : addToMoment,
   "getDuration" : getDuration,
-  "floor" : floor
+  "roundDown" : roundDown,
+  "roundUp" : roundUp,
+  "rangeAsSeconds" : rangeAsSeconds,
+  "rangeAsUnit" : rangeAsUnit
 }
 
 export default DateUtils

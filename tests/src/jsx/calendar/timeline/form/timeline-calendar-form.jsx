@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker'
 import Slider from 'rc-slider';
 import moment from 'moment'
 import TimeUnitSelection from './timeunit-selection.jsx'
-import DU from '../../../../js/time/dateutils.js'
 import TimeUnit from '../../../../js/time/timeunit.js'
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -16,7 +15,7 @@ export class TimelineCalendarForm extends React.Component {
     let timeunit = TimeUnit.DAY;
     this.state = {
       timeunit: timeunit,
-      startDate: DU.floor(moment(), timeunit),
+      startDate: moment(),
       unitnumber : 10
     };
     this.handleTimeunitSelection = this.handleTimeunitSelection.bind(this);
@@ -31,14 +30,13 @@ export class TimelineCalendarForm extends React.Component {
   handleTimeunitSelection(event){
     let value = event.target.value
     this.notify({
-      timeunit : value,
-      startDate : DU.floor(this.state.startDate, value)
+      timeunit : value
     });
   }
 
   handleStartDateChange(date) {
     this.notify({
-      startDate : DU.floor(date, this.state.timeunit)
+      startDate : date
     });
   }
 
