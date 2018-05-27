@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
-export default (props) => {
+const TimeUnitSelection = (props) => {
   return (
     <select onChange={props.handleChange} value={props.selected}>
       {
@@ -9,3 +10,11 @@ export default (props) => {
     </select>
   )
 }
+
+TimeUnitSelection.propTypes = {
+    handleChange: PropTypes.func.isRequired,
+    selected: PropTypes.string.isRequired,
+    options: PropTypes.array.isRequired
+};
+
+export default TimeUnitSelection;

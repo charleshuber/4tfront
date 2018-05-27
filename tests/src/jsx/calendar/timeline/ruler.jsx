@@ -1,17 +1,14 @@
 import React from 'react'
-import TimeUnit from '../../../js/time/timeunit';
-import DU from '../../../js/time/dateutils.js'
+import PropTypes from 'prop-types';
 
-
-
-export default (props) => {
+const Ruler = (props) => {
   if(!valid(props)){
     return null;
   }
   let dashs = []
   let i=0
-  let rulerMapping = (v, k, map) => {
-    let height = 3;
+  let rulerMapping = (v, k) => {
+    let x = v + props.x
     let handleMouseOver = function(){
       alert(k.format())
     }
@@ -19,8 +16,8 @@ export default (props) => {
       alert(k.format())
     }
     dashs.push(<line key={i++}
-      x1={v} x2={v} y1={props.y} y2={props.y + height}
-      stroke={props.color} strokeWidth="0.5"
+      x1={x} x2={x} y1={props.y} y2={props.y + props.height}
+      stroke={props.color} strokeWidth={0.1 * props.height}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}/>)
   }
@@ -31,3 +28,13 @@ export default (props) => {
 function valid({index}){
   return true && index;
 }
+
+Ruler.propTypes = {
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    index: PropTypes.instanceOf(Map).isRequired,
+    height: PropTypes.number.isRequired,
+    color: PropTypes.string
+};
+
+export default Ruler;

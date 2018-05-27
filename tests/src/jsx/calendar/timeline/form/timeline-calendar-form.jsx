@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker'
 import Slider from 'rc-slider';
 import moment from 'moment'
@@ -12,11 +13,11 @@ export class TimelineCalendarForm extends React.Component {
 
   constructor(props){
     super(props)
-    let timeunit = TimeUnit.DAY;
+    let timeunit = TimeUnit.YEAR;
     this.state = {
       timeunit: timeunit,
       startDate: moment(),
-      unitnumber : 10
+      unitnumber : 1
     };
     this.handleTimeunitSelection = this.handleTimeunitSelection.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);

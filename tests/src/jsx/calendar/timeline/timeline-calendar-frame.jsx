@@ -51,14 +51,16 @@ export class TimelineCalendarFrame extends React.Component{
   render(){
     let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
     let viewbox = '0 0 ' + viewBoxWidth + ' 110'
-    let maxNumber = 250;
+    let maxNumber = 366;
     let rulerIndex = computeRulerIndex(viewBow.width.timeline, maxNumber, this.state)
     let rulers = [];
     if(rulerIndex){
       rulers = TimeUnit.values
       .filter(tu => rulerIndex[tu])
       .filter(tu => rulerIndex[tu].size <= maxNumber)
-      .map((tu, i) => <Ruler key={i} y={102 + i * 3} index={rulerIndex[tu]} color={rulersColor.get(tu)}/>)
+      .map((tu, i) => {
+          return <Ruler key={i} y={102} x={viewBow.width.leftpane} index={rulerIndex[tu]} height={(i+1) * 2} color={rulersColor.get(tu)}/>
+      })
     }
 
     return (
@@ -125,12 +127,12 @@ function rulerBreakDown(startDate, reftimeunit, refunitnumber, breakdownlimit){
       let tuRuler = {}
       tuRuler.unit = tu
       tuRuler.grads =  []
-      while(currentDate.isBefore(endDate)){
-        currentDate = DU.addToMoment(currentDate, tu, 1);
+      while(currentDate.isSameOrBefore(endDate)){
         tuRuler.grads.push({
           date: currentDate,
           seconds : DU.rangeAsSeconds(displayedRangeStart, currentDate)
         });
+        currentDate = DU.addToMoment(currentDate, tu, 1);
       }
       result[tu] = tuRuler
     }
@@ -145,5 +147,5 @@ rulersColor.set(TimeUnit.MINUTES_15, 'rgb(220,40,220)')
 rulersColor.set(TimeUnit.HOUR, 'rgb(80,80,200)')
 rulersColor.set(TimeUnit.DAY, 'rgb(80,200,200)')
 rulersColor.set(TimeUnit.WEEK, 'rgb(80,200,80)')
-rulersColor.set(TimeUnit.WEEK, 'rgb(200,200,80)')
+rulersColor.set(TimeUnit.MONTH, 'rgb(200,200,80)')
 rulersColor.set(TimeUnit.YEAR, 'rgb(200,80,80)')
