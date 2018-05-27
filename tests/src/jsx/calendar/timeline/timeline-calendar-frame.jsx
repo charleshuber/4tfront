@@ -50,16 +50,20 @@ export class TimelineCalendarFrame extends React.Component{
 
   render(){
     let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
-    let viewbox = '0 0 ' + viewBoxWidth + ' 110'
+    let viewbox = '0 0 ' + viewBoxWidth + ' 130'
     let maxNumber = 366;
     let rulerIndex = computeRulerIndex(viewBow.width.timeline, maxNumber, this.state)
     let rulers = [];
     if(rulerIndex){
       rulers = TimeUnit.values
-      .filter(tu => rulerIndex[tu])
-      .filter(tu => rulerIndex[tu].size <= maxNumber)
+      .filter(tu => rulerIndex[tu] && rulerIndex[tu].index)
+      .filter(tu => rulerIndex[tu].index.size <= maxNumber)
       .map((tu, i) => {
-          return <Ruler key={i} y={102} x={viewBow.width.leftpane} index={rulerIndex[tu]} height={(i+1) * 2} color={rulersColor.get(tu)}/>
+          return <Ruler key={i} y={102} x={viewBow.width.leftpane}
+            index={rulerIndex[tu].index}
+            height={(i+1) * 2}
+            x_delta={rulerIndex[tu].x_delta}
+            color={rulersColor.get(tu)}/>
       })
     }
 
@@ -98,10 +102,14 @@ function computeRulerIndex(x_width, maxGradsNumber, {startDate, timeunit, unitnu
     let timeUnitIndex = new Map();
     let tuRuler = rulerBD[timeunit];
     tuRuler.grads.forEach(grad => {
-      let x_interval = x_factor(grad.seconds);
-      timeUnitIndex.set(grad.date, x_interval);
+      let x_position = x_factor(grad.seconds);
+      timeUnitIndex.set(grad.date, x_position);
     });
-    rulerIndex[timeunit] = timeUnitIndex;
+    let x_delta = 0;
+    if(tuRuler.grads.length > 1){
+      x_delta = x_factor(tuRuler.grads[1].seconds - tuRuler.grads[0].seconds)
+    }
+    rulerIndex[timeunit] = {"index": timeUnitIndex, "x_delta": x_delta};
   })
   return rulerIndex;
 }

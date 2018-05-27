@@ -84,3 +84,7 @@ export class TimelineCalendarForm extends React.Component {
     )
   }
 }
+
+TimelineCalendarForm.propTypes = {
+    publish: PropTypes.func.isRequired
+};
