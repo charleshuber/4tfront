@@ -1,5 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import DU from '../../../js/time/dateutils.js'
 
 const Ruler = (props) => {
   if(!valid(props)){
@@ -12,34 +13,29 @@ const Ruler = (props) => {
     </g>)
 }
 
-function buildGrads(props){
+function buildGrads({index, x, y, height, color}){
   let grads = []
   let i=0
-  props.index.forEach((v, k) => {
-    let x = v + props.x
-    let handleMouseOver = function(){
-      console.log(k.format())
-    }
-    let handleMouseOut = function(){
-      console.log(k.format())
-    }
+  index.forEach((v) => {
+    let x_coord = v + x;
+    let y_coord = y;
     grads.push(<line key={i++}
-      x1={x} x2={x} y1={props.y} y2={props.y + props.height}
-      stroke={props.color} strokeWidth={0.1 * props.height}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}/>)
+      x1={x_coord} x2={x_coord} y1={y} y2={y_coord + height}
+      stroke={color} strokeWidth={0.1 * height}/>)
   });
   return grads;
 }
 
-function buildLabels(props){
+function buildLabels({x_delta, index, x, y, height, color, timeunit}){
   let labels = []
   let i=0
-  if(props.x_delta >= 10){
-    props.index.forEach((v,k) => {
-      let x = v + props.x
+  if(x_delta >= 10){
+    index.forEach((v,k) => {
+      let x_coord = v + x + 1;
+      let y_coord = y + 1.8 * height;
       labels.push(<text key={i++}
-        x={x} y={props.y + props.height + 4 } fontSize="4" fill={props.color}>{k.format("DD/MM/YYYY")}</text>)
+        x={x_coord} y={y_coord} fontSize="4"
+        fill={color} fontWeight={100 * height}>{DU.formatUnit(k, timeunit)}</text>)
     });
   }
   return labels;
@@ -52,6 +48,7 @@ function valid({index}){
 Ruler.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
+    timeunit: PropTypes.number.isRequired,
     index: PropTypes.instanceOf(Map).isRequired,
     height: PropTypes.number.isRequired,
     color: PropTypes.string

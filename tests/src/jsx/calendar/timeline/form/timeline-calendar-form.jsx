@@ -13,7 +13,7 @@ export class TimelineCalendarForm extends React.Component {
 
   constructor(props){
     super(props)
-    let timeunit = TimeUnit.YEAR;
+    let timeunit = TimeUnit.MINUTES_15;
     this.state = {
       timeunit: timeunit,
       startDate: moment(),

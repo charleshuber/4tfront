@@ -59,7 +59,9 @@ export class TimelineCalendarFrame extends React.Component{
       .filter(tu => rulerIndex[tu] && rulerIndex[tu].index)
       .filter(tu => rulerIndex[tu].index.size <= maxNumber)
       .map((tu, i) => {
-          return <Ruler key={i} y={102} x={viewBow.width.leftpane}
+          return <Ruler key={i}
+            y={102} x={viewBow.width.leftpane}
+            timeunit={tu}
             index={rulerIndex[tu].index}
             height={(i+1) * 2}
             x_delta={rulerIndex[tu].x_delta}

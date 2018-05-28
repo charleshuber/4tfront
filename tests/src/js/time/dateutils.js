@@ -110,14 +110,36 @@ export function roundDown(moment, unit){
         return result.startOf('hours')
       case TimeUnit.MINUTES_15:
         var quarter = parseInt(result.minutes() / 15)
-        return result.minutes(quarter * 15)
+        return result.minutes(quarter * 15).startOf('minutes')
       case TimeUnit.MINUTES_5:
         var quint = parseInt(result.minutes() / 5)
-        return result.minutes(quint * 5)
+        return result.minutes(quint * 5).startOf('minutes')
       case TimeUnit.MINUTE:
         return result.startOf('minutes')
     }
     return result
+  }
+  return null;
+}
+
+export function formatUnit(moment, unit){
+  if(unit && moment){
+    switch(unit){
+      case TimeUnit.YEAR:
+        return moment.format('YYYY');
+      case TimeUnit.MONTH:
+        return moment.format('MMM')
+      case TimeUnit.WEEK:
+        return moment.format('WW')
+      case TimeUnit.DAY:
+        return moment.format('DD ddd')
+      case TimeUnit.HOUR:
+        return moment.format('HH') + 'h';
+      case TimeUnit.MINUTES_15:
+        return moment.format('mm')
+      case TimeUnit.MINUTES_5:
+      case TimeUnit.MINUTE:
+    }
   }
   return null;
 }
@@ -146,7 +168,8 @@ const DateUtils = {
   "roundDown" : roundDown,
   "roundUp" : roundUp,
   "rangeAsSeconds" : rangeAsSeconds,
-  "rangeAsUnit" : rangeAsUnit
+  "rangeAsUnit" : rangeAsUnit,
+  "formatUnit" : formatUnit
 }
 
 export default DateUtils
