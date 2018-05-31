@@ -5,6 +5,8 @@ import Timeline from './timeline.jsx'
 import Ruler from './ruler.jsx'
 import DU, {addToMoment} from '../../../js/time/dateutils.js'
 import TimeUnit from '../../../js/time/timeunit.js'
+import {TimeIntervalService} from '../../../js/resources//timeinterval/timeintervalService.js'
+import {TimeInterval} from '../../../js/resources//timeinterval/timeinterval.js'
 import {TimelineCalendarForm} from './form/timeline-calendar-form.jsx'
 
 const viewBow = {
@@ -13,7 +15,8 @@ const viewBow = {
     leftpane:10
   },
   height:{
-    timeline:20
+    timeline:20,
+    ruler:20
   }
 }
 
@@ -23,9 +26,17 @@ export class TimelineCalendarFrame extends React.Component{
     super(props)
     this.state = {}
     this.handleFormChange = this.handleFormChange.bind(this)
+    this.tiService = new TimeIntervalService();
   }
 
   handleFormChange(formState){
+    let startDate = formState.startDate;
+    let endDate = this.computeEndDate(formState);
+    this.tiService.getTimeIntervals(startDate, endDate)
+    .then((intervals) => {
+      formState.intervals = intervals;
+      this.setState(formState);
+    });
     this.setState(formState)
   }
 
@@ -37,7 +48,11 @@ export class TimelineCalendarFrame extends React.Component{
   }
 
   get endDate(){
-    return addToMoment(this.state.startDate, this.state.timeunit, this.state.unitnumber)
+    return this.computeEndDate(this.state)
+  }
+
+  computeEndDate({startDate, timeunit, unitnumber}){
+      return addToMoment(startDate, timeunit, unitnumber)
   }
 
   get endDateFormat(){
@@ -50,25 +65,12 @@ export class TimelineCalendarFrame extends React.Component{
 
   render(){
     let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
-    let viewbox = '0 0 ' + viewBoxWidth + ' 130'
     let maxNumber = 366;
-    let rulerIndex = computeRulerIndex(viewBow.width.timeline, maxNumber, this.state)
-    let rulers = [];
-    if(rulerIndex){
-      rulers = TimeUnit.values
-      .filter(tu => rulerIndex[tu] && rulerIndex[tu].index)
-      .filter(tu => rulerIndex[tu].index.size <= maxNumber)
-      .map((tu, i) => {
-          return <Ruler key={i}
-            y={102} x={viewBow.width.leftpane}
-            timeunit={tu}
-            index={rulerIndex[tu].index}
-            height={(i+1) * 2}
-            x_delta={rulerIndex[tu].x_delta}
-            color={rulersColor.get(tu)}/>
-      })
-    }
-
+    let rulerIndex = computeRulerIndex(viewBow.width.timeline, maxNumber, this.state);
+    let timelines = buildTimelines(rulerIndex, this.state.intervals, viewBow.width.leftpane, viewBow.height.timeline);
+    let y_rulerPosition = viewBow.height.timeline * timelines.length + 1;
+    let rulers = buildRulers(rulerIndex, maxNumber, viewBow.width.leftpane, y_rulerPosition);
+    let viewbox = '0 0 ' + viewBoxWidth + ' ' + (y_rulerPosition + viewBow.height.ruler);
     return (
       <div>
         <h1>Timeline Calendar Frame Yop</h1>
@@ -79,11 +81,7 @@ export class TimelineCalendarFrame extends React.Component{
         */}
         <div className="svg-container">
           <svg version="1.1" viewBox={viewbox} preserveAspectRatio="xMinYMin meet" className="svg-content">
-            <Timeline position={1} startPoint={50} endPoint={150} color="red" leftPaneWidth={viewBow.width.leftpane} height={viewBow.height.timeline} />
-            <Timeline position={2} startPoint={20} endPoint={40} color="blue" leftPaneWidth={viewBow.width.leftpane} height={viewBow.height.timeline} />
-            <Timeline position={3} startPoint={90} endPoint={410} color="pink" leftPaneWidth={viewBow.width.leftpane} height={viewBow.height.timeline} />
-            <Timeline position={4} startPoint={120} endPoint={390} color="purple" leftPaneWidth={viewBow.width.leftpane} height={viewBow.height.timeline} />
-            <Timeline position={5} startPoint={40} endPoint={500} color="brown" leftPaneWidth={viewBow.width.leftpane} height={viewBow.height.timeline} />
+            {timelines}
             {rulers}
           </svg>
         </div>
@@ -93,11 +91,73 @@ export class TimelineCalendarFrame extends React.Component{
   }
 }
 
+function buildRulers(rulerIndexs, maxNumber, x_offset, y_offset){
+  let rulers = [];
+  if(rulerIndexs && maxNumber){
+    rulers = TimeUnit.values
+    .filter(tu => rulerIndexs[tu] && rulerIndexs[tu].index)
+    .filter(tu => rulerIndexs[tu].index.size <= maxNumber)
+    .map((tu, i) => {
+        return <Ruler key={i}
+          y={y_offset} x={x_offset}
+          timeunit={tu}
+          index={rulerIndexs[tu].index}
+          height={(i+1) * 2}
+          x_delta={rulerIndexs[tu].x_delta}
+          color={rulersColor.get(tu)}/>
+    })
+  }
+  return rulers;
+}
+
+function buildTimelines(rulerIndexs, intervals, x_offset, height){
+  if(rulerIndexs && intervals){
+    let deeperIndex = getDeeperInder(rulerIndexs);
+    let displayedStartDate = rulerIndexs.timebreakdown.range.start;
+    let displayedEndDate = rulerIndexs.timebreakdown.range.end;
+    if(deeperIndex){
+      return intervals.map((ti,i) => {
+        let tiStartDate = DU.roundDown(DU.dateToMoment(ti.startTime), deeperIndex.timeunit);
+        let tiEndDate = DU.roundUp(DU.dateToMoment(ti.endTime), deeperIndex.timeunit);
+        if(tiStartDate.isAfter(displayedEndDate) || tiEndDate.isBefore(displayedStartDate)){
+          return (<Timeline key={i} position={i+1} leftPaneWidth={x_offset} height={height} />)
+        }
+        if(tiStartDate.isSameOrBefore(displayedStartDate)){
+          tiStartDate = displayedStartDate;
+        }
+        if(tiEndDate.isSameOrAfter(displayedEndDate)){
+          tiEndDate = displayedEndDate;
+        }
+        let startPoint = deeperIndex.index.get(tiStartDate.valueOf()).x_position + x_offset;
+        let endPoint = deeperIndex.index.get(tiEndDate.valueOf()).x_position + x_offset;
+        return (<Timeline key={i} position={i+1}
+          startPoint={startPoint} endPoint={endPoint}
+          color="red" leftPaneWidth={x_offset} height={height} />)
+      });
+    }
+  }
+  return [];
+}
+
+function getDeeperInder(rulerIndexs){
+  let deeperIndex = null;
+  if(rulerIndexs){
+    TimeUnit.values
+    .filter(tu => rulerIndexs[tu] && rulerIndexs[tu].index)
+    .forEach((tu) => {
+        if(!deeperIndex || deeperIndex.size < rulerIndexs[tu].index.size){
+          deeperIndex = rulerIndexs[tu];
+        }
+    })
+  }
+  return deeperIndex;
+}
+
 function computeRulerIndex(x_width, maxGradsNumber, {startDate, timeunit, unitnumber}){
   if(!(startDate && timeunit && unitnumber)){
     return null;
   }
-  let rulerBD = rulerBreakDown(startDate, timeunit, unitnumber, maxGradsNumber);
+  let rulerBD = rulerBreakDown({startDate, timeunit, unitnumber}, maxGradsNumber);
   let x_factor = secondsRange => secondsRange * x_width / rulerBD.range.seconds
   let rulerIndex = {};
   TimeUnit.values.filter(timeunit => rulerBD[timeunit]).forEach(timeunit => {
@@ -105,28 +165,30 @@ function computeRulerIndex(x_width, maxGradsNumber, {startDate, timeunit, unitnu
     let tuRuler = rulerBD[timeunit];
     tuRuler.grads.forEach(grad => {
       let x_position = x_factor(grad.seconds);
-      timeUnitIndex.set(grad.date, x_position);
+      timeUnitIndex.set(grad.date.valueOf(), {"moment":grad.date, "x_position":x_position});
     });
     let x_delta = 0;
     if(tuRuler.grads.length > 1){
       x_delta = x_factor(tuRuler.grads[1].seconds - tuRuler.grads[0].seconds)
     }
-    rulerIndex[timeunit] = {"index": timeUnitIndex, "x_delta": x_delta};
+    rulerIndex[timeunit] = {"timeunit": timeunit, "index": timeUnitIndex, "x_delta": x_delta};
   })
+  rulerIndex.timebreakdown = rulerBD;
+  rulerIndex.x_delta = x_factor(rulerBD.range.seconds);
   return rulerIndex;
 }
 
-function rulerBreakDown(startDate, reftimeunit, refunitnumber, breakdownlimit){
+function rulerBreakDown({startDate, timeunit, unitnumber}, breakdownlimit){
   let result = {};
   //define the displayed dates range of the ruler
-  let displayedRangeStart = DU.roundDown(startDate, reftimeunit);
-  let displayedRangeEnd = DU.addToMoment(displayedRangeStart, reftimeunit, refunitnumber)
+  let displayedRangeStart = DU.roundDown(startDate, timeunit);
+  let displayedRangeEnd = DU.addToMoment(displayedRangeStart, timeunit, unitnumber)
   result.range = {
     start : displayedRangeStart,
     end : displayedRangeEnd,
     seconds : DU.rangeAsSeconds(displayedRangeStart, displayedRangeEnd)
   };
-  result.unit = reftimeunit;
+  result.unit = timeunit;
   TimeUnit.values.forEach((tu) => {
 
     //Be sure the start date of the unit is inside the dates range

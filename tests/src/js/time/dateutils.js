@@ -162,6 +162,10 @@ export function max(m1, m2){
   return null;
 }
 
+export function dateToMoment(date){
+  return moment(date);
+}
+
 const DateUtils = {
   "addToMoment" : addToMoment,
   "getDuration" : getDuration,
@@ -169,7 +173,8 @@ const DateUtils = {
   "roundUp" : roundUp,
   "rangeAsSeconds" : rangeAsSeconds,
   "rangeAsUnit" : rangeAsUnit,
-  "formatUnit" : formatUnit
+  "formatUnit" : formatUnit,
+  "dateToMoment" : dateToMoment
 }
 
 export default DateUtils

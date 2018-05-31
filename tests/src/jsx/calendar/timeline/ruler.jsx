@@ -17,7 +17,7 @@ function buildGrads({index, x, y, height, color}){
   let grads = []
   let i=0
   index.forEach((v) => {
-    let x_coord = v + x;
+    let x_coord = v.x_position + x;
     let y_coord = y;
     grads.push(<line key={i++}
       x1={x_coord} x2={x_coord} y1={y} y2={y_coord + height}
@@ -31,11 +31,11 @@ function buildLabels({x_delta, index, x, y, height, color, timeunit}){
   let i=0
   if(x_delta >= 10){
     index.forEach((v,k) => {
-      let x_coord = v + x + 1;
+      let x_coord = v.x_position + x + 1;
       let y_coord = y + 1.8 * height;
       labels.push(<text key={i++}
         x={x_coord} y={y_coord} fontSize="4"
-        fill={color} fontWeight={100 * height}>{DU.formatUnit(k, timeunit)}</text>)
+        fill={color} fontWeight={100 * height}>{DU.formatUnit(v.moment, timeunit)}</text>)
     });
   }
   return labels;
@@ -48,7 +48,7 @@ function valid({index}){
 Ruler.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
-    timeunit: PropTypes.number.isRequired,
+    timeunit: PropTypes.string.isRequired,
     index: PropTypes.instanceOf(Map).isRequired,
     height: PropTypes.number.isRequired,
     color: PropTypes.string
