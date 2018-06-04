@@ -5,8 +5,9 @@ import Timeline from './timeline.jsx'
 import Ruler from './ruler.jsx'
 import DU, {addToMoment} from '../../../js/time/dateutils.js'
 import TimeUnit from '../../../js/time/timeunit.js'
-import {TimeIntervalService} from '../../../js/resources//timeinterval/timeintervalService.js'
-import {TimeInterval} from '../../../js/resources//timeinterval/timeinterval.js'
+import {TimelineGraphicIndex} from '../../../js/time/breakdown/graphics/timeline-graphic-index.js'
+import {TimeIntervalService} from '../../../js/resources/timeinterval/timeintervalService.js'
+import {TimeInterval} from '../../../js/resources/timeinterval/timeinterval.js'
 import {TimelineCalendarForm} from './form/timeline-calendar-form.jsx'
 
 const viewBow = {
@@ -65,8 +66,8 @@ export class TimelineCalendarFrame extends React.Component{
 
   render(){
     let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
-    let maxNumber = 366;
-    let rulerIndex = computeRulerIndex(viewBow.width.timeline, maxNumber, this.state);
+    let maxNumber = 400;
+    let rulerIndex = new TimelineGraphicIndex(viewBow.width.timeline, maxNumber, this.state);
     let timelines = buildTimelines(rulerIndex, this.state.intervals, viewBow.width.leftpane, viewBow.height.timeline);
     let y_rulerPosition = viewBow.height.timeline * timelines.length + 1;
     let rulers = buildRulers(rulerIndex, maxNumber, viewBow.width.leftpane, y_rulerPosition);
@@ -112,24 +113,32 @@ function buildRulers(rulerIndexs, maxNumber, x_offset, y_offset){
 
 function buildTimelines(rulerIndexs, intervals, x_offset, height){
   if(rulerIndexs && intervals){
-    let deeperIndex = getDeeperInder(rulerIndexs);
+    let moreAccurateIndex = rulerIndexs.getSmallerTimeUnitIndex();
     let displayedStartDate = rulerIndexs.timebreakdown.range.start;
     let displayedEndDate = rulerIndexs.timebreakdown.range.end;
-    if(deeperIndex){
+    if(moreAccurateIndex){
       return intervals.map((ti,i) => {
-        let tiStartDate = DU.roundDown(DU.dateToMoment(ti.startTime), deeperIndex.timeunit);
-        let tiEndDate = DU.roundUp(DU.dateToMoment(ti.endTime), deeperIndex.timeunit);
+        let tiStartDate = DU.roundDown(DU.dateToMoment(ti.startTime), moreAccurateIndex.timeunit);
+        let tiEndDate = DU.roundUp(DU.dateToMoment(ti.endTime), moreAccurateIndex.timeunit);
         if(tiStartDate.isAfter(displayedEndDate) || tiEndDate.isBefore(displayedStartDate)){
-          return (<Timeline key={i} position={i+1} leftPaneWidth={x_offset} height={height} />)
+          return (<Timeline key={i} position={i+1}
+            startPoint={null} endPoint={null}
+            color="white" leftPaneWidth={x_offset} height={height} />)
         }
-        if(tiStartDate.isSameOrBefore(displayedStartDate)){
-          tiStartDate = displayedStartDate;
+        let startPoint = x_offset;
+        if(tiStartDate.isAfter(displayedStartDate)){
+          let startGraphicGradEntry = moreAccurateIndex.index.get(tiStartDate.valueOf());
+          startPoint += startGraphicGradEntry.x_position;
         }
+
         if(tiEndDate.isSameOrAfter(displayedEndDate)){
-          tiEndDate = displayedEndDate;
+          let length = moreAccurateIndex.index.size;
+          let lastEntry = [...moreAccurateIndex.index.entries()][length - 1];
+          let lastValue = lastEntry[1];
+          tiEndDate = lastValue.moment;
         }
-        let startPoint = deeperIndex.index.get(tiStartDate.valueOf()).x_position + x_offset;
-        let endPoint = deeperIndex.index.get(tiEndDate.valueOf()).x_position + x_offset;
+        let endGraphicGradEntry = moreAccurateIndex.index.get(tiEndDate.valueOf());
+        let endPoint = endGraphicGradEntry.x_position + x_offset;
         return (<Timeline key={i} position={i+1}
           startPoint={startPoint} endPoint={endPoint}
           color="red" leftPaneWidth={x_offset} height={height} />)
@@ -139,78 +148,6 @@ function buildTimelines(rulerIndexs, intervals, x_offset, height){
   return [];
 }
 
-function getDeeperInder(rulerIndexs){
-  let deeperIndex = null;
-  if(rulerIndexs){
-    TimeUnit.values
-    .filter(tu => rulerIndexs[tu] && rulerIndexs[tu].index)
-    .forEach((tu) => {
-        if(!deeperIndex || deeperIndex.size < rulerIndexs[tu].index.size){
-          deeperIndex = rulerIndexs[tu];
-        }
-    })
-  }
-  return deeperIndex;
-}
-
-function computeRulerIndex(x_width, maxGradsNumber, {startDate, timeunit, unitnumber}){
-  if(!(startDate && timeunit && unitnumber)){
-    return null;
-  }
-  let rulerBD = rulerBreakDown({startDate, timeunit, unitnumber}, maxGradsNumber);
-  let x_factor = secondsRange => secondsRange * x_width / rulerBD.range.seconds
-  let rulerIndex = {};
-  TimeUnit.values.filter(timeunit => rulerBD[timeunit]).forEach(timeunit => {
-    let timeUnitIndex = new Map();
-    let tuRuler = rulerBD[timeunit];
-    tuRuler.grads.forEach(grad => {
-      let x_position = x_factor(grad.seconds);
-      timeUnitIndex.set(grad.date.valueOf(), {"moment":grad.date, "x_position":x_position});
-    });
-    let x_delta = 0;
-    if(tuRuler.grads.length > 1){
-      x_delta = x_factor(tuRuler.grads[1].seconds - tuRuler.grads[0].seconds)
-    }
-    rulerIndex[timeunit] = {"timeunit": timeunit, "index": timeUnitIndex, "x_delta": x_delta};
-  })
-  rulerIndex.timebreakdown = rulerBD;
-  rulerIndex.x_delta = x_factor(rulerBD.range.seconds);
-  return rulerIndex;
-}
-
-function rulerBreakDown({startDate, timeunit, unitnumber}, breakdownlimit){
-  let result = {};
-  //define the displayed dates range of the ruler
-  let displayedRangeStart = DU.roundDown(startDate, timeunit);
-  let displayedRangeEnd = DU.addToMoment(displayedRangeStart, timeunit, unitnumber)
-  result.range = {
-    start : displayedRangeStart,
-    end : displayedRangeEnd,
-    seconds : DU.rangeAsSeconds(displayedRangeStart, displayedRangeEnd)
-  };
-  result.unit = timeunit;
-  TimeUnit.values.forEach((tu) => {
-
-    //Be sure the start date of the unit is inside the dates range
-    let currentDate = DU.roundUp(displayedRangeStart, tu)
-    //Be sure the end date of the unit is outside the dates range
-    let endDate = DU.roundUp(displayedRangeEnd, tu)
-    if(DU.rangeAsUnit(startDate, endDate, tu) <= breakdownlimit){
-      let tuRuler = {}
-      tuRuler.unit = tu
-      tuRuler.grads =  []
-      while(currentDate.isSameOrBefore(endDate)){
-        tuRuler.grads.push({
-          date: currentDate,
-          seconds : DU.rangeAsSeconds(displayedRangeStart, currentDate)
-        });
-        currentDate = DU.addToMoment(currentDate, tu, 1);
-      }
-      result[tu] = tuRuler
-    }
-  });
-  return result;
-}
 
 let rulersColor = new Map();
 rulersColor.set(TimeUnit.MINUTE, 'rgb(200,80,200)')

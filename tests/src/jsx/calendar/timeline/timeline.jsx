@@ -26,9 +26,9 @@ Timeline.propTypes = {
     color: PropTypes.string.isRequired,
     height: PropTypes.number.isRequired,
     leftPaneWidth: PropTypes.number.isRequired,
-    endPoint: PropTypes.number.isRequired,
-    startPoint: PropTypes.number.isRequired,
-    position: PropTypes.number.isRequired,
+    endPoint: PropTypes.number,
+    startPoint: PropTypes.number,
+    position: PropTypes.number.isRequired
 };
 
 export default Timeline
