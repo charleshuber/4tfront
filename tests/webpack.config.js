@@ -11,7 +11,7 @@ module.exports = {
   stats: {
    colors: true,
    reasons: true
-  },
+ },
   module: {
     rules: [
       { test: /\.css$/,
