@@ -30,7 +30,7 @@ function buildLabels({x_delta, index, x, y, height, color, timeunit}){
   let labels = []
   let i=0
   if(x_delta >= 10){
-    index.forEach((v,k) => {
+    index.forEach((v) => {
       let x_coord = v.x_position + x + 1;
       let y_coord = y + 1.8 * height;
       labels.push(<text key={i++}

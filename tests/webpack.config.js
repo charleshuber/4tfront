@@ -7,7 +7,7 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js'
   },
-  devtool: '#sourcemap',
+  devtool: 'source-map', //to enable only in dev mode
   stats: {
    colors: true,
    reasons: true
@@ -20,7 +20,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loaders: ['babel-loader'/*,'eslint-loader'*/]
+        loaders: ['babel-loader','eslint-loader']
       },
       {
         test: /\.tsx?$/,
