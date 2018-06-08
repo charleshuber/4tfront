@@ -12,7 +12,7 @@ module.exports = {
    colors: true,
    reasons: true
  },
-  module: {
+ module: {
     rules: [
       { test: /\.css$/,
         loader: 'style-loader!css-loader'
@@ -21,6 +21,11 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
         loaders: ['babel-loader'/*,'eslint-loader'*/]
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /(node_modules)/,
+        loaders: ['awesome-typescript-loader','tslint-loader']
       }
     ]
   },

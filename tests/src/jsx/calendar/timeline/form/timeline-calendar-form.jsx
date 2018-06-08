@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker'
 import Slider from 'rc-slider';
 import moment from 'moment'
 import TimeUnitSelection from './timeunit-selection.jsx'
-import TimeUnit from '../../../../js/time/timeunit.js'
+import {TimeUnit} from '../../../../js/time/timeunit.ts'
 
 import 'react-datepicker/dist/react-datepicker.css';
 import 'rc-slider/assets/index.css';
@@ -71,7 +71,7 @@ export class TimelineCalendarForm extends React.Component {
     <form>
       <fieldset>
         <div>
-          <TimeUnitSelection selected={this.state.timeunit} options={TimeUnit.values} handleChange={this.handleTimeunitSelection}/>
+          <TimeUnitSelection selected={this.state.timeunit} options={Object.keys(TimeUnit)} handleChange={this.handleTimeunitSelection}/>
         </div>
         <div>
           <DatePicker selected={this.state.startDate} onChange={this.handleStartDateChange}/>

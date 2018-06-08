@@ -1,6 +1,6 @@
 'use strict'
 
-import TimeUnit from '../../timeunit.js'
+import {TimeUnit} from '../../timeunit.ts'
 import {TimeBreakdown} from '../timebreakdown.js'
 
 export class TimelineGraphicIndex {
@@ -11,7 +11,7 @@ export class TimelineGraphicIndex {
     }
     let rulerBD = new TimeBreakdown({startDate, timeunit, unitnumber}, maxGradsNumber);
     let x_factor = secondsRange => secondsRange * x_width / rulerBD.range.seconds
-    TimeUnit.values.filter(timeunit => rulerBD[timeunit]).forEach(timeunit => {
+    Object.keys(TimeUnit).filter(timeunit => rulerBD[timeunit]).forEach(timeunit => {
       let timeUnitIndex = new Map();
       let tuRuler = rulerBD.get(timeunit);
       tuRuler.gradients.forEach(grad => {
@@ -30,7 +30,7 @@ export class TimelineGraphicIndex {
 
   getSmallerTimeUnitIndex(){
     let smallerTUIndex = null;
-    TimeUnit.values
+    Object.keys(TimeUnit)
     .filter(tu => this[tu] && this[tu].index)
     .forEach((tu) => {
         if(!smallerTUIndex || smallerTUIndex.size < this[tu].index.size){

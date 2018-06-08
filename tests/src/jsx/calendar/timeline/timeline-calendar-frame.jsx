@@ -4,10 +4,9 @@ import React from 'react'
 import Timeline from './timeline.jsx'
 import Ruler from './ruler.jsx'
 import DU, {addToMoment} from '../../../js/time/dateutils.js'
-import TimeUnit from '../../../js/time/timeunit.js'
+import {TimeUnit} from '../../../js/time/timeunit.ts'
 import {TimelineGraphicIndex} from '../../../js/time/breakdown/graphics/timeline-graphic-index.js'
 import {TimeIntervalService} from '../../../js/resources/timeinterval/timeintervalService.js'
-import {TimeInterval} from '../../../js/resources/timeinterval/timeinterval.js'
 import {TimelineCalendarForm} from './form/timeline-calendar-form.jsx'
 
 const viewBow = {
@@ -95,7 +94,7 @@ export class TimelineCalendarFrame extends React.Component{
 function buildRulers(rulerIndexs, maxNumber, x_offset, y_offset){
   let rulers = [];
   if(rulerIndexs && maxNumber){
-    rulers = TimeUnit.values
+    rulers = Object.keys(TimeUnit)
     .filter(tu => rulerIndexs[tu] && rulerIndexs[tu].index)
     .filter(tu => rulerIndexs[tu].index.size <= maxNumber)
     .map((tu, i) => {
