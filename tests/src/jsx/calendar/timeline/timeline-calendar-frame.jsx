@@ -1,6 +1,6 @@
 require('./timeline-calendar-frame.css')
 
-import React from 'react'
+import * as React from 'react';
 import Timeline from './timeline.jsx'
 import Ruler from './ruler.jsx'
 import DU, {addToMoment} from '../../../js/time/dateutils.js'

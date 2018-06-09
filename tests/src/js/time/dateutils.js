@@ -1,4 +1,4 @@
-import moment from 'moment'
+import * as moment from 'moment';
 import {TimeUnit} from './timeunit.ts';
 
 //export let dayLabels = new Array('Dim','Lun','Mar','Mer','Jeu','Ven','Sam');

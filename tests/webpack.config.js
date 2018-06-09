@@ -12,18 +12,16 @@ module.exports = {
    colors: true,
    reasons: true
  },
+ resolve:{
+   "extensions":[".ts", ".js"]
+ },
  module: {
     rules: [
       { test: /\.css$/,
         loader: 'style-loader!css-loader'
       },
       {
-        test: /\.jsx?$/,
-        exclude: /(node_modules)/,
-        loaders: ['babel-loader','eslint-loader']
-      },
-      {
-        test: /\.tsx?$/,
+        test: /\.[tj]sx?$/,
         exclude: /(node_modules)/,
         loaders: ['awesome-typescript-loader','tslint-loader']
       }

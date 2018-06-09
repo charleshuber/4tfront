@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker'
 import Slider from 'rc-slider';
-import moment from 'moment'
+import * as moment from 'moment';
 import TimeUnitSelection from './timeunit-selection.jsx'
 import {TimeUnit} from '../../../../js/time/timeunit.ts'
 

@@ -1,6 +1,6 @@
-const React = require('react')
-const RD = require('react-dom')
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 import {TimelineCalendarFrame} from './calendar/timeline/timeline-calendar-frame.jsx'
 
-RD.render(<TimelineCalendarFrame/>, document.getElementById('app'))
+ReactDOM.render(<TimelineCalendarFrame/>, document.getElementById('app'))
