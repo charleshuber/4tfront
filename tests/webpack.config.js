@@ -13,7 +13,7 @@ module.exports = {
    reasons: true
  },
  resolve:{
-   "extensions":[".ts", ".js"]
+   "extensions":[".js", ".ts"]
  },
  module: {
     rules: [

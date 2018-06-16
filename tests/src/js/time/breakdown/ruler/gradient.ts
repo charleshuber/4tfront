@@ -1,12 +1,15 @@
-'use strict'
+import {Moment} from "moment";
 
 export class TimeRulerGradient {
-  constructor(date, positionAsSeconds){
+  public date: Moment;
+  public positionAsSeconds: number;
+
+  constructor(date, positionAsSeconds) {
     this.date = date;
     this.positionAsSeconds = positionAsSeconds;
   }
 
-  get seconds(){
+  get seconds() {
     return this.positionAsSeconds;
   }
 }
