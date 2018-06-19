@@ -9,7 +9,10 @@ export class TimelineGraphicIndex {
   public xDelta: number;
   public indexMap: Map<TimeUnit, TimeUnitIndexXInfo> = new Map();
 
-  constructor(xWidth, maxGradsNumber, {startDate, timeunit, unitnumber}) {
+  constructor(
+      xWidth: number,
+      maxGradsNumber: number,
+      {startDate, timeunit, unitnumber}) {
     const rulerBD = new TimeBreakdown({startDate, timeunit, unitnumber}, maxGradsNumber);
     const xFactor = (secondsRange) => secondsRange * xWidth / rulerBD.range.seconds;
 

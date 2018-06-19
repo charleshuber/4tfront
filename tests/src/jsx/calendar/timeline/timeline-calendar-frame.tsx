@@ -1,25 +1,25 @@
 require("./timeline-calendar-frame.css");
 
 import * as React from "react";
-import {TimelineCalendarForm} from "./form/timeline-calendar-form.jsx";
-import Ruler from "./ruler.jsx";
-import Timeline from "./timeline.jsx";
-import {TimelineCalendarFrameState} from "./timelinecalendar-frame-state";
 import {TimeIntervalService} from "../../../js/resources/timeinterval/timeintervalService";
 import {TimelineGraphicIndex} from "../../../js/time/breakdown/graphics/timeline-graphic-index";
 import DU, {addToMoment} from "../../../js/time/dateutils.js";
 import {TimeUnit} from "../../../js/time/timeunit";
+import {TimelineCalendarForm} from "./form/timeline-calendar-form.jsx";
+import {Ruler} from "./ruler.jsx";
+import Timeline from "./timeline.jsx";
+import {TimelineCalendarFrameState} from "./timelinecalendar-frame-state";
 
 const viewBow = {
   height: {
     ruler: 20,
-    timeline: 20
+    timeline: 20,
   },
   width: {
     leftpane: 10,
-    timeline: 500
-  }
-}
+    timeline: 500,
+  },
+};
 
 export class TimelineCalendarFrame extends React.Component<any, TimelineCalendarFrameState> {
 
@@ -52,24 +52,27 @@ export class TimelineCalendarFrame extends React.Component<any, TimelineCalendar
   }
 
   public render() {
-    let viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
-    let maxNumber = 400;
-    let rulerIndex = null;
-    if (this.state.startDate && this.state.timeunit && this.state.unitnumber){
+    const viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
+    const maxNumber = 400;
+    let rulerIndex: TimelineGraphicIndex | null = null;
+    if (this.state.startDate && this.state.timeunit && this.state.unitnumber) {
       rulerIndex = new TimelineGraphicIndex(viewBow.width.timeline, maxNumber, this.state);
     }
-    let timelines = buildTimelines(rulerIndex, this.state.intervals, viewBow.width.leftpane, viewBow.height.timeline);
-    let y_rulerPosition = viewBow.height.timeline * timelines.length + 1;
-    let rulers = buildRulers(rulerIndex, maxNumber, viewBow.width.leftpane, y_rulerPosition);
-    let viewbox = '0 0 ' + viewBoxWidth + ' ' + (y_rulerPosition + viewBow.height.ruler);
+    const timelines = buildTimelines(rulerIndex, this.state.intervals, viewBow.width.leftpane, viewBow.height.timeline);
+    const yRulerPosition = viewBow.height.timeline * timelines.length + 1;
+    const rulers = buildRulers(rulerIndex, maxNumber, viewBow.width.leftpane, yRulerPosition);
+    const viewbox = "0 0  " + viewBoxWidth + " " + (yRulerPosition + viewBow.height.ruler);
     return (
       <div>
         <h1>Timeline Calendar Frame Yop</h1>
-        <div> Timeunit: {this.state.timeunit} - number: {this.state.unitnumber} - startDate: {this.startDateFormat} - endDate: {this.endDateFormat}</div>
-        {/*
-          https://www.sarasoueidan.com/blog/svg-coordinate-systems
-          https://www.w3schools.com/graphics/svg_intro.asp
-        */}
+        <div>
+          Timeunit: {this.state.timeunit}
+          - number: {this.state.unitnumber}
+          - startDate: {this.startDateFormat}
+          - endDate: {this.endDateFormat}
+        </div>
+        {/* https://www.sarasoueidan.com/blog/svg-coordinate-systems */}
+        {/* https://www.w3schools.com/graphics/svg_intro.asp */}
         <div className="svg-container">
           <svg version="1.1" viewBox={viewbox} preserveAspectRatio="xMinYMin meet" className="svg-content">
             {timelines}
@@ -78,13 +81,13 @@ export class TimelineCalendarFrame extends React.Component<any, TimelineCalendar
         </div>
         <TimelineCalendarForm publish={this.handleFormChange}/>
       </div>
-    )
+    );
   }
 
   private computeEndDate({startDate, timeunit, unitnumber}) {
       return addToMoment(startDate, timeunit, unitnumber);
   }
-  
+
   private handleFormChange(formState) {
     const startDate = formState.startDate;
     const endDate = this.computeEndDate(formState);
@@ -97,15 +100,15 @@ export class TimelineCalendarFrame extends React.Component<any, TimelineCalendar
   }
 }
 
-function buildRulers(rulerIndexs, maxNumber, x_offset, y_offset){
-  let rulers = [];
-  if(rulerIndexs && maxNumber){
+function buildRulers(rulerIndexs, maxNumber, xOffset, yOffset) {
+  let rulers: Ruler[] = [];
+  if (rulerIndexs && maxNumber) {
     rulers = Object.keys(TimeUnit)
-    .filter(tu => rulerIndexs[tu] && rulerIndexs[tu].index)
-    .filter(tu => rulerIndexs[tu].index.size <= maxNumber)
+    .filter((tu) => rulerIndexs[tu] && rulerIndexs[tu].index)
+    .filter((tu) => rulerIndexs[tu].index.size <= maxNumber)
     .map((tu, i) => {
         return <Ruler key={i}
-          y={y_offset} x={x_offset}
+          y={yOffset} x={xOffset}
           timeunit={tu}
           index={rulerIndexs[tu].index}
           heixD={(i+1) * 2}
@@ -116,7 +119,7 @@ function buildRulers(rulerIndexs, maxNumber, x_offset, y_offset){
   return rulers;
 }
 
-function buildTimelines(rulerIndexs, intervals, x_offset, height){
+function buildTimelines(rulerIndexs, intervals, xOffset, height){
   if(rulerIndexs && intervals){
     let moreAccurateIndex = rulerIndexs.getSmallerTimeUnitIndex();
     let displayedStartDate = rulerIndexs.timebreakdown.range.start;
@@ -128,9 +131,9 @@ function buildTimelines(rulerIndexs, intervals, x_offset, height){
         if(tiStartDate.isAfter(displayedEndDate) || tiEndDate.isBefore(displayedStartDate)){
           return (<Timeline key={i} position={i+1}
             startPoint={null} endPoint={null}
-            color="white" leftPaneWidth={x_offset} height={height} />)
+            color="white" leftPaneWidth={xOffset} height={height} />)
         }
-        let startPoint = x_offset;
+        let startPoint = xOffset;
         if(tiStartDate.isAfter(displayedStartDate)){
           let startGraphicGradEntry = moreAccurateIndex.index.get(tiStartDate.valueOf());
           startPoint += startGraphicGradEntry.x_position;
@@ -143,10 +146,10 @@ function buildTimelines(rulerIndexs, intervals, x_offset, height){
           tiEndDate = lastValue.moment;
         }
         let endGraphicGradEntry = moreAccurateIndex.index.get(tiEndDate.valueOf());
-        let endPoint = endGraphicGradEntry.x_position + x_offset;
+        let endPoint = endGraphicGradEntry.x_position + xOffset;
         return (<Timeline key={i} position={i+1}
           startPoint={startPoint} endPoint={endPoint}
-          color="red" leftPaneWidth={x_offset} height={height} />)
+          color="red" leftPaneWidth={xOffset} height={height} />)
       });
     }
   }

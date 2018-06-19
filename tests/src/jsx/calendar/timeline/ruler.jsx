@@ -1,8 +1,8 @@
-import * as React from 'react'
+import * as React from "react";
 import PropTypes from 'prop-types'
 import DU from '../../../js/time/dateutils.js'
 
-const Ruler = (props) => {
+export const Ruler = (props) => {
   if(!valid(props)){
     return null;
   }
@@ -53,5 +53,3 @@ Ruler.propTypes = {
     height: PropTypes.number.isRequired,
     color: PropTypes.string
 };
-
-export default Ruler;
