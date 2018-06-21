@@ -110,9 +110,7 @@ function buildRulers(rulerIndexs: TimelineGraphicIndex | null, maxNumber, xOffse
     .filter((tuIndexXInfo: TimeUnitIndexXInfo) => tuIndexXInfo.index.size <= maxNumber)
     .map((tuIndexXInfo: TimeUnitIndexXInfo, i) => {
         return <Ruler
-          key={i}
-          y={yOffset}
-          x={xOffset}
+          key={i} y={yOffset} x={xOffset}
           timeunit={tuIndexXInfo.timeunit}
           index={tuIndexXInfo.index}
           height={(i + 1) * 2}
@@ -135,13 +133,10 @@ function buildTimelines(rulerIndexs: TimelineGraphicIndex | null, intervals, xOf
         let tiEndDate = DU.roundUp(DU.dateToMoment(ti.endTime), moreAccurateIndex.timeunit);
         if (tiStartDate.isAfter(displayedEndDate) || tiEndDate.isBefore(displayedStartDate)) {
           return (<Timeline
-            key={i}
-            position={i + 1}
-            startPoint={null}
-            endPoint={null}
+            key={i} position={i + 1}
+            startPoint={null} endPoint={null}
             color="white"
-            leftPaneWidth={xOffset}
-            height={height}
+            leftPaneWidth={xOffset} height={height}
           />);
         }
         let startPoint = xOffset;
@@ -159,13 +154,10 @@ function buildTimelines(rulerIndexs: TimelineGraphicIndex | null, intervals, xOf
         const endGraphicGradEntry = moreAccurateIndex.index.get(tiEndDate.valueOf());
         const endPoint = endGraphicGradEntry.xPosition + xOffset;
         return (<Timeline
-          key={i}
-          position={i + 1}
-          startPoint={startPoint}
-          endPoint={endPoint}
+          key={i} position={i + 1}
+          startPoint={startPoint} endPoint={endPoint}
           color="red"
-          leftPaneWidth={xOffset}
-          height={height}
+          leftPaneWidth={xOffset} height={height}
         />);
       });
     }

@@ -3,6 +3,7 @@
   "rules": {
     // override tslint-react rules here
     "jsx-wrap-multiline": false,
-    "no-var-requires": true
+    "jsx-alignment": false,
+    "no-var-requires": false
   }
 }
