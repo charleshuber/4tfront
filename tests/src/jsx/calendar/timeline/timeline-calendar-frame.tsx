@@ -4,7 +4,7 @@ import * as React from "react";
 import {TimeIntervalService} from "../../../js/resources/timeinterval/timeintervalService";
 import {TimelineGraphicIndex} from "../../../js/time/breakdown/graphics/timeline-graphic-index";
 import {TimeUnitIndexXInfo} from "../../../js/time/breakdown/graphics/timeunitindexXinfo";
-import DU, {addToMoment} from "../../../js/time/dateutils.js";
+import DU, {addToMoment} from "../../../js/time/dateutils";
 import {TimeUnit} from "../../../js/time/timeunit";
 import {TimelineCalendarForm} from "./form/timeline-calendar-form.jsx";
 import {Ruler} from "./ruler.jsx";

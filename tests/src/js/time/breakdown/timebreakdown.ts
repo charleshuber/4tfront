@@ -1,4 +1,4 @@
-import DU from "../dateutils.js";
+import DU from "../dateutils";
 import {TimeUnit} from "../timeunit";
 import {TimeRulerGradient} from "./ruler/gradient";
 import {TimeRuler} from "./ruler/timeruler";
@@ -17,7 +17,7 @@ export class TimeBreakdown {
     this.unit = timeunit;
     this.range = new TimeRange(displayedRangeStart, displayedRangeEnd);
 
-    Object.keys(TimeUnit).forEach((tu) => {
+    Object.keys(TimeUnit).forEach((tu: TimeUnit) => {
       // Be sure the start date is inside the dates range
       let currentDate = DU.roundUp(displayedRangeStart, tu);
       // Be sure the end date of the unit is outside the dates range
