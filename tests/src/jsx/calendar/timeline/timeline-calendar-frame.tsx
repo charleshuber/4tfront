@@ -3,6 +3,7 @@ require("./timeline-calendar-frame.css");
 import * as React from "react";
 import {TimeIntervalService} from "../../../js/resources/timeinterval/timeintervalService";
 import {TimelineGraphicIndex} from "../../../js/time/breakdown/graphics/timeline-graphic-index";
+import {TimeUnitIndexXInfo} from "../../../js/time/breakdown/graphics/timeunitindexXinfo";
 import DU, {addToMoment} from "../../../js/time/dateutils.js";
 import {TimeUnit} from "../../../js/time/timeunit";
 import {TimelineCalendarForm} from "./form/timeline-calendar-form.jsx";
@@ -100,56 +101,72 @@ export class TimelineCalendarFrame extends React.Component<any, TimelineCalendar
   }
 }
 
-function buildRulers(rulerIndexs, maxNumber, xOffset, yOffset) {
-  let rulers: Ruler[] = [];
+function buildRulers(rulerIndexs: TimelineGraphicIndex | null, maxNumber, xOffset, yOffset) {
+  let rulers: any[] = [];
   if (rulerIndexs && maxNumber) {
     rulers = Object.keys(TimeUnit)
-    .filter((tu) => rulerIndexs[tu] && rulerIndexs[tu].index)
-    .filter((tu) => rulerIndexs[tu].index.size <= maxNumber)
-    .map((tu, i) => {
-        return <Ruler key={i}
-          y={yOffset} x={xOffset}
-          timeunit={tu}
-          index={rulerIndexs[tu].index}
-          heixD={(i+1) * 2}
-          x_delta={rulerIndexs[tu].xDelta}
-          color={rulersColor.get(tu)}/>
-    })
+    .map((tu: TimeUnit) => rulerIndexs.indexMap.get(tu))
+    .filter((tuIndexXInfo: TimeUnitIndexXInfo) => tuIndexXInfo && tuIndexXInfo.index)
+    .filter((tuIndexXInfo: TimeUnitIndexXInfo) => tuIndexXInfo.index.size <= maxNumber)
+    .map((tuIndexXInfo: TimeUnitIndexXInfo, i) => {
+        return <Ruler
+          key={i}
+          y={yOffset}
+          x={xOffset}
+          timeunit={tuIndexXInfo.timeunit}
+          index={tuIndexXInfo.index}
+          height={(i + 1) * 2}
+          x_delta={tuIndexXInfo.xDelta}
+          color={rulersColor.get(tuIndexXInfo.timeunit)}
+        />;
+    });
   }
   return rulers;
 }
 
-function buildTimelines(rulerIndexs, intervals, xOffset, height){
-  if(rulerIndexs && intervals){
-    let moreAccurateIndex = rulerIndexs.getSmallerTimeUnitIndex();
-    let displayedStartDate = rulerIndexs.timebreakdown.range.start;
-    let displayedEndDate = rulerIndexs.timebreakdown.range.end;
-    if(moreAccurateIndex){
-      return intervals.map((ti,i) => {
-        let tiStartDate = DU.roundDown(DU.dateToMoment(ti.startTime), moreAccurateIndex.timeunit);
+function buildTimelines(rulerIndexs: TimelineGraphicIndex | null, intervals, xOffset, height) {
+  if (rulerIndexs && intervals) {
+    const moreAccurateIndex = rulerIndexs.getSmallerTimeUnitIndex();
+    const displayedStartDate = rulerIndexs.timebreakdown.range.start;
+    const displayedEndDate = rulerIndexs.timebreakdown.range.end;
+    if (moreAccurateIndex) {
+      return intervals.map((ti, i) => {
+        const tiStartDate = DU.roundDown(DU.dateToMoment(ti.startTime), moreAccurateIndex.timeunit);
         let tiEndDate = DU.roundUp(DU.dateToMoment(ti.endTime), moreAccurateIndex.timeunit);
-        if(tiStartDate.isAfter(displayedEndDate) || tiEndDate.isBefore(displayedStartDate)){
-          return (<Timeline key={i} position={i+1}
-            startPoint={null} endPoint={null}
-            color="white" leftPaneWidth={xOffset} height={height} />)
+        if (tiStartDate.isAfter(displayedEndDate) || tiEndDate.isBefore(displayedStartDate)) {
+          return (<Timeline
+            key={i}
+            position={i + 1}
+            startPoint={null}
+            endPoint={null}
+            color="white"
+            leftPaneWidth={xOffset}
+            height={height}
+          />);
         }
         let startPoint = xOffset;
-        if(tiStartDate.isAfter(displayedStartDate)){
-          let startGraphicGradEntry = moreAccurateIndex.index.get(tiStartDate.valueOf());
-          startPoint += startGraphicGradEntry.x_position;
+        if (tiStartDate.isAfter(displayedStartDate)) {
+          const startGraphicGradEntry = moreAccurateIndex.index.get(tiStartDate.valueOf());
+          startPoint += startGraphicGradEntry.xPosition;
         }
 
-        if(tiEndDate.isSameOrAfter(displayedEndDate)){
-          let length = moreAccurateIndex.index.size;
-          let lastEntry = [...moreAccurateIndex.index.entries()][length - 1];
-          let lastValue = lastEntry[1];
+        if (tiEndDate.isSameOrAfter(displayedEndDate)) {
+          const length = moreAccurateIndex.index.size;
+          const lastEntry = [...moreAccurateIndex.index.entries()][length - 1];
+          const lastValue = lastEntry[1];
           tiEndDate = lastValue.moment;
         }
-        let endGraphicGradEntry = moreAccurateIndex.index.get(tiEndDate.valueOf());
-        let endPoint = endGraphicGradEntry.x_position + xOffset;
-        return (<Timeline key={i} position={i+1}
-          startPoint={startPoint} endPoint={endPoint}
-          color="red" leftPaneWidth={xOffset} height={height} />)
+        const endGraphicGradEntry = moreAccurateIndex.index.get(tiEndDate.valueOf());
+        const endPoint = endGraphicGradEntry.xPosition + xOffset;
+        return (<Timeline
+          key={i}
+          position={i + 1}
+          startPoint={startPoint}
+          endPoint={endPoint}
+          color="red"
+          leftPaneWidth={xOffset}
+          height={height}
+        />);
       });
     }
   }

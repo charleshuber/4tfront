@@ -17,7 +17,7 @@ function buildGrads({index, x, y, height, color}){
   let grads = []
   let i=0
   index.forEach((v) => {
-    let x_coord = v.x_position + x;
+    let x_coord = v.xPosition + x;
     let y_coord = y;
     grads.push(<line key={i++}
       x1={x_coord} x2={x_coord} y1={y} y2={y_coord + height}
@@ -31,7 +31,7 @@ function buildLabels({x_delta, index, x, y, height, color, timeunit}){
   let i=0
   if(x_delta >= 10){
     index.forEach((v) => {
-      let x_coord = v.x_position + x + 1;
+      let x_coord = v.xPosition + x + 1;
       let y_coord = y + 1.8 * height;
       labels.push(<text key={i++}
         x={x_coord} y={y_coord} fontSize="4"
