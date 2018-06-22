@@ -1,3 +1,4 @@
+import {Moment} from "moment";
 import DU from "../dateutils";
 import {TimeUnit} from "../timeunit";
 import {TimeRulerGradient} from "./ruler/gradient";
@@ -9,7 +10,11 @@ export class TimeBreakdown {
   public unit: TimeUnit;
   public range: TimeRange;
 
-  constructor({startDate, timeunit, unitnumber}, breakdownlimit: number) {
+  constructor(
+    startDate: Moment,
+    timeunit: TimeUnit,
+    unitnumber: number ,
+    breakdownlimit: number) {
 
     // define the boundary dates of the ruler
     const displayedRangeStart = DU.roundDown(startDate, timeunit);

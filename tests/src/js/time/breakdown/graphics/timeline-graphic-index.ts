@@ -1,7 +1,8 @@
+import {Moment} from "moment";
 import {TimeUnit} from "../../timeunit";
 import {TimeBreakdown} from "../timebreakdown";
-import {GradientXInfo} from "./gradientXinfo";
-import {TimeUnitIndexXInfo} from "./timeunitindexXinfo";
+import {GradientXInfo} from "./gradient-graphic-info";
+import {TimeUnitIndexXInfo} from "./timeunit-index-graphic-info";
 
 export class TimelineGraphicIndex {
 
@@ -12,8 +13,11 @@ export class TimelineGraphicIndex {
   constructor(
       xWidth: number,
       maxGradsNumber: number,
-      {startDate, timeunit, unitnumber}) {
-    const rulerBD = new TimeBreakdown({startDate, timeunit, unitnumber}, maxGradsNumber);
+      startDate: Moment,
+      timeunit: TimeUnit,
+      unitnumber: number) {
+
+    const rulerBD = new TimeBreakdown(startDate, timeunit, unitnumber, maxGradsNumber);
     const xFactor = (secondsRange) => secondsRange * xWidth / rulerBD.range.seconds;
 
     Object.keys(TimeUnit).filter((tu) => rulerBD[tu]).forEach((tu: TimeUnit) => {

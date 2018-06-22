@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from 'prop-types'
-import DU from '../../../js/time/dateutils'
+import DU from '../../../../../js/time/dateutils'
 
 export const Ruler = (props) => {
   if(!valid(props)){

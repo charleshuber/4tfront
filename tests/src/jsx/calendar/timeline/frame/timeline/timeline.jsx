@@ -1,7 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types';
 
-const Timeline = (props) => {
+export const Timeline = (props) => {
   let fontSize = 7;
   let insideHeight = props.height - 1;
   let insideLeftPaneWidth = props.leftPaneWidth - 1;
@@ -30,5 +30,3 @@ Timeline.propTypes = {
     startPoint: PropTypes.number,
     position: PropTypes.number.isRequired
 };
-
-export default Timeline
