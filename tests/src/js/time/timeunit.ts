@@ -1,4 +1,3 @@
-
 export enum TimeUnit {
   MINUTE = "MINUTE",
   MINUTES_5 = "MINUTES_5",

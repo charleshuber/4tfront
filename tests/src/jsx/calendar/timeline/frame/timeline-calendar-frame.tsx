@@ -3,36 +3,26 @@ require("./timeline-calendar-frame.css");
 import {Moment} from "moment";
 import * as React from "react";
 import {TimeInterval} from "../../../../js/resources/timeinterval/timeinterval";
-import {TimeIntervalService} from "../../../../js/resources/timeinterval/timeinterval-service";
+import {TimeIntervalService} from "../../../../js/resources/timeinterval/timeintervalService";
 import {TimelineGraphicIndex} from "../../../../js/time/breakdown/graphics/timeline-graphic-index";
 import {TimeUnitIndexXInfo} from "../../../../js/time/breakdown/graphics/timeunit-index-graphic-info";
 import DU, {addToMoment} from "../../../../js/time/dateutils";
 import {TimeUnit} from "../../../../js/time/timeunit";
 import {TimelineCalendarForm} from "./../form/timeline-calendar-form.jsx";
-import {Ruler} from "./ruler/ruler.jsx";
-import {Timeline} from "./timeline/timeline.jsx";
+import {Ruler} from "./ruler/ruler";
+import {Timeline} from "./timeline/timeline";
+import {ITimelineCalendarFrameProps} from "./timelinecalendar-frame-props";
 import {TimelineCalendarFrameState} from "./timelinecalendar-frame-state";
 
-const viewBow = {
-  height: {
-    ruler: 20,
-    timeline: 20,
-  },
-  width: {
-    leftpane: 10,
-    timeline: 500,
-  },
-};
-
-export class TimelineCalendarFrame extends React.Component<any, TimelineCalendarFrameState> {
+export class TimelineCalendarFrame
+  extends React.Component<ITimelineCalendarFrameProps, TimelineCalendarFrameState> {
 
   private tiService: TimeIntervalService;
 
-  constructor(props) {
+  constructor(props: ITimelineCalendarFrameProps) {
     super(props);
     this.state = new TimelineCalendarFrameState();
     this.handleFormChange = this.handleFormChange.bind(this);
-    this.tiService = new TimeIntervalService();
   }
 
   get startDateFormat() {
@@ -55,14 +45,15 @@ export class TimelineCalendarFrame extends React.Component<any, TimelineCalendar
   }
 
   public render() {
-    const viewBoxWidth = viewBow.width.timeline + viewBow.width.leftpane;
+    const viewBoxWidth = this.props.timelineWidth + this.props.leftPaneWidth;
     const maxNumber = 400;
     const rulerIndex: TimelineGraphicIndex | null =
-      buildTimelineGraphicIndex(viewBow.width.timeline, maxNumber, this.state);
-    const timelines = buildTimelines(rulerIndex, this.state.intervals, viewBow.width.leftpane, viewBow.height.timeline);
-    const yRulerPosition = viewBow.height.timeline * timelines.length + 1;
-    const rulers = buildRulers(rulerIndex, maxNumber, viewBow.width.leftpane, yRulerPosition);
-    const viewbox = "0 0  " + viewBoxWidth + " " + (yRulerPosition + viewBow.height.ruler);
+      buildTimelineGraphicIndex(this.props.timelineWidth, maxNumber, this.state);
+    const timelines = buildTimelines(
+      rulerIndex, this.state.intervals, this.props.leftPaneWidth, this.props.timelineHeight);
+    const yRulerPosition = this.props.timelineHeight * timelines.length + 1;
+    const rulers = buildRulers(rulerIndex, maxNumber, this.props.leftPaneWidth, yRulerPosition);
+    const viewbox = "0 0  " + viewBoxWidth + " " + (yRulerPosition + this.props.rulerHeight);
     return (
       <div>
         <h1>Timeline Calendar Frame Yop</h1>
@@ -92,7 +83,7 @@ export class TimelineCalendarFrame extends React.Component<any, TimelineCalendar
   private handleFormChange(formState) {
     const startDate = formState.startDate;
     const endDate = this.computeEndDate(formState);
-    this.tiService.getTimeIntervals()
+    this.props.timeIntervalService.getTimeIntervals()
     .then((intervals) => {
       formState.intervals = intervals;
       this.setState(formState);
@@ -134,7 +125,7 @@ function buildRulers(
           timeunit={tuIndexXInfo.timeunit}
           index={tuIndexXInfo.index}
           height={(i + 1) * 2}
-          x_delta={tuIndexXInfo.xDelta}
+          xDelta={tuIndexXInfo.xDelta}
           color={rulersColor.get(tuIndexXInfo.timeunit)}
         />;
     });
@@ -174,29 +165,29 @@ function buildTimeLine(
 
     const tiStartDate = DU.roundDown(DU.dateToMoment(ti.getStartTime()), referenceGraphicIndex.timeunit);
     let tiEndDate = DU.roundUp(DU.dateToMoment(ti.getEndTime()), referenceGraphicIndex.timeunit);
+    // if interval is outside the scope
     if (tiStartDate.isAfter(displayedEndDate) || tiEndDate.isBefore(displayedStartDate)) {
       return buildEmptyTimeline(i, xOffset, height);
     }
+    // calibrate starting point on departure of the ruler
     let startPoint = xOffset;
+    // if start date of the interval is inside the scope, get its x coordinate from the reference ruler
     if (tiStartDate.isAfter(displayedStartDate)) {
       const startGraphicGradEntry = referenceGraphicIndex.index.get(tiStartDate.valueOf());
       startPoint += startGraphicGradEntry.xPosition;
     }
-
+    // if the end date of the interval is outside the scope,
+    // we set the end date equals to the date of the last gradient of the ruler
     if (tiEndDate.isSameOrAfter(displayedEndDate)) {
       const length = referenceGraphicIndex.index.size;
       const lastEntry = [...referenceGraphicIndex.index.entries()][length - 1];
       const lastValue = lastEntry[1];
       tiEndDate = lastValue.moment;
     }
+    // get the x coordinate of the end date from the reference ruler
     const endGraphicGradEntry = referenceGraphicIndex.index.get(tiEndDate.valueOf());
     const endPoint = endGraphicGradEntry.xPosition + xOffset;
-    return (<Timeline
-      key={i} position={i + 1}
-      startPoint={startPoint} endPoint={endPoint}
-      color="red"
-      leftPaneWidth={xOffset} height={height}
-    />);
+    return buildTimeline(i, startPoint, endPoint, xOffset, height, "red");
 }
 
 function buildEmptyTimeline(i: number, xOffset: number, height: number) {
@@ -205,7 +196,7 @@ function buildEmptyTimeline(i: number, xOffset: number, height: number) {
 
 function buildTimeline(
   i: number,
-  startPoint: Moment | null, endPoint: Moment | null,
+  startPoint: number | null, endPoint: number | null,
   xOffset: number, height: number,
   color: string) {
     return (<Timeline

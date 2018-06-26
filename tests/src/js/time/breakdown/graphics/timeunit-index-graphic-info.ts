@@ -1,5 +1,5 @@
 import {TimeUnit} from "../../timeunit";
-import {GradientXInfo} from "./gradient-graphic-info";
+import {GradientXInfo} from "./gradientXinfo";
 
 export class TimeUnitIndexXInfo {
   public timeunit: TimeUnit;

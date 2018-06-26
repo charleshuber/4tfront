@@ -1,7 +1,7 @@
 import {Moment} from "moment";
 import {TimeUnit} from "../../timeunit";
 import {TimeBreakdown} from "../timebreakdown";
-import {GradientXInfo} from "./gradient-graphic-info";
+import {GradientXInfo} from "./gradientXinfo";
 import {TimeUnitIndexXInfo} from "./timeunit-index-graphic-info";
 
 export class TimelineGraphicIndex {
