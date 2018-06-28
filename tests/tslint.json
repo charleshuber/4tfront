@@ -4,6 +4,7 @@
     // override tslint-react rules here
     "jsx-wrap-multiline": false,
     "jsx-alignment": false,
-    "no-var-requires": false
+    "no-var-requires": false,
+    "no-submodule-imports": [true, "rc-slider/assets", "react-datepicker/dist"]
   }
 }

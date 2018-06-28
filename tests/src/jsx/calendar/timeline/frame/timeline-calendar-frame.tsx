@@ -8,7 +8,8 @@ import {TimelineGraphicIndex} from "../../../../js/time/breakdown/graphics/timel
 import {TimeUnitIndexXInfo} from "../../../../js/time/breakdown/graphics/timeunit-index-graphic-info";
 import DU, {addToMoment} from "../../../../js/time/dateutils";
 import {TimeUnit} from "../../../../js/time/timeunit";
-import {TimelineCalendarForm} from "./../form/timeline-calendar-form.jsx";
+import {TimelineCalendarForm} from "./../form/timeline-calendar-form";
+import {TimelineCalendarFormState} from "./../form/timeline-calendar-form-state";
 import {Ruler} from "./ruler/ruler";
 import {Timeline} from "./timeline/timeline";
 import {ITimelineCalendarFrameProps} from "./timelinecalendar-frame-props";
@@ -80,13 +81,13 @@ export class TimelineCalendarFrame
       return addToMoment(startDate, timeunit, unitnumber);
   }
 
-  private handleFormChange(formState) {
+  private handleFormChange(formState: TimelineCalendarFormState) {
     const startDate = formState.startDate;
     const endDate = this.computeEndDate(formState);
     this.props.timeIntervalService.getTimeIntervals()
     .then((intervals) => {
-      formState.intervals = intervals;
-      this.setState(formState);
+      const state = {...formState, intervals};
+      this.setState(state);
     });
     this.setState(formState);
   }
