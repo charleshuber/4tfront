@@ -5,6 +5,7 @@
     "jsx-wrap-multiline": false,
     "jsx-alignment": false,
     "no-var-requires": false,
-    "no-submodule-imports": [true, "rc-slider/assets", "react-datepicker/dist"]
+    "no-submodule-imports": false,
+    "no-implicit-dependencies": false
   }
 }
