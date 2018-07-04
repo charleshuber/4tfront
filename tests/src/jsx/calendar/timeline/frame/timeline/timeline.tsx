@@ -1,5 +1,5 @@
+import {ITimelineProps} from "jsx/calendar/timeline/frame/timeline/timeline-props";
 import * as React from "react";
-import {ITimelineProps} from "./timeline-props";
 
 export class Timeline extends React.Component<ITimelineProps, null> {
 

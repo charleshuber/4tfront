@@ -8,12 +8,12 @@ import DU, {addToMoment} from "js/time/dateutils";
 import {TimeUnit} from "js/time/timeunit";
 import {TimelineCalendarForm} from "jsx/calendar/timeline/form/timeline-calendar-form";
 import {TimelineCalendarFormState} from "jsx/calendar/timeline/form/timeline-calendar-form-state";
+import {Ruler} from "jsx/calendar/timeline/frame/ruler/ruler";
+import {Timeline} from "jsx/calendar/timeline/frame/timeline/timeline";
+import {ITimelineCalendarFrameProps} from "jsx/calendar/timeline/frame/timelinecalendar-frame-props";
+import {TimelineCalendarFrameState} from "jsx/calendar/timeline/frame/timelinecalendar-frame-state";
 import {Moment} from "moment";
 import * as React from "react";
-import {Ruler} from "./ruler/ruler";
-import {Timeline} from "./timeline/timeline";
-import {ITimelineCalendarFrameProps} from "./timelinecalendar-frame-props";
-import {TimelineCalendarFrameState} from "./timelinecalendar-frame-state";
 
 export class TimelineCalendarFrame
   extends React.Component<ITimelineCalendarFrameProps, TimelineCalendarFrameState> {

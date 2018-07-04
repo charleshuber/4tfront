@@ -1,7 +1,7 @@
 import {GradientXInfo} from "js/time/breakdown/graphics/gradientXinfo";
 import DU from "js/time/dateutils";
+import {IRulerProps} from "jsx/calendar/timeline/frame/ruler/ruler-props";
 import * as React from "react";
-import {IRulerProps} from "./ruler-props";
 
 export class Ruler extends React.Component<IRulerProps, any> {
   constructor(props) {
