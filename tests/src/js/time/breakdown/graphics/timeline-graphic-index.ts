@@ -1,8 +1,8 @@
+import {GradientXInfo} from "js/time/breakdown/graphics/gradientXinfo";
+import {TimeUnitIndexXInfo} from "js/time/breakdown/graphics/timeunit-index-graphic-info";
+import {TimeBreakdown} from "js/time/breakdown/timebreakdown";
+import {TimeUnit} from "js/time/timeunit";
 import {Moment} from "moment";
-import {TimeUnit} from "../../timeunit";
-import {TimeBreakdown} from "../timebreakdown";
-import {GradientXInfo} from "./gradientXinfo";
-import {TimeUnitIndexXInfo} from "./timeunit-index-graphic-info";
 
 export class TimelineGraphicIndex {
 

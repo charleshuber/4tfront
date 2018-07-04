@@ -1,5 +1,5 @@
-import {TimeUnit} from "../../timeunit";
-import {TimeRulerGradient} from "./gradient";
+import {TimeRulerGradient} from "js/time/breakdown/ruler/gradient";
+import {TimeUnit} from "js/time/timeunit";
 
 export class TimeRuler {
 

@@ -1,5 +1,5 @@
+import {TimeUnit} from "js/time/timeunit";
 import * as moment from "moment";
-import {TimeUnit} from "./timeunit";
 
 /*
   https://momentjs.com/docs/#/manipulating/

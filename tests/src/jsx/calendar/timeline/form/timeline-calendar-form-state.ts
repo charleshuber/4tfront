@@ -1,5 +1,5 @@
+import {TimeUnit} from "js/time/timeunit";
 import {Moment} from "moment";
-import {TimeUnit} from "../../../../js/time/timeunit";
 
 export class TimelineCalendarFormState {
   public timeunit: TimeUnit;

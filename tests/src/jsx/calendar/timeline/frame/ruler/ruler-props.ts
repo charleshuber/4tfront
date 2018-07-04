@@ -1,5 +1,5 @@
-import {GradientXInfo} from "../../../../../js/time/breakdown/graphics/gradientXinfo";
-import {TimeUnit} from "../../../../../js/time/timeunit";
+import {GradientXInfo} from "js/time/breakdown/graphics/gradientXinfo";
+import {TimeUnit} from "js/time/timeunit";
 
 export interface IRulerProps {
   x: number;

@@ -1,5 +1,5 @@
-import {TimeUnit} from "../../timeunit";
-import {GradientXInfo} from "./gradientXinfo";
+import {GradientXInfo} from "js/time/breakdown/graphics/gradientXinfo";
+import {TimeUnit} from "js/time/timeunit";
 
 export class TimeUnitIndexXInfo {
   public timeunit: TimeUnit;

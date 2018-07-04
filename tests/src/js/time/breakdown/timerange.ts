@@ -1,5 +1,5 @@
+import DU from "js/time/dateutils";
 import {Moment} from "moment";
-import DU from "../dateutils";
 
 export class TimeRange {
 

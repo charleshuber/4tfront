@@ -1,5 +1,5 @@
+import {TimeUnit} from "js/time/timeunit";
 import * as React from "react";
-import {TimeUnit} from "../../../../js/time/timeunit";
 import {ITimeunitSelectionProps} from "./itimeunit-selection-props";
 
 export class TimeUnitSelection extends React.Component<ITimeunitSelectionProps, any> {

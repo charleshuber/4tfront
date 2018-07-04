@@ -1,4 +1,4 @@
-import {TimeInterval} from "./timeinterval";
+import {TimeInterval} from "js/resources/timeinterval/timeinterval";
 
 export class TimeIntervalService {
 

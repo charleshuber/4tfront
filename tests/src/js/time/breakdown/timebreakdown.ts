@@ -1,9 +1,9 @@
+import {TimeRulerGradient} from "js/time/breakdown/ruler/gradient";
+import {TimeRuler} from "js/time/breakdown/ruler/timeruler";
+import {TimeRange} from "js/time/breakdown/timerange";
+import DU from "js/time/dateutils";
+import {TimeUnit} from "js/time/timeunit";
 import {Moment} from "moment";
-import DU from "../dateutils";
-import {TimeUnit} from "../timeunit";
-import {TimeRulerGradient} from "./ruler/gradient";
-import {TimeRuler} from "./ruler/timeruler";
-import {TimeRange} from "./timerange";
 
 export class TimeBreakdown {
 
