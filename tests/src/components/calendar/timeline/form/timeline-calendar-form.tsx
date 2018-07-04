@@ -1,10 +1,10 @@
 import "rc-slider/assets/index.css";
 import "react-datepicker/dist/react-datepicker.css";
 
+import {ITimelineCalendarFormProps} from "components/calendar/timeline/form/timeline-calendar-form-props";
+import {TimelineCalendarFormState} from "components/calendar/timeline/form/timeline-calendar-form-state";
+import {TimeUnitSelection} from "components/calendar/timeline/form/timeunit-selection";
 import {TimeUnit} from "js/time/timeunit";
-import {ITimelineCalendarFormProps} from "jsx/calendar/timeline/form/timeline-calendar-form-props";
-import {TimelineCalendarFormState} from "jsx/calendar/timeline/form/timeline-calendar-form-state";
-import {TimeUnitSelection} from "jsx/calendar/timeline/form/timeunit-selection";
 import * as moment from "moment";
 import Slider from "rc-slider";
 import * as React from "react";

@@ -1,6 +1,6 @@
+import {ITimeunitSelectionProps} from "components/calendar/timeline/form/itimeunit-selection-props";
 import {TimeUnit} from "js/time/timeunit";
 import * as React from "react";
-import {ITimeunitSelectionProps} from "./itimeunit-selection-props";
 
 export class TimeUnitSelection extends React.Component<ITimeunitSelectionProps, any> {
 

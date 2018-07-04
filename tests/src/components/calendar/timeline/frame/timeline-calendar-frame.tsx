@@ -1,17 +1,17 @@
 require("./timeline-calendar-frame.css");
 
+import {TimelineCalendarForm} from "components/calendar/timeline/form/timeline-calendar-form";
+import {TimelineCalendarFormState} from "components/calendar/timeline/form/timeline-calendar-form-state";
+import {Ruler} from "components/calendar/timeline/frame/ruler/ruler";
+import {Timeline} from "components/calendar/timeline/frame/timeline/timeline";
+import {ITimelineCalendarFrameProps} from "components/calendar/timeline/frame/timelinecalendar-frame-props";
+import {TimelineCalendarFrameState} from "components/calendar/timeline/frame/timelinecalendar-frame-state";
 import {TimeInterval} from "js/resources/timeinterval/timeinterval";
 import {TimeIntervalService} from "js/resources/timeinterval/timeintervalService";
 import {TimelineGraphicIndex} from "js/time/breakdown/graphics/timeline-graphic-index";
 import {TimeUnitIndexXInfo} from "js/time/breakdown/graphics/timeunit-index-graphic-info";
 import DU, {addToMoment} from "js/time/dateutils";
 import {TimeUnit} from "js/time/timeunit";
-import {TimelineCalendarForm} from "jsx/calendar/timeline/form/timeline-calendar-form";
-import {TimelineCalendarFormState} from "jsx/calendar/timeline/form/timeline-calendar-form-state";
-import {Ruler} from "jsx/calendar/timeline/frame/ruler/ruler";
-import {Timeline} from "jsx/calendar/timeline/frame/timeline/timeline";
-import {ITimelineCalendarFrameProps} from "jsx/calendar/timeline/frame/timelinecalendar-frame-props";
-import {TimelineCalendarFrameState} from "jsx/calendar/timeline/frame/timelinecalendar-frame-state";
 import {Moment} from "moment";
 import * as React from "react";
 

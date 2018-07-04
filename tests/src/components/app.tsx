@@ -1,5 +1,5 @@
+import {TimelineCalendarFrame} from "components/calendar/timeline/frame/timeline-calendar-frame";
 import {TimeIntervalService} from "js/resources/timeinterval/timeintervalService";
-import {TimelineCalendarFrame} from "jsx/calendar/timeline/frame/timeline-calendar-frame";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
