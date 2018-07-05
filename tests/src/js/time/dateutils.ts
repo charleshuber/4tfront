@@ -112,7 +112,7 @@ export function roundDown(
       case TimeUnit.MONTH:
         return result.startOf("months");
       case TimeUnit.WEEK:
-        return result.startOf("weeks");
+        return result.startOf("isoWeeks");
       case TimeUnit.DAY:
         return result.startOf("days");
       case TimeUnit.HOUR:
