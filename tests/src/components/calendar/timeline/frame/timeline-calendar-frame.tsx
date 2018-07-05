@@ -7,7 +7,6 @@ import {Timeline} from "components/calendar/timeline/frame/timeline/timeline";
 import {ITimelineCalendarFrameProps} from "components/calendar/timeline/frame/timelinecalendar-frame-props";
 import {TimelineCalendarFrameState} from "components/calendar/timeline/frame/timelinecalendar-frame-state";
 import {TimeInterval} from "js/resources/timeinterval/timeinterval";
-import {TimeIntervalService} from "js/resources/timeinterval/timeintervalService";
 import {TimelineGraphicIndex} from "js/time/breakdown/graphics/timeline-graphic-index";
 import {TimeUnitIndexXInfo} from "js/time/breakdown/graphics/timeunit-index-graphic-info";
 import DU, {addToMoment} from "js/time/dateutils";
@@ -17,8 +16,6 @@ import * as React from "react";
 
 export class TimelineCalendarFrame
   extends React.Component<ITimelineCalendarFrameProps, TimelineCalendarFrameState> {
-
-  private tiService: TimeIntervalService;
 
   constructor(props: ITimelineCalendarFrameProps) {
     super(props);
@@ -84,7 +81,7 @@ export class TimelineCalendarFrame
   private handleFormChange(formState: TimelineCalendarFormState) {
     const startDate = formState.startDate;
     const endDate = this.computeEndDate(formState);
-    this.props.timeIntervalService.getTimeIntervals()
+    this.props.timeIntervalService.getTimeIntervals(startDate, endDate)
     .then((intervals) => {
       const state = {...formState, intervals};
       this.setState(state);

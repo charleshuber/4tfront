@@ -2,7 +2,7 @@ import {TimeInterval} from "js/resources/timeinterval/timeinterval";
 
 export class TimeIntervalService {
 
-  public getTimeIntervals(): Promise<TimeInterval[]> {
+  public getTimeIntervals(startDate: Date, endDate: Date): Promise<TimeInterval[]> {
     const date11 = new Date();
     const date12 = new Date();
     date11.setHours(date11.getHours() - 5);
