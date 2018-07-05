@@ -1,8 +1,8 @@
 import {TimeInterval} from "js/resources/timeinterval/timeinterval";
-
+import {Moment} from "moment";
 export class TimeIntervalService {
 
-  public getTimeIntervals(startDate: Date, endDate: Date): Promise<TimeInterval[]> {
+  public getTimeIntervals(startDate: Moment, endDate: Moment): Promise<TimeInterval[]> {
     const date11 = new Date();
     const date12 = new Date();
     date11.setHours(date11.getHours() - 5);
