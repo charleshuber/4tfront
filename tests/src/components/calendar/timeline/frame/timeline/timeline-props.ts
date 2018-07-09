@@ -1,6 +1,7 @@
+import {ITimelineItv} from "components/calendar/timeline/frame/timeline/timeline-interval";
+
 export interface ITimelineProps {
-  endPoint: number | null;
-  startPoint: number | null;
+  intervals: ITimelineItv[];
   color: string;
   height: number;
   leftPaneWidth: number;

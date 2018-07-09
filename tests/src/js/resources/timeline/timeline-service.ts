@@ -1,8 +1,9 @@
 import {TimeInterval} from "js/resources/timeinterval/timeinterval";
+import {Timeline} from "js/resources/timeline/timeline";
 import {Moment} from "moment";
-export class TimeIntervalService {
+export class TimelineService {
 
-  public getTimeIntervals(startDate: Moment, endDate: Moment): Promise<TimeInterval[]> {
+  public getTimelines(startDate: Moment, endDate: Moment): Promise<Timeline[]> {
     const date11 = new Date();
     const date12 = new Date();
     date11.setHours(date11.getHours() - 5);
@@ -25,9 +26,16 @@ export class TimeIntervalService {
     const date42 = new Date();
     const t4 =  new TimeInterval(date41, date42);
 
+    const timelines = [
+      new Timeline([t1], true, "timeline1"),
+      new Timeline([t1, t2], true, "timeline2"),
+      new Timeline([t1, t3], true, "timeline3"),
+      new Timeline([t1, t4], true, "timeline4"),
+    ];
+
     return new Promise((res) => {
       setTimeout(() => {
-        res([t1, t2, t3, t4]);
+        res(timelines);
       }, 500);
     });
   }

@@ -1,9 +1,9 @@
-import {TimeIntervalService} from "js/resources/timeinterval/timeintervalService";
+import {TimelineService} from "js/resources/timeline/timeline-service";
 
 export interface ITimelineCalendarFrameProps {
   leftPaneWidth: number;
   timelineWidth: number;
   timelineHeight: number;
   rulerHeight: number;
-  timeIntervalService: TimeIntervalService;
+  timelineService: TimelineService;
 }

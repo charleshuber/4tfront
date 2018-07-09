@@ -15,7 +15,7 @@ export class TimelineCalendarForm
 
   constructor(props) {
     super(props);
-    const timeunit = TimeUnit.MINUTES_15;
+    const timeunit = TimeUnit.DAY;
     this.state = new TimelineCalendarFormState(timeunit, moment(), 1);
     this.handleTimeunitSelection = this.handleTimeunitSelection.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
