@@ -10,18 +10,28 @@ export class TimelineCP extends React.Component<ITimelineProps, null> {
 
   public render() {
     const fontSize = 7;
-    const insideHeight = this.props.height - 1;
-    const insideLeftPaneWidth = this.props.leftPaneWidth - 1;
+    const cellsMargin = 1;
+    const cellsMarginDelta = cellsMargin * 2;
+    const timelineHeight = this.props.height - 1;
+    const insideHeight = timelineHeight - cellsMarginDelta;
+    const insideLeftPaneWidth = this.props.leftPaneWidth - cellsMarginDelta;
+    const leftPaneColor = this.props.addition ? "rgb(60, 190, 80)" : "rgb(200, 30, 50)";
     const y = (this.props.position - 1) * this.props.height;
-    const timeintervals = buildIntervals(this.props.intervals, y, insideHeight, this.props.color);
+    const insideY = y + cellsMargin;
+    const timeintervals = buildIntervals(this.props.intervals, insideY, insideHeight, this.props.color);
     return (
       <g>
         <rect
           x="0" y={y}
+          rx="0" ry="0"
+          width="100%" height={timelineHeight}
+          fill="rgb(240,240,255)" opacity="1"/>
+        <rect
+          x={cellsMargin} y={insideY}
           rx="1" ry="1"
           width={insideLeftPaneWidth} height={insideHeight}
-          fill="rgb(120,120,120)" opacity="0.4"/>
-        <text x="0" y={y} fill="rgb(50,30,100)" textAnchor="middle" fontSize={fontSize}>
+          fill={leftPaneColor} opacity="1"/>
+        <text x="0" y={y} fill="white" textAnchor="middle" fontSize={fontSize}>
           <tspan dx="4.75" dy="11">+</tspan>
         </text>
         <g>

@@ -67,6 +67,11 @@ export class TimelineCalendarFrame
         {/* https://www.w3schools.com/graphics/svg_intro.asp */}
         <div className="svg-container">
           <svg version="1.1" viewBox={viewbox} preserveAspectRatio="xMinYMin meet" className="svg-content">
+            <rect
+              x="0" y="0"
+              rx="1" ry="1"
+              width="100%" height="100%"
+              fill="rgb(10,10,10)" opacity="1"/>
             {timelines}
             {rulers}
           </svg>
@@ -165,7 +170,7 @@ function buildTimeLine(
   const graphicIntervals: ITimelineItv[] = tl.intervals.map((itv: TimeInterval) => {
     return intervalToGraphicInfo(itv, referenceGraphicIndex, xOffset, displayedStartDate, displayedEndDate);
   }).filter((itv) => itv != null);
-  return buildTimeline(i, graphicIntervals, xOffset, height, "red");
+  return buildTimeline(i, tl.addition, graphicIntervals, xOffset, height, "red");
 }
 
 function intervalToGraphicInfo(
@@ -203,11 +208,13 @@ function intervalToGraphicInfo(
 
 function buildTimeline(
   i: number,
+  addition: boolean,
   intervals: ITimelineItv[] | null,
   xOffset: number, height: number,
   color: string) {
     return (<TimelineCP
       key={i} position={i + 1}
+      addition={addition}
       intervals={intervals}
       color={color}
       leftPaneWidth={xOffset} height={height}

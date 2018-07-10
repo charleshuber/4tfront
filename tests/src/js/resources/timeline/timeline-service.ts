@@ -28,7 +28,7 @@ export class TimelineService {
 
     const timelines = [
       new Timeline([t1], true, "timeline1"),
-      new Timeline([t1, t2], true, "timeline2"),
+      new Timeline([t1, t2], false, "timeline2"),
       new Timeline([t1, t3], true, "timeline3"),
       new Timeline([t1, t4], true, "timeline4"),
     ];
